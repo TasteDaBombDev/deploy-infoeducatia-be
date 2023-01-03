@@ -10,9 +10,10 @@ function Scene(thirdPerson) {
         <Suspense fallback={null}>
             <Environment
                 blur={1}
-                preset={"sunset"}
+                // preset={"sunset"}
                 background={true}
-                files={"./../../Geometries/hdri/HDR.hdr"}
+                // files={"./../../Geometries/hdri/HDR.hdr"}
+                files={'./cer.hdr'}
             />
             <ambientLight position={[0, 6, 0]} intensity={.4} />
             {/* <PerspectiveCamera

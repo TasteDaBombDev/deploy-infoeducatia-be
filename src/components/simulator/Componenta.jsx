@@ -18,14 +18,16 @@ function Componenta() {
         <div className="wrapper">
             <Canvas className="canvas" camera={{ position: [-5, 3.142, 0] }}>
                 <Stats showPanel={2} />
-                <OrbitControls enableZoom={false} autoRotate={true} autoRotateSpeed={"4"} />
+                <OrbitControls enableZoom={false} autoRotate={true} autoRotateSpeed={"4"}/>
                 <Suspense fallback={<Sfera />} >
                     <Loki />
                 </Suspense>
                 <ambientLight intensity={.3} />
-                <Environment 
-                    preset={'sunset'}
-                />
+                {/* <Environment 
+                    // preset={'sunset'}
+                    files={'cer.hdr'}
+                    path={'cer.hdr'}
+                /> */}
                 {/* <directionalLight position={[-10, 5, 0]} intensity={0.2} />
                 <directionalLight position={[10, 5, 0]} intensity={0.2} />
                 <directionalLight position={[0, 15, 0]} intensity={0.5} />

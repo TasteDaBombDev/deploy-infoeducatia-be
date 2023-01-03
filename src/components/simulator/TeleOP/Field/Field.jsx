@@ -26,7 +26,8 @@ function Field() {
     // const pereteTexture = useLoader(TextureLoader, pereteTexture);
 
     return (
-        <Suspense fallback={null}>
+        // <Suspense fallback={null}>
+        <>
             {/* AICI STACK BLANA DE CONURI TOT CODUL ESTE DEJA PREA TARZIU VREAU SA MOR NU STIU DE CE FAC ASTA
             DAR STIU CA ESTE O ALEGERE PROASTA SALVAT-MA PANA NU
             FAC CEVA CE VOI REGRETA PENTRU TOT RESTUL
@@ -86,14 +87,17 @@ function Field() {
                 <planeGeometry attach="geometry" args={[90, 90]} />
                 {/* 0xf57af5 */}
                 {/* <meshPhongMaterial attach={"material"} color={0x000000} /> */}
-                <meshBasicMaterial attach={"material"} map={textureMap} />
+                <Suspense fallback={<meshBasicMaterial attach={"material"} />}>
+                    <meshBasicMaterial attach={"material"} map={textureMap} />
+                </Suspense>
             </mesh>
 
             <PereteBox position={[45, 3.8, 0]} scale={[1, 7.6, 91]} />
             <PereteBox position={[-45, 3.8, 0]} scale={[1, 7.6, 91]} />
             <PereteBox position={[0, 3.8, 45]} scale={[91, 7.6, 1]} />
             <PereteBox position={[0, 3.8, -45]} scale={[91, 7.6, 1]} />
-        </Suspense>
+            {/* </Suspense> */}
+        </>
     );
 }
 
