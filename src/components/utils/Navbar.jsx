@@ -92,6 +92,9 @@ function Navbar() {
             <li>
               <Link to="/sponsors">Sponsors</Link>
             </li>
+            <li>
+              <Link to="/roboti">Roboti</Link>
+            </li>
             {/* <li>
               <a href="#!" onClick={drop} ref={drop_ref}>
                 Services

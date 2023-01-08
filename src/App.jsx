@@ -13,6 +13,7 @@ import Team from "./components/team/Team";
 import Assembly from "./components/simulator/TeleOP/Assembly";
 import Admin from "./components/admin/Admin";
 import NotFound from "./components/notfound/NotFound";
+import AssemblyRoboti from "./components/roboti/AssemblyRoboti";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/team" element={<Team />} />
         <Route path="/sponsors" element={<Sponsors />} />
         <Route path="/simulator" element={<Assembly />} />
+        <Route path="/roboti" element={<AssemblyRoboti />} />
         <Route path="/ce_cauti_ma_aici" element={<Admin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
