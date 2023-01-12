@@ -1,10 +1,7 @@
-import { Environment, OrbitControls, PerspectiveCamera } from "@react-three/drei";
-import React, { Suspense, useState, useEffect } from "react";
-import { GridHelper } from "three";
+import { Environment, OrbitControls } from "@react-three/drei";
+import React, { Suspense } from "react";
 
-function Scene(thirdPerson) {
-
-    const [cameraPosition, setCameraPosition] = useState([0, 2, -4]);
+function Scene() {
 
     return (
         <Suspense fallback={null}>

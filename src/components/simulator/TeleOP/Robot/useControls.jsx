@@ -2,34 +2,28 @@ import { useEffect, useState } from "react";
 
 
 export const useControls = (vehicleAPI, chassisAPI) => {
-    const [viteza, setViteza] = useState(600);
-    const [turnViteza, setTurnViteza] = useState(680);
-    const [breke, setBreke] = useState(20)
+    const viteza = 600;
+    const turnViteza = 680;
+    // const breke = 20;
 
     const multi = 1.8;
 
     let [controls, setControls] = useState({});
 
-    const brake = () => {
-        vehicleAPI.setBrake(breke, 2);
-        vehicleAPI.setBrake(breke, 3);
-        vehicleAPI.setBrake(breke, 0);
-        vehicleAPI.setBrake(breke, 1);
-    };
+    // const brake = () => {
+    //     vehicleAPI.setBrake(breke, 2);
+    //     vehicleAPI.setBrake(breke, 3);
+    //     vehicleAPI.setBrake(breke, 0);
+    //     vehicleAPI.setBrake(breke, 1);
+    // };
 
-    const stopBrake = () => {
-        vehicleAPI.setBrake(0, 2);
-        vehicleAPI.setBrake(0, 3);
-        vehicleAPI.setBrake(0, 0);
-        vehicleAPI.setBrake(0, 1);
-    };
+    // const stopBrake = () => {
+    //     vehicleAPI.setBrake(0, 2);
+    //     vehicleAPI.setBrake(0, 3);
+    //     vehicleAPI.setBrake(0, 0);
+    //     vehicleAPI.setBrake(0, 1);
+    // };
 
-    const bagaViteza = (speed) => {
-        vehicleAPI.applyEngineForce(speed, 0);
-        vehicleAPI.applyEngineForce(speed, 1);
-        vehicleAPI.applyEngineForce(speed, 2);
-        vehicleAPI.applyEngineForce(speed, 3);
-    };
 
     useEffect(() => {
 
@@ -57,9 +51,15 @@ export const useControls = (vehicleAPI, chassisAPI) => {
     }, []);
 
     useEffect(() => {
-        if (!vehicleAPI || !chassisAPI) return;
 
-        console.log(controls);
+        const bagaViteza = (speed) => {
+            vehicleAPI.applyEngineForce(speed, 0);
+            vehicleAPI.applyEngineForce(speed, 1);
+            vehicleAPI.applyEngineForce(speed, 2);
+            vehicleAPI.applyEngineForce(speed, 3);
+        };
+
+        if (!vehicleAPI || !chassisAPI) return;
 
         if ((controls.w || controls.s) && (controls.a || controls.d)) {
             // stopBrake();

@@ -1,8 +1,7 @@
-import { useBox, usePlane } from "@react-three/cannon";
-import React, { Suspense, useEffect, useRef } from "react";
+import { usePlane } from "@react-three/cannon";
+import React, { Suspense, useRef } from "react";
 import { useLoader } from "react-three-fiber";
-import { Texture, TextureLoader } from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { TextureLoader } from "three";
 import { PereteBox } from "./PereteBox";
 import Cone from "./Cone";
 import { Junction } from './Junction';

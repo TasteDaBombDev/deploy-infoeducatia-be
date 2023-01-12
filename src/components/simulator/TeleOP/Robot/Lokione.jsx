@@ -41,59 +41,23 @@ export default function Lokione(props) {
 
   useControls(vehicleAPI, chassisAPI);
 
-  // useFrame(() => {
-  //   // Get the position and orientation of the robot
-  //   const robotPosition =  chassisBody.current.position;
-  //   const robotQuaternion = chassisBody.current.quaternion;
-
-  //   // Set the camera's position to be behind the robot
-  //   cameraRef.current.position.set(
-  //     robotPosition.x - 10 * Math.sin(robotQuaternion.y),
-  //     robotPosition.y + 5,
-  //     robotPosition.z - 10 * Math.cos(robotQuaternion.y)
-  //   );
-
-  //   // Set the camera's orientation to match the robot's orientation
-  //   cameraRef.current.quaternion.copy(robotQuaternion);
-  // });
-
   useFrame((state) => {
-    // return;
-    if (false) {
+    let position = new Vector3(0, 0, 0);
+    position.setFromMatrixPosition(chassisBody.current.matrixWorld);
 
-      let position = new Vector3(0, 0, 0);
-      position.setFromMatrixPosition(chassisBody.current.matrixWorld);
+    let quaternion = new Quaternion(0, 0, 0, 0);
+    quaternion.setFromRotationMatrix(chassisBody.current.matrixWorld);
 
-      let quaternion = new Quaternion(0, 0, 0, 0);
-      quaternion.setFromRotationMatrix(chassisBody.current.matrixWorld);
+    let wDir = new Vector3(0, 0, 10);
+    // let wDir = new Quaternion(0, 0, 0, 0);
+    wDir.applyQuaternion(quaternion);
+    wDir.normalize();
 
-      let wDir = new Vector3(0, 0, 1);
-      wDir.applyQuaternion(quaternion);
-      wDir.normalize();
+    let cameraPosition = position.clone().add(wDir.clone().multiplyScalar(10).add(new Vector3(0, 30, 0)));
 
-      let cameraPosition = position.clone().add(wDir.clone().multiplyScalar(0).add(new Vector3(0, 5, 1)));
-      state.camera.position.copy(cameraPosition);
-      state.camera.lookAt(new Vector3(0, 0, 0));
-
-    } else {
-
-      let position = new Vector3(0, 0, 0);
-      position.setFromMatrixPosition(chassisBody.current.matrixWorld);
-
-      let quaternion = new Quaternion(0, 0, 0, 0);
-      quaternion.setFromRotationMatrix(chassisBody.current.matrixWorld);
-
-      let wDir = new Vector3(0, 0, 10);
-      // let wDir = new Quaternion(0, 0, 0, 0);
-      wDir.applyQuaternion(quaternion);
-      wDir.normalize();
-
-      let cameraPosition = position.clone().add(wDir.clone().multiplyScalar(10).add(new Vector3(0, 30, 0)));
-
-      // wDir.add(new Vector3(0, 0.2, 0));
-      state.camera.position.copy(cameraPosition);
-      state.camera.lookAt(position);
-    }
+    // wDir.add(new Vector3(0, 0.2, 0));
+    state.camera.position.copy(cameraPosition);
+    state.camera.lookAt(position);
   });
 
   return (
@@ -102,7 +66,7 @@ export default function Lokione(props) {
         <group ref={chassisBody}>
           <mesh position={[0, 0, 0]}>
             <boxGeometry args={[10, 9, 10]} />
-            <meshPhongMaterial attach={"material"} color="#FFFF0000" transparent opacity={0} />
+            <meshPhongMaterial attach={"material"} color="#FFFF000" transparent opacity={0} />
           </mesh>
           <WheelDebug wheelRef={wheels[0]} wheelRadius={wheelRadius} />
           <WheelDebug wheelRef={wheels[1]} wheelRadius={wheelRadius} />
