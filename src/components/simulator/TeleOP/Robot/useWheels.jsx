@@ -50,7 +50,8 @@ export const useWheels = (width, height, front, radius) => {
       {
         args: [wheelInfo.radius, wheelInfo.radius, 0.015, 16],
         rotation: [0, 0, -Math.PI / 2],
-        type: "Cylinder",
+        // type: "Cylinder",
+        type: "Sphere",
       },
     ],
     type: 'Kinematic',

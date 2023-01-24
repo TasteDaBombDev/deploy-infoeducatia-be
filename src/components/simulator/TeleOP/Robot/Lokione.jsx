@@ -41,9 +41,11 @@ export default function Lokione(props) {
 
   useControls(vehicleAPI, chassisAPI);
 
+  
   useFrame((state) => {
     let position = new Vector3(0, 0, 0);
     position.setFromMatrixPosition(chassisBody.current.matrixWorld);
+    // chassisAPI.position.set(vehicle.current.matrixWorld);
 
     let quaternion = new Quaternion(0, 0, 0, 0);
     quaternion.setFromRotationMatrix(chassisBody.current.matrixWorld);
@@ -66,7 +68,7 @@ export default function Lokione(props) {
         <group ref={chassisBody}>
           <mesh position={[0, 0, 0]}>
             <boxGeometry args={[10, 9, 10]} />
-            <meshPhongMaterial attach={"material"} color="#FFFF000" transparent opacity={0} />
+            <meshPhongMaterial attach={"material"} color="#FFFF00" transparent opacity={0} />
           </mesh>
           <WheelDebug wheelRef={wheels[0]} wheelRadius={wheelRadius} />
           <WheelDebug wheelRef={wheels[1]} wheelRadius={wheelRadius} />

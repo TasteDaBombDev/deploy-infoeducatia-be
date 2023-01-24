@@ -79,6 +79,8 @@ export const useControls = (vehicleAPI, chassisAPI) => {
             // brake();
         }
 
+        if (controls.f) ;
+
         if (controls.a) {
             vehicleAPI.setSteeringValue(0.35 * multi, 2);
             vehicleAPI.setSteeringValue(0.35 * multi, 3);
