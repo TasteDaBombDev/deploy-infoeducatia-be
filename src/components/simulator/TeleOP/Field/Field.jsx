@@ -11,6 +11,10 @@ import Ground from "./Ground";
 
 function Field() {
 
+    const low = 32;
+    const med = 57;
+    const high = 82;
+
     const [ref] = usePlane(
         () => ({
             type: 'Static',
@@ -62,25 +66,25 @@ function Field() {
             <Ground position={[-30, 0, 30]} />
             <Ground position={[-30, 0, -30]} />
 
-            <Junction height={30} position={[15, 0, 0]} planeRef={ref} />
-            <Junction height={30} position={[-15, 0, 0]} planeRef={ref} />
-            <Junction height={30} position={[0, 0, 15]} planeRef={ref} />
-            <Junction height={30} position={[0, 0, -15]} planeRef={ref} />
+            <Junction height={high} position={[15, 0, 0]} planeRef={ref} />
+            <Junction height={high} position={[-15, 0, 0]} planeRef={ref} />
+            <Junction height={high} position={[0, 0, 15]} planeRef={ref} />
+            <Junction height={high} position={[0, 0, -15]} planeRef={ref} />
 
-            <Junction height={20} position={[15, 0, 15]} planeRef={ref} />
-            <Junction height={20} position={[15, 0, -15]} planeRef={ref} />
-            <Junction height={20} position={[-15, 0, 15]} planeRef={ref} />
-            <Junction height={20} position={[-15, 0, -15]} planeRef={ref} />
+            <Junction height={med} position={[15, 0, 15]} planeRef={ref} />
+            <Junction height={med} position={[15, 0, -15]} planeRef={ref} />
+            <Junction height={med} position={[-15, 0, 15]} planeRef={ref} />
+            <Junction height={med} position={[-15, 0, -15]} planeRef={ref} />
 
-            <Junction height={10} position={[-15 * 2, 0, 15]} planeRef={ref} />
-            <Junction height={10} position={[-15, 0, 15 * 2]} planeRef={ref} />
-            <Junction height={10} position={[15 * 2, 0, 15]} planeRef={ref} />
-            <Junction height={10} position={[15, 0, 15 * 2]} planeRef={ref} />
+            <Junction height={low} position={[-15 * 2, 0, 15]} planeRef={ref} />
+            <Junction height={low} position={[-15, 0, 15 * 2]} planeRef={ref} />
+            <Junction height={low} position={[15 * 2, 0, 15]} planeRef={ref} />
+            <Junction height={low} position={[15, 0, 15 * 2]} planeRef={ref} />
 
-            <Junction height={10} position={[15 * 2, 0, -15]} planeRef={ref} />
-            <Junction height={10} position={[15, 0, -15 * 2]} planeRef={ref} />
-            <Junction height={10} position={[-15 * 2, 0, -15]} planeRef={ref} />
-            <Junction height={10} position={[-15, 0, -15 * 2]} planeRef={ref} />
+            <Junction height={low} position={[15 * 2, 0, -15]} planeRef={ref} />
+            <Junction height={low} position={[15, 0, -15 * 2]} planeRef={ref} />
+            <Junction height={low} position={[-15 * 2, 0, -15]} planeRef={ref} />
+            <Junction height={low} position={[-15, 0, -15 * 2]} planeRef={ref} />
 
             <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0.2, 0, 0.2]}>
                 <planeGeometry attach="geometry" args={[90, 90]} />

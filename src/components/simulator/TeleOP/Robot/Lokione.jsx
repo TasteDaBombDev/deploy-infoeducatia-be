@@ -55,7 +55,7 @@ export default function Lokione(props) {
     wDir.applyQuaternion(quaternion);
     wDir.normalize();
 
-    let cameraPosition = position.clone().add(wDir.clone().multiplyScalar(10).add(new Vector3(0, 30, 0)));
+    let cameraPosition = position.clone().add(wDir.clone().multiplyScalar(20).add(new Vector3(0, 32, 0)));
 
     // wDir.add(new Vector3(0, 0.2, 0));
     state.camera.position.copy(cameraPosition);

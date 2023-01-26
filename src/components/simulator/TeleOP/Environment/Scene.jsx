@@ -1,5 +1,6 @@
 import { Environment, OrbitControls } from "@react-three/drei";
 import React, { Suspense } from "react";
+import { PerspectiveCamera } from "@react-three/drei";
 
 function Scene() {
 
@@ -13,11 +14,11 @@ function Scene() {
                 files={'./cer.hdr'}
             />
             <ambientLight position={[0, 6, 0]} intensity={.4} />
-            {/* <PerspectiveCamera
+            <PerspectiveCamera
                 makeDefault
                 position={[0, 4, 1]}
-                fov={90}
-            /> */}
+                fov={70}
+            />
             {
                 <OrbitControls target={[0, -3.5, -0.5]} zoomSpeed={0.5} />
             }

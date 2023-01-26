@@ -97,6 +97,8 @@ export const useControls = (vehicleAPI, chassisAPI) => {
             }
         }
 
+        if(controls.f) chassisAPI.applyLocalImpulse([0, -5, 0], [0, -199100330, -40]);
+
         if (controls.r) {
             chassisAPI.position.set(7, 4, 23);
             chassisAPI.velocity.set(0, 0, 0);
