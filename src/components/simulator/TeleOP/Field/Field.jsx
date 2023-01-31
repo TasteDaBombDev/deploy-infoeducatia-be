@@ -6,14 +6,15 @@ import { PereteBox } from "./PereteBox";
 import Cone from "./Cone";
 import { Junction } from './Junction';
 
-import FieldTexture from './light_field.jpg';
+// import FieldTexture from './light_field.jpg';
+import FieldTexture from './teren.png';
 import Ground from "./Ground";
 
 function Field() {
 
-    const low = 32;
-    const med = 57;
-    const high = 82;
+    const low = 8; //32
+    const med = 13; //57
+    const high = 18; //82
 
     const [ref] = usePlane(
         () => ({
@@ -97,8 +98,8 @@ function Field() {
 
             <PereteBox position={[45, 3.8, 0]} scale={[1, 7.6, 91]} />
             <PereteBox position={[-45, 3.8, 0]} scale={[1, 7.6, 91]} />
-            <PereteBox position={[0, 3.8, 45]} scale={[91, 7.6, 1]} />
-            <PereteBox position={[0, 3.8, -45]} scale={[91, 7.6, 1]} />
+            <PereteBox position={[0, 3.8, 45]} scale={[91, 7.6, 1]} ceva={"frontal"} />
+            <PereteBox position={[0, 3.8, -45]} scale={[91, 7.6, 1]} ceva={"frontal"} />
             {/* </Suspense> */}
         </>
     );

@@ -7,11 +7,11 @@ function Scene() {
     return (
         <Suspense fallback={null}>
             <Environment
-                blur={1}
+                // blur={1}
                 // preset={"sunset"}
                 background={true}
                 // files={"./../../Geometries/hdri/HDR.hdr"}
-                files={'./cer.hdr'}
+                files={'./hall.hdr'}
             />
             <ambientLight position={[0, 6, 0]} intensity={.4} />
             <PerspectiveCamera
@@ -20,7 +20,7 @@ function Scene() {
                 fov={70}
             />
             {
-                <OrbitControls target={[0, -3.5, -0.5]} zoomSpeed={0.5} />
+                // <OrbitControls target={[0, -3.5, -0.5]} zoomSpeed={0.5} />
             }
             {/* <gridHelper args={[100, 100]} /> */}
             {/* <OrbitControls target={[0, 0.15, 0]} zoomSpeed={.7}/> */}
