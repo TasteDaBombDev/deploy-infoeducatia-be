@@ -6,7 +6,8 @@ export const useControls = (vehicleAPI, chassisAPI) => {
     const turnViteza = 680;
     // const breke = 20;
 
-    const multi = 1.8;
+    const multiTurn = 1.8;
+    const multiRotate = 9;
 
     let [controls, setControls] = useState({});
 
@@ -80,15 +81,15 @@ export const useControls = (vehicleAPI, chassisAPI) => {
         }
 
         if (controls.a) {
-            vehicleAPI.setSteeringValue(0.35 * multi, 2);
-            vehicleAPI.setSteeringValue(0.35 * multi, 3);
-            vehicleAPI.setSteeringValue(-0.1 * multi, 0);
-            vehicleAPI.setSteeringValue(-0.1 * multi, 1);
+            vehicleAPI.setSteeringValue(0.35 * multiTurn, 2);
+            vehicleAPI.setSteeringValue(0.35 * multiTurn, 3);
+            vehicleAPI.setSteeringValue(-0.1 * multiTurn, 0);
+            vehicleAPI.setSteeringValue(-0.1 * multiTurn, 1);
         } else if (controls.d) {
-            vehicleAPI.setSteeringValue(-0.35 * multi, 2);
-            vehicleAPI.setSteeringValue(-0.35 * multi, 3);
-            vehicleAPI.setSteeringValue(0.1 * multi, 0);
-            vehicleAPI.setSteeringValue(0.1 * multi, 1);
+            vehicleAPI.setSteeringValue(-0.35 * multiTurn, 2);
+            vehicleAPI.setSteeringValue(-0.35 * multiTurn, 3);
+            vehicleAPI.setSteeringValue(0.1 * multiTurn, 0);
+            vehicleAPI.setSteeringValue(0.1 * multiTurn, 1);
         } else {
             for (let i = 0; i < 4; i++) {
                 vehicleAPI.setSteeringValue(0, i);
@@ -110,6 +111,20 @@ export const useControls = (vehicleAPI, chassisAPI) => {
             vehicleAPI.setSteeringValue(Math.PI / 2, 1);
             bagaViteza(-viteza)
 
+        }
+
+        if(controls.arrowleft)
+        {
+            vehicleAPI.applyEngineForce(-viteza * multiRotate, 0);
+            vehicleAPI.applyEngineForce(viteza * multiRotate, 1);
+            vehicleAPI.applyEngineForce(-viteza * multiRotate, 2);
+            vehicleAPI.applyEngineForce(viteza * multiRotate, 3);
+        } else if(controls.arrowright)
+        {
+            vehicleAPI.applyEngineForce(viteza * multiRotate, 0);
+            vehicleAPI.applyEngineForce(-viteza * multiRotate, 1);
+            vehicleAPI.applyEngineForce(viteza * multiRotate, 2);
+            vehicleAPI.applyEngineForce(-viteza * multiRotate, 3);
         }
 
         if (controls.r) {
