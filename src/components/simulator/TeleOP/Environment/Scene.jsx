@@ -7,11 +7,10 @@ function Scene() {
     return (
         <Suspense fallback={null}>
             <Environment
-                // blur={1}
+                blur={.1}
                 // preset={"sunset"}
                 background={true}
-                // files={"./../../Geometries/hdri/HDR.hdr"}
-                files={'./hall.hdr'}
+                files={'./studio_maro.hdr'}
             />
             <ambientLight position={[0, 6, 0]} intensity={.4} />
             <PerspectiveCamera

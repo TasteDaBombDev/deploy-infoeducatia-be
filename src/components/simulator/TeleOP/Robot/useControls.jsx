@@ -79,8 +79,6 @@ export const useControls = (vehicleAPI, chassisAPI) => {
             // brake();
         }
 
-        if (controls.f) ;
-
         if (controls.a) {
             vehicleAPI.setSteeringValue(0.35 * multi, 2);
             vehicleAPI.setSteeringValue(0.35 * multi, 3);
@@ -97,10 +95,25 @@ export const useControls = (vehicleAPI, chassisAPI) => {
             }
         }
 
-        if(controls.f) chassisAPI.applyLocalImpulse([0, -5, 0], [0, -199100330, -40]);
+
+        if (controls.q) {
+            vehicleAPI.setSteeringValue(Math.PI / 2, 2);
+            vehicleAPI.setSteeringValue(Math.PI / 2, 3);
+            vehicleAPI.setSteeringValue(Math.PI / 2, 0);
+            vehicleAPI.setSteeringValue(Math.PI / 2, 1);
+            bagaViteza(viteza)
+        } else if (controls.e) 
+        {
+            vehicleAPI.setSteeringValue(Math.PI / 2, 2);
+            vehicleAPI.setSteeringValue(Math.PI / 2, 3);
+            vehicleAPI.setSteeringValue(Math.PI / 2, 0);
+            vehicleAPI.setSteeringValue(Math.PI / 2, 1);
+            bagaViteza(-viteza)
+
+        }
 
         if (controls.r) {
-            chassisAPI.position.set(7, 4, 23);
+            chassisAPI.position.set(22.5, 5, 38);
             chassisAPI.velocity.set(0, 0, 0);
             chassisAPI.angularVelocity.set(0, 0, 0);
             chassisAPI.rotation.set(0, 0, 0);

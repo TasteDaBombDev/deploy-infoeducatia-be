@@ -12,7 +12,7 @@ export default function Lokione(props) {
 
   const { nodes, materials } = useGLTF('/loki1.glb');
 
-  const position = [7, 7, 23];
+  const position = [22.5, 5, 38];
   const width = 9;
   const height = 9; //.84
   const front = 5.2;
@@ -41,7 +41,7 @@ export default function Lokione(props) {
 
   useControls(vehicleAPI, chassisAPI);
 
-  
+
   useFrame((state) => {
     let position = new Vector3(0, 0, 0);
     position.setFromMatrixPosition(chassisBody.current.matrixWorld);
@@ -65,6 +65,12 @@ export default function Lokione(props) {
   return (
     <Suspense callback={null}>
       <group {...props} dispose={null} ref={vehicle} name="vehicle">
+        <>
+          <WheelDebug wheelRef={wheels[0]} wheelRadius={wheelRadius} />
+          <WheelDebug wheelRef={wheels[1]} wheelRadius={wheelRadius} />
+          <WheelDebug wheelRef={wheels[2]} wheelRadius={wheelRadius} />
+          <WheelDebug wheelRef={wheels[3]} wheelRadius={wheelRadius} />
+        </>
         <group ref={chassisBody}>
           <mesh position={[0, 0, 0]}>
             <boxGeometry args={[10, 9, 10]} />
