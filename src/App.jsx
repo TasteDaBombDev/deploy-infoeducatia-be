@@ -29,7 +29,7 @@ function App() {
         <Route path="/team" element={<Team />} />
         <Route path="/sponsors" element={<Sponsors />} />
         <Route path="/simulator" element={<Assembly />} />
-        <Route path="/roboti" element={<AssemblyRoboti />} />
+        {/* <Route path="/roboti" element={<AssemblyRoboti />} /> */}
         <Route path="/ce_cauti_ma_aici" element={<Admin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

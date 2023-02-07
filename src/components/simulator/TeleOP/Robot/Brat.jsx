@@ -1,7 +1,7 @@
 import React from 'react'
 import { CylinderGeometry } from 'three'
 
-function Brat() {
+export const Brat = () {
   return (
     <mesh>
         <CylinderGeometry />
