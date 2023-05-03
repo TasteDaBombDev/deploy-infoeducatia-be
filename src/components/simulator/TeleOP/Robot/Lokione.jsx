@@ -44,7 +44,7 @@ export default function Lokione(props) {
   const bratBodyArgs = [chassisBodyArgs[0], chassisBodyArgs[1], chassisBodyArgs[2] - 10];
   const [bratBody, bratAPI] = useCylinder(
     () => ({
-      args: [0.5, 0.5, 30, 32],
+      args: [0.5, 0.5, 12, 32],
       position: [0, 0, 0],
       type: 'Static'
     }),
@@ -81,11 +81,11 @@ export default function Lokione(props) {
       setBratApuca(!bratApuca);
 
     if (controls.shift)
-      if (bratPosition <= 10)
+      if (bratPosition <= 5)
         setBratPosition(bratPosition + bratIncrease);
 
     if (controls.control)
-      if (bratPosition >= -10)
+      if (bratPosition >= -8)
         setBratPosition(bratPosition - bratIncrease);
 
     bratAPI.position.set(0, bratPosition, -10);
@@ -144,12 +144,12 @@ export default function Lokione(props) {
           <WheelDebug wheelRef={wheels[3]} wheelRadius={wheelRadius} />
         </group>
         <group ref={chassisBody}>
-          {/* <group ref={bratBody}>
+          <group ref={bratBody}>
             <mesh position={[0, 0, 0]}>
-              <cylinderBufferGeometry args={[0.5, 0.5, 30, 32]} attach={"geometry"} />
+              <cylinderBufferGeometry args={[0.5, 0.5, 12, 32]} attach={"geometry"} />
               <meshPhongMaterial color={"#2f2f2f"} attach={"material"} />
             </mesh>
-          </group> */}
+          </group>
           {/* <mesh position={[0, 0, 0]}> */}
           <mesh ref={chassisBody}>
             <boxGeometry args={[6, 1.5, 6]} />
