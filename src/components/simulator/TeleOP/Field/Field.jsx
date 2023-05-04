@@ -12,9 +12,9 @@ import Ground from "./Ground";
 
 function Field() {
 
-    const low = 8; //32
-    const med = 13; //57
-    const high = 18; //82
+    const low = 4; //32
+    const med = 9; //57
+    const high = 14; //82
 
     const [ref] = usePlane(
         () => ({
