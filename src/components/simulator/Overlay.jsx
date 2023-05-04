@@ -6,7 +6,9 @@ function Overlay() {
 
     return (
         <div className="wrapper_PULA_MEA">
-            <div class="controls">
+            <div className="controls">
+                <div>Camere: 1 - 8</div>
+                <div>Camera pe robot: 0</div>
                 <div>CONTROL: W A S D</div>
                 <div>STRAFES: Q și E</div>
                 <div>ROTIREA: SĂGEȚI</div>

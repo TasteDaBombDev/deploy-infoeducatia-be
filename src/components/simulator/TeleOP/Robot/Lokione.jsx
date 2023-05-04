@@ -9,14 +9,11 @@ import { useControls } from './useControls';
 import { WheelDebug } from './WheelDebug';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { Vec3 } from 'cannon-es';
 import Brat from './Brat';
 
 export default function Lokione(props) {
 
-  // const { nodes, materials } = useGLTF("/robotNou.gltf");
   const { nodes, materials } = useGLTF("/robotNou.glb");
-
 
   const position = [22.5, 0, 38];
   const width = 6;
@@ -35,11 +32,10 @@ export default function Lokione(props) {
     8: new Vector3(47, 40, -47),
   }
 
-  const [bratPosition, setBratPosition] = useState([0, 0, 0]);
+  const [bratPosition, setBratPosition] = useState(0);
   const [bratApuca, setBratApuca] = useState(true);
   const bratIncrease = 0.2;
   const [cameraController, setController] = useState(false);
-  const [cameraPos, setCameraPos] = useState(new Vector3(0, 0, 0))
 
   const [controls, setControls] = useState({});
 
@@ -63,14 +59,14 @@ export default function Lokione(props) {
     useRef(null)
   )
 
-  const [bratCollision, bratCollisionAPI] = useBox(
-    () => ({
-      args: [5, 10, 5],
-      position: bratPosition,
-      type: 'Static',
-    }),
-    useRef(null)
-  )
+  // const [bratCollision, bratCollisionAPI] = useBox(
+  //   () => ({
+  //     args: [5, 10, 5],
+  //     position: bratPosition,
+  //     type: 'Static',
+  //   }),
+  //   useRef(null)
+  // )
 
   useEffect(() => {
 
@@ -118,8 +114,8 @@ export default function Lokione(props) {
       bratAPI.position.set(0, bratPosition, -10);
     }
 
-    bratAPI.position.set(0, bratPosition.y, -10);
-    bratCollisionAPI.position.set(bratPosition.x, bratPosition.y, bratPosition.z);
+    // bratAPI.position.set(0, bratPosition, -10);
+    // bratCollisionAPI.position.set(bratPosition.x, bratPosition.y, bratPosition.z);
 
     if (controls[0])
       setController(false);
@@ -142,8 +138,9 @@ export default function Lokione(props) {
 
   useControls(vehicleAPI, chassisAPI);
 
-
+  // AICI AR FI CONTROLLER UL PENTRU CAMERA POATE MERGE
   useFrame((state) => {
+    return;
     if (cameraController) {
       let position = new Vector3(0, 0, 0);
       let quaternion = new Quaternion(0, 0, 0, 0);
@@ -198,7 +195,7 @@ export default function Lokione(props) {
               <cylinderBufferGeometry args={[0.5, 0.5, 12, 32]} attach={"geometry"} />
               <meshPhongMaterial color={"#2f2f2f"} attach={"material"} />
             </mesh> */}
-            <group scale={[0.5, 0.5, 0.5]} rotation={[0, Math.PI, 0]} position={[0, 0, 10]} ref={bratCollision}>
+            <group scale={[0.3, 0.3, 0.3]} rotation={[0, Math.PI, 0]} position={[0, 0, 11.2]}>
               <Brat />
             </group>
           </group>
@@ -213,8 +210,6 @@ export default function Lokione(props) {
           <WheelDebug wheelRef={wheels[3]} wheelRadius={wheelRadius} />
           <group scale={[0.3, 0.3, 0.3]} ref={chassisBody} name="chassisBody">
             <group rotation={[0, Math.PI, 0]} position={[-1.5, -8, 3]}>
-
-
 
               <mesh
                 castShadow
