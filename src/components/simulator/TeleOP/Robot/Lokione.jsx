@@ -16,6 +16,7 @@ export default function Lokione(props) {
   const { nodes, materials } = useGLTF("/robotNou.glb");
 
   const position = [22.5, 0, 38];
+  const bratPose = [0, 400, 0];
   const width = 6;
   const height = 2; //.84
   const front = 2.8;
@@ -49,21 +50,13 @@ export default function Lokione(props) {
     useRef(null)
   );
 
-  const bratBodyArgs = [chassisBodyArgs[0], chassisBodyArgs[1], chassisBodyArgs[2] - 10];
-  const [bratBody, bratAPI] = useCylinder(
-    () => ({
-      args: [0.5, 0.5, 12, 32],
-      position: [0, 0, 0],
-      type: 'Static'
-    }),
-    useRef(null)
-  )
-
-  // const [bratCollision, bratCollisionAPI] = useBox(
+  // const bratBodyArgs = [chassisBodyArgs[0], chassisBodyArgs[1], chassisBodyArgs[2] - 10];
+  // const [bratBody, bratAPI] = useCylinder(
   //   () => ({
-  //     args: [5, 10, 5],
-  //     position: bratPosition,
-  //     type: 'Static',
+  //     args: [0.5, 0.5, 12, 32],
+  //     position: bratPose,
+  //     type: 'Static'
+  //     // mass: 10
   //   }),
   //   useRef(null)
   // )
@@ -105,14 +98,14 @@ export default function Lokione(props) {
       if (bratPosition >= -8)
         setBratPosition(bratPosition - bratIncrease);
 
-    bratAPI.position.set(0, bratPosition, -10);
+    // bratAPI.position.set(0, bratPosition, -10);
 
 
-    if (bratApuca) {
-      bratAPI.position.set(10000, bratPosition, 100000);
-    } else {
-      bratAPI.position.set(0, bratPosition, -10);
-    }
+    // if (bratApuca) {
+    //   bratAPI.position.set(10000, bratPosition, 100000);
+    // } else {
+    //   bratAPI.position.set(0, bratPosition, -10);
+    // }
 
     // bratAPI.position.set(0, bratPosition, -10);
     // bratCollisionAPI.position.set(bratPosition.x, bratPosition.y, bratPosition.z);
@@ -140,7 +133,6 @@ export default function Lokione(props) {
 
   // AICI AR FI CONTROLLER UL PENTRU CAMERA POATE MERGE
   useFrame((state) => {
-    return;
     if (cameraController) {
       let position = new Vector3(0, 0, 0);
       let quaternion = new Quaternion(0, 0, 0, 0);
@@ -156,6 +148,7 @@ export default function Lokione(props) {
 
 
     } else {
+      return;
       let position = new Vector3(0, 0, 0);
       position.setFromMatrixPosition(chassisBody.current.matrixWorld);
       // chassisAPI.position.set(vehicle.current.matrixWorld);
@@ -180,8 +173,11 @@ export default function Lokione(props) {
   return (
     <Suspense callback={null}>
       <group {...props} dispose={null} ref={vehicle} name="vehicle">
-        {/* <group>
-          <Brat />
+        {/* <group ref={bratBody}>
+          <mesh>
+            <cylinderGeometry args={[0.5, 0.5, 12, 32]} />
+            <meshPhongMaterial attach={"material"} color="B00B00" />
+          </mesh>
         </group> */}
         <group>
           <WheelDebug wheelRef={wheels[0]} wheelRadius={wheelRadius} />
@@ -190,15 +186,19 @@ export default function Lokione(props) {
           <WheelDebug wheelRef={wheels[3]} wheelRadius={wheelRadius} />
         </group>
         <group ref={chassisBody}>
-          <group ref={bratBody}>
+          {/* <group ref={bratBody}> */}
             {/* <mesh position={[0, 0, 0]}>
               <cylinderBufferGeometry args={[0.5, 0.5, 12, 32]} attach={"geometry"} />
               <meshPhongMaterial color={"#2f2f2f"} attach={"material"} />
             </mesh> */}
-            <group scale={[0.3, 0.3, 0.3]} rotation={[0, Math.PI, 0]} position={[0, 0, 11.2]}>
+            {/* <mesh>
+              <cylinderGeometry args={[0.5, 0.5, 12, 32]} />
+              <meshPhongMaterial attach={"material"} color="FFFF00" />
+            </mesh> */}
+            {/* <group scale={[0.3, 0.3, 0.3]} rotation={[0, Math.PI, 0]} position={[0, 0, 11.2]}>
               <Brat />
-            </group>
-          </group>
+            </group> */}
+          {/* </group> */}
           {/* <mesh position={[0, 0, 0]}> */}
           <mesh ref={chassisBody}>
             <boxGeometry args={[6, 1.5, 6]} />
@@ -209,7 +209,7 @@ export default function Lokione(props) {
           <WheelDebug wheelRef={wheels[2]} wheelRadius={wheelRadius} />
           <WheelDebug wheelRef={wheels[3]} wheelRadius={wheelRadius} />
           <group scale={[0.3, 0.3, 0.3]} ref={chassisBody} name="chassisBody">
-            <group rotation={[0, Math.PI, 0]} position={[-1.5, -8, 3]}>
+            <group rotation={[0, Math.PI, 0]} position={[-1.5, -12, 3]}>
 
               <mesh
                 castShadow
