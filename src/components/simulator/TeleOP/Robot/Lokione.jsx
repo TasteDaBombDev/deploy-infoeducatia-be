@@ -1,6 +1,6 @@
 import React, { Suspense, useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
-import { Vector3, Quaternion } from 'three'
+import { Vector3, Quaternion, Vector4 } from 'three'
 import { useFrame } from 'react-three-fiber';
 import { useBox, useCylinder, useRaycastVehicle } from '@react-three/cannon';
 
@@ -16,7 +16,7 @@ export default function Lokione(props) {
   const { nodes, materials } = useGLTF("/robotNou.glb");
 
   const position = [22.5, 0, 38];
-  const bratPose = [0, 400, 0];
+  const bratPose = [10, 0, 0];
   const width = 6;
   const height = 2; //.84
   const front = 2.8;
@@ -50,16 +50,14 @@ export default function Lokione(props) {
     useRef(null)
   );
 
-  // const bratBodyArgs = [chassisBodyArgs[0], chassisBodyArgs[1], chassisBodyArgs[2] - 10];
-  // const [bratBody, bratAPI] = useCylinder(
-  //   () => ({
-  //     args: [0.5, 0.5, 12, 32],
-  //     position: bratPose,
-  //     type: 'Static'
-  //     // mass: 10
-  //   }),
-  //   useRef(null)
-  // )
+  const [bratBody, bratAPI] = useCylinder(
+    () => ({
+      args: [0.5, 0.5, 12, 32],
+      position: [0, 0, 0],
+      type: 'Static'
+    }),
+    useRef(null)
+  )
 
   useEffect(() => {
 
@@ -100,14 +98,12 @@ export default function Lokione(props) {
 
     // bratAPI.position.set(0, bratPosition, -10);
 
-
     // if (bratApuca) {
     //   bratAPI.position.set(10000, bratPosition, 100000);
     // } else {
     //   bratAPI.position.set(0, bratPosition, -10);
     // }
 
-    // bratAPI.position.set(0, bratPosition, -10);
     // bratCollisionAPI.position.set(bratPosition.x, bratPosition.y, bratPosition.z);
 
     if (controls[0])
@@ -131,6 +127,22 @@ export default function Lokione(props) {
 
   useControls(vehicleAPI, chassisAPI);
 
+  //POSIBIL CONTROLLER PENTRU COLIZIUNEA BRATULUI DACA EXISTA
+  useFrame((state) => {
+    let robotPosition = new Vector3(0, 0, 0);
+    robotPosition.setFromMatrixPosition(chassisBody.current.matrixWorld);
+    let robotRotation = new Quaternion(0, 0, 0, 0);
+    robotRotation.setFromRotationMatrix(chassisBody.current.matrixWorld);
+
+    let vec = new Vector3(0, 0, 0)
+    let bratPosition = vec.clone().add(robotPosition.add(new Vector3(10, 4, 0)));
+
+    // let quat = new Quaternion(0, 0, 0, 0)
+    // let bratQuaternin = quat.clone().add(robotRotation)
+
+    bratAPI.position.copy(bratPosition);
+  })
+
   // AICI AR FI CONTROLLER UL PENTRU CAMERA POATE MERGE
   useFrame((state) => {
     if (cameraController) {
@@ -148,7 +160,7 @@ export default function Lokione(props) {
 
 
     } else {
-      return;
+
       let position = new Vector3(0, 0, 0);
       position.setFromMatrixPosition(chassisBody.current.matrixWorld);
       // chassisAPI.position.set(vehicle.current.matrixWorld);
@@ -179,6 +191,12 @@ export default function Lokione(props) {
             <meshPhongMaterial attach={"material"} color="B00B00" />
           </mesh>
         </group> */}
+        <group ref={bratBody}>
+          <mesh>
+            <meshPhongMaterial color={"#000000"} attach={"material"} />
+            <cylinderGeometry args={[0.5, 0.5, 12, 32]} attach={"geometry"} />
+          </mesh>
+        </group>
         <group>
           <WheelDebug wheelRef={wheels[0]} wheelRadius={wheelRadius} />
           <WheelDebug wheelRef={wheels[1]} wheelRadius={wheelRadius} />
@@ -186,20 +204,11 @@ export default function Lokione(props) {
           <WheelDebug wheelRef={wheels[3]} wheelRadius={wheelRadius} />
         </group>
         <group ref={chassisBody}>
-          {/* <group ref={bratBody}> */}
-            {/* <mesh position={[0, 0, 0]}>
-              <cylinderBufferGeometry args={[0.5, 0.5, 12, 32]} attach={"geometry"} />
-              <meshPhongMaterial color={"#2f2f2f"} attach={"material"} />
-            </mesh> */}
-            {/* <mesh>
-              <cylinderGeometry args={[0.5, 0.5, 12, 32]} />
-              <meshPhongMaterial attach={"material"} color="FFFF00" />
-            </mesh> */}
-            {/* <group scale={[0.3, 0.3, 0.3]} rotation={[0, Math.PI, 0]} position={[0, 0, 11.2]}>
+          {/* <group ref={bratBody}>
+            <group scale={[0.3, 0.3, 0.3]} rotation={[0, Math.PI, 0]} position={[0, 0, 11.2]}>
               <Brat />
-            </group> */}
-          {/* </group> */}
-          {/* <mesh position={[0, 0, 0]}> */}
+            </group>
+          </group> */}
           <mesh ref={chassisBody}>
             <boxGeometry args={[6, 1.5, 6]} />
             <meshPhongMaterial attach={"material"} color="#FFFF00" transparent opacity={0} />

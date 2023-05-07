@@ -33,7 +33,7 @@ export function PereteBox({ position, scale, ceva }) {
         useRef(null)
     );
 
-    console.log(ceva)
+    // console.log(ceva)
 
     return (
         debug && (

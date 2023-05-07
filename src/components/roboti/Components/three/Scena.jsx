@@ -8,7 +8,7 @@ import { useLoader } from "@react-three/fiber";
 import Display2 from "./Levels/Display2";
 import Display2Obj from "./Levels/Display2Obj";
 import DisplayLoader from "./Levels/DisplayLoader";
-import { Perf } from "r3f-perf";
+// import { Perf } from "r3f-perf";
 import { Bloom, DepthOfField, EffectComposer, Noise, SMAA, SSR, TiltShift, Vignette } from "@react-three/postprocessing";
 
 function Scena() {
@@ -27,7 +27,7 @@ function Scena() {
         >
             {/* <fog attach={"fog"} color="#161616" near={8} args={['#050505']} /> */}
             {/* <ambientLight intensity={2} color={"purple"} position={[-10, 30, 20]}/> */}
-            <Perf position='top-left' />
+            {/* <Perf position='top-left' /> */}
             <Environment preset='sunset' blur={1} />
             <PerspectiveCamera makeDefault fov={50} position={[-4.5, 4.2, 4.5]} />
             <OrbitControls target={[0, 0, 0]} />

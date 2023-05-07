@@ -2,7 +2,7 @@ import React from "react";
 import './Assembly.css';
 import Scena from "./Components/three/Scena";
 
-function AssemblyRoboti() {
+export default function AssemblyRoboti(props) {
 
     return (
         <div className="assembly">
@@ -12,5 +12,3 @@ function AssemblyRoboti() {
     );
 
 }
-
-export default AssemblyRoboti;
