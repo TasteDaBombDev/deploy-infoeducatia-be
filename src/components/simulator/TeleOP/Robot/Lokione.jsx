@@ -1,6 +1,6 @@
 import React, { Suspense, useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
-import { Vector3, Quaternion, Vector4 } from 'three'
+import { Vector3, Quaternion } from 'three'
 import { useFrame } from 'react-three-fiber';
 import { useBox, useCylinder, useRaycastVehicle } from '@react-three/cannon';
 
@@ -16,7 +16,6 @@ export default function Lokione(props) {
   const { nodes, materials } = useGLTF("/robotNou.glb");
 
   const position = [22.5, 0, 38];
-  const bratPose = [10, 0, 0];
   const width = 6;
   const height = 2; //.84
   const front = 2.8;
@@ -33,10 +32,14 @@ export default function Lokione(props) {
     8: new Vector3(47, 40, -47),
   }
 
-  const [bratPosition, setBratPosition] = useState(0);
+  const [bratPosition, setBratPosition] = useState(-4.5);
+  // var bratPosition = 0
   const [bratApuca, setBratApuca] = useState(true);
   const bratIncrease = 0.2;
   const [cameraController, setController] = useState(false);
+
+  var robotPosition;
+  var robotRotation;
 
   const [controls, setControls] = useState({});
 
@@ -52,12 +55,21 @@ export default function Lokione(props) {
 
   const [bratBody, bratAPI] = useCylinder(
     () => ({
-      args: [0.5, 0.5, 12, 32],
+      args: [0.5, 0.5, 2, 32],
       position: [0, 0, 0],
       type: 'Static'
     }),
     useRef(null)
   )
+
+  // const [bratVisual, setBratVisual] = useCylinder(
+  //   () => ({
+  //     args: [0.5, 0.5, 12, 32],
+  //     position: [0, 100, 0],
+  //     type: 'Static'
+  //   }),
+  //   useRef(null)
+  // )
 
   useEffect(() => {
 
@@ -91,10 +103,12 @@ export default function Lokione(props) {
     if (controls.shift)
       if (bratPosition <= 5)
         setBratPosition(bratPosition + bratIncrease);
+    // bratPosition += bratIncrease;
 
     if (controls.control)
-      if (bratPosition >= -8)
+      if (bratPosition >= -6)
         setBratPosition(bratPosition - bratIncrease);
+    // bratPosition -= bratIncrease
 
     // bratAPI.position.set(0, bratPosition, -10);
 
@@ -129,18 +143,18 @@ export default function Lokione(props) {
 
   //POSIBIL CONTROLLER PENTRU COLIZIUNEA BRATULUI DACA EXISTA
   useFrame((state) => {
-    let robotPosition = new Vector3(0, 0, 0);
+    robotPosition = new Vector3(0, 0, 0);
     robotPosition.setFromMatrixPosition(chassisBody.current.matrixWorld);
-    let robotRotation = new Quaternion(0, 0, 0, 0);
+    robotRotation = new Quaternion(0, 0, 0, 0);
     robotRotation.setFromRotationMatrix(chassisBody.current.matrixWorld);
 
-    let vec = new Vector3(0, 0, 0)
-    let bratPosition = vec.clone().add(robotPosition.add(new Vector3(10, 4, 0)));
+    let vec = new Vector3(0, 0, -4.6);
 
-    // let quat = new Quaternion(0, 0, 0, 0)
-    // let bratQuaternin = quat.clone().add(robotRotation)
+    vec.applyQuaternion(robotRotation)
 
-    bratAPI.position.copy(bratPosition);
+    let bratPose = vec.clone().add(robotPosition);
+
+    bratAPI.position.copy(bratPose);
   })
 
   // AICI AR FI CONTROLLER UL PENTRU CAMERA POATE MERGE
@@ -194,8 +208,11 @@ export default function Lokione(props) {
         <group ref={bratBody}>
           <mesh>
             <meshPhongMaterial color={"#000000"} attach={"material"} />
-            <cylinderGeometry args={[0.5, 0.5, 12, 32]} attach={"geometry"} />
+            <cylinderGeometry args={[0.5, 0.5, 2, 32]} attach={"geometry"} />
           </mesh>
+          {/* <group scale={[0.3, 0.3, 0.3]} rotation={[0, Math.PI, 0]} >
+            <Brat />
+          </group> */}
         </group>
         <group>
           <WheelDebug wheelRef={wheels[0]} wheelRadius={wheelRadius} />
@@ -204,11 +221,12 @@ export default function Lokione(props) {
           <WheelDebug wheelRef={wheels[3]} wheelRadius={wheelRadius} />
         </group>
         <group ref={chassisBody}>
-          {/* <group ref={bratBody}>
-            <group scale={[0.3, 0.3, 0.3]} rotation={[0, Math.PI, 0]} position={[0, 0, 11.2]}>
+          <group>
+            {/* position={[0, 0, 11.2]} */}
+            <group scale={[0.3, 0.3, 0.3]} rotation={[0, Math.PI, 0]} position={[-0.67, bratPosition, 1.2]}>
               <Brat />
             </group>
-          </group> */}
+          </group>
           <mesh ref={chassisBody}>
             <boxGeometry args={[6, 1.5, 6]} />
             <meshPhongMaterial attach={"material"} color="#FFFF00" transparent opacity={0} />
@@ -353,7 +371,7 @@ export default function Lokione(props) {
                 rotation={[-Math.PI, 0, 0]}
                 scale={-0.04}
               />
-              <mesh
+              {/* <mesh
                 castShadow
                 receiveShadow
                 geometry={nodes.Circle004.geometry}
@@ -369,8 +387,8 @@ export default function Lokione(props) {
                 position={[-3.58, 12.11, 9.81]}
                 rotation={[-Math.PI, 0, 0]}
                 scale={-0.04}
-              />
-              <mesh
+              /> */}
+              {/* <mesh
                 castShadow
                 receiveShadow
                 geometry={nodes["gheara-noua-1-1"].geometry}
@@ -405,8 +423,8 @@ export default function Lokione(props) {
                 position={[-0.88, 11.84, 11.45]}
                 rotation={[Math.PI / 2, 0, Math.PI]}
                 scale={0.04}
-              />
-              <mesh
+              /> */}
+              {/* <mesh
                 castShadow
                 receiveShadow
                 geometry={nodes["Gheara-sup"].geometry}
@@ -414,15 +432,15 @@ export default function Lokione(props) {
                 position={[-2.52, 15.08, 4.43]}
                 rotation={[0, -Math.PI / 2, 0]}
                 scale={0.06}
-              />
-              <mesh
+              /> */}
+              {/* <mesh
                 castShadow
                 receiveShadow
                 geometry={nodes["Prindere-gh-de-gls"].geometry}
                 material={materials["Material.005"]}
                 position={[-1.41, 16.24, -3.42]}
                 scale={0.06}
-              />
+              /> */}
               <mesh
                 castShadow
                 receiveShadow
@@ -467,7 +485,7 @@ export default function Lokione(props) {
                 rotation={[-Math.PI / 2, 0, -Math.PI / 2]}
                 scale={[0.06, 0.06, 0.37]}
               />
-              <mesh
+              {/* <mesh
                 castShadow
                 receiveShadow
                 geometry={nodes.glisiera003.geometry}
@@ -475,7 +493,7 @@ export default function Lokione(props) {
                 position={[-0.11, 22.28, -6.36]}
                 rotation={[-Math.PI / 2, 0, -Math.PI / 2]}
                 scale={[0.06, 0.06, 0.37]}
-              />
+              /> */}
               <mesh
                 castShadow
                 receiveShadow

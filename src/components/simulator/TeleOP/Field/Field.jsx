@@ -33,10 +33,6 @@ function Field() {
     return (
         // <Suspense fallback={null}>
         <>
-            {/* AICI STACK BLANA DE CONURI TOT CODUL ESTE DEJA PREA TARZIU VREAU SA MOR NU STIU DE CE FAC ASTA
-            DAR STIU CA ESTE O ALEGERE PROASTA SALVAT-MA PANA NU
-            FAC CEVA CE VOI REGRETA PENTRU TOT RESTUL
-            DEJA REGRET DAR NU AM ALTE CUVINTE */}
 
             <group>
                 {/* STACK BLANA DE CONURI THO */}
