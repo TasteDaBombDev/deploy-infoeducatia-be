@@ -1,6 +1,6 @@
 import React, { Suspense, useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
-import { Vector3, Quaternion } from 'three'
+import { Vector3, Quaternion, Raycaster } from 'three'
 import { useFrame } from 'react-three-fiber';
 import { useBox, useCylinder, useRaycastVehicle } from '@react-three/cannon';
 
@@ -10,6 +10,8 @@ import { WheelDebug } from './WheelDebug';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import Brat from './Brat';
+
+import DoamneIartaCeUrmeaza from './DoamneIartaCeUrmeaza';
 
 export default function Lokione(props) {
 
@@ -30,19 +32,20 @@ export default function Lokione(props) {
     6: new Vector3(-47, 40, -47),
     7: new Vector3(0, 40, -47),
     8: new Vector3(47, 40, -47),
+    9: new Vector3(0, 69, 0),
   }
 
   const [bratPosition, setBratPosition] = useState(-4.5);
-  // var bratPosition = 0
   const [bratApuca, setBratApuca] = useState(true);
   const bratIncrease = 0.2;
-  const [cameraController, setController] = useState(false);
+
+  const [cameraController, setCamController] = useState(false);
 
   var robotPosition;
   var robotRotation;
 
   const [controls, setControls] = useState({});
-
+  
   const chassisBodyArgs = [width, height, front * 2];
   const [chassisBody, chassisAPI] = useBox(
     () => ({
@@ -51,25 +54,39 @@ export default function Lokione(props) {
       position
     }),
     useRef(null)
-  );
+    );
+    DoamneIartaCeUrmeaza.robotBody = chassisBody;
+    DoamneIartaCeUrmeaza.robotApi = chassisAPI;
+    
 
-  const [bratBody, bratAPI] = useCylinder(
+  const [bratBody, bratAPI] = useBox(
     () => ({
-      args: [0.5, 0.5, 2, 32],
+      // args: [0.3, 0.3, 2, 32],
+      args: [2, 1, 2],
       position: [0, 0, 0],
       type: 'Static'
     }),
     useRef(null)
   )
+  DoamneIartaCeUrmeaza.bratBody = bratBody;
+  DoamneIartaCeUrmeaza.bratApi = bratAPI;
 
-  // const [bratVisual, setBratVisual] = useCylinder(
-  //   () => ({
-  //     args: [0.5, 0.5, 12, 32],
-  //     position: [0, 100, 0],
-  //     type: 'Static'
-  //   }),
-  //   useRef(null)
-  // )
+
+  // useEffect(() => {
+
+  //   let viata = new Vector3(0, 0, 0);
+  //   viata.setFromMatrixPosition(chassisBody.current.matrixWorld);
+  //   var raycast = new Raycaster();
+  //   raycast.far = 100
+  //   raycast.set(new Vector3(0, 1, 0), new Vector3(0, 0, 0))
+  //   // console.log(raycast.ray.distanceToPoint(viata))
+  //   // console.log(raycast.intersectObjects(chassisBody))
+
+  //   // let mama = new Vector3(0, 0, 0)
+  //   // mama.setFromMatrixPosition(DoamneIartaCeUrmeaza.robotBody.current.matrixWorld)
+  //   // console.log(mama)
+
+  // })
 
   useEffect(() => {
 
@@ -97,19 +114,23 @@ export default function Lokione(props) {
   }, []);
 
   useEffect(() => {
+
+    DoamneIartaCeUrmeaza.controls = controls
+
     if (controls.f)
       setBratApuca(!bratApuca);
 
     if (controls.shift)
-      if (bratPosition <= 5)
+      if (bratPosition <= 12) {
         setBratPosition(bratPosition + bratIncrease);
-    // bratPosition += bratIncrease;
+        // bratPosition += bratIncrease;
+      }
 
     if (controls.control)
-      if (bratPosition >= -6)
+      if (bratPosition >= -6) {
         setBratPosition(bratPosition - bratIncrease);
-    // bratPosition -= bratIncrease
-
+        // bratPosition -= bratIncrease
+      }
     // bratAPI.position.set(0, bratPosition, -10);
 
     // if (bratApuca) {
@@ -121,10 +142,10 @@ export default function Lokione(props) {
     // bratCollisionAPI.position.set(bratPosition.x, bratPosition.y, bratPosition.z);
 
     if (controls[0])
-      setController(false);
-    for (let k = 1; k <= 8; k++)
+      setCamController(false);
+    for (let k = 1; k <= 9; k++)
       if (controls[k])
-        setController(true);
+        setCamController(true);
 
   }, [controls]);
 
@@ -148,7 +169,8 @@ export default function Lokione(props) {
     robotRotation = new Quaternion(0, 0, 0, 0);
     robotRotation.setFromRotationMatrix(chassisBody.current.matrixWorld);
 
-    let vec = new Vector3(0, 0, -4.6);
+    let holiad = bratPosition + 2.7
+    let vec = new Vector3(0, holiad, -4.6);
 
     vec.applyQuaternion(robotRotation)
 
@@ -166,7 +188,7 @@ export default function Lokione(props) {
       wDir.applyQuaternion(quaternion);
       wDir.normalize();
 
-      for (let k = 1; k <= 8; k++)
+      for (let k = 1; k <= 9; k++)
         if (controls[k]) {
           var cameraPosition = position.clone().add(wDir.clone().multiplyScalar(1).add(cameras[k]));
           state.camera.position.copy(cameraPosition);
@@ -208,7 +230,8 @@ export default function Lokione(props) {
         <group ref={bratBody}>
           <mesh>
             <meshPhongMaterial color={"#000000"} attach={"material"} />
-            <cylinderGeometry args={[0.5, 0.5, 2, 32]} attach={"geometry"} />
+            {/* <cylinderGeometry args={[0.3, 0.3, 2, 32]} attach={"geometry"} /> */}
+            <boxGeometry args={[2, 1, 2]} attach={"geometry"} />
           </mesh>
           {/* <group scale={[0.3, 0.3, 0.3]} rotation={[0, Math.PI, 0]} >
             <Brat />
