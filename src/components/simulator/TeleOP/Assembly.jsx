@@ -7,22 +7,23 @@ import Overlay from "../Overlay";
 
 function Assembly() {
 
-    useEffect(()=>{
+    useEffect(() => {
         var foot = document.getElementById("footer-id");
-        foot.style.display = "none";
+        if (foot)
+            foot.style.display = "none";
     }, [])
 
     return (
-            <>
-        <Canvas className="canvas">
-            <Physics
-                broadphase={'SAP'}
-                gravity={[0, -40, 0]}
-            >
-                <Scena />
-            </Physics>
-        </Canvas>
-        <Overlay />
+        <>
+            <Canvas className="canvas">
+                <Physics
+                    broadphase={'SAP'}
+                    gravity={[0, -40, 0]}
+                >
+                    <Scena />
+                </Physics>
+            </Canvas>
+            <Overlay />
         </>
     );
 }

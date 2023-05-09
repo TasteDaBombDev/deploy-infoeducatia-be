@@ -7,8 +7,18 @@ export const Junction = ({ position, height, planeRef }) => {
 
   var realPose = [position[0], (position[1] + height / 2 + 1.5), position[2]];
 
-  DoamneIartaCeUrmeaza.junctionCount++;
-  DoamneIartaCeUrmeaza.junctions[DoamneIartaCeUrmeaza.junctionCount] = new Vector3(position[0], position[1], position[2]);
+  let vectorPose = new Vector3(position[0], position[1], position[2]);
+  let ok = 1;
+  for (let i = 1; i <= DoamneIartaCeUrmeaza.junctionCount; i++) {
+    if (vectorPose.distanceTo(DoamneIartaCeUrmeaza.junctions[i] == 0)) {
+      ok = 0;
+      break;
+    }
+  }
+  if (ok) {
+    DoamneIartaCeUrmeaza.junctionCount++;
+    DoamneIartaCeUrmeaza.junctions[DoamneIartaCeUrmeaza.junctionCount] = new Vector3(position[0], position[1], position[2]);
+  }
 
   const [planeBody, planeAPI] = useBox(() => ({
     args: [10, 0.1, 10],
