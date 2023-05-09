@@ -89,12 +89,14 @@ export default function Lokione(props) {
 
     window.addEventListener("keydown", keyDown);
     window.addEventListener("keyup", keyUp);
+    
+    DoamneIartaCeUrmeaza.controls = controls;
+    
     return () => {
       window.removeEventListener("keydown", keyDown);
       window.removeEventListener("keyup", keyUp);
     };
 
-    DoamneIartaCeUrmeaza.controls = controls;
 
   }, []);
 
@@ -117,11 +119,11 @@ export default function Lokione(props) {
         // bratPosition -= bratIncrease
       }
 
-    // if (controls[0])
-    //   setCamController(false);
-    // for (let k = 1; k <= 9; k++)
-    //   if (controls[k])
-    //     setCamController(true);
+    if (controls[0])
+      setCamController(false);
+    for (let k = 1; k <= 9; k++)
+      if (controls[k])
+        setCamController(true);
 
   }, [controls]);
 
@@ -156,41 +158,44 @@ export default function Lokione(props) {
   })
 
   // AICI AR FI CONTROLLER UL PENTRU CAMERA POATE MERGE
-  // useFrame((state) => {
-  //   if (cameraController) {
-  //     let position = new Vector3(0, 0, 0);
-  //     let quaternion = new Quaternion(0, 0, 0, 0);
-  //     let wDir = new Vector3(0, 0, 10);
-  //     wDir.applyQuaternion(quaternion);
-  //     wDir.normalize();
+  useFrame((state) => {
 
-  //     for (let k = 1; k <= 9; k++)
-  //       if (controls[k]) {
-  //         var cameraPosition = position.clone().add(wDir.clone().multiplyScalar(1).add(cameras[k]));
-  //         state.camera.position.copy(cameraPosition);
-  //       }
-  //   } else {
+    console.log(DoamneIartaCeUrmeaza.junctions)
 
-  //     let position = new Vector3(0, 0, 0);
-  //     position.setFromMatrixPosition(chassisBody.current.matrixWorld);
-  //     // chassisAPI.position.set(vehicle.current.matrixWorld);
+    if (cameraController) {
+      let position = new Vector3(0, 0, 0);
+      let quaternion = new Quaternion(0, 0, 0, 0);
+      let wDir = new Vector3(0, 0, 10);
+      wDir.applyQuaternion(quaternion);
+      wDir.normalize();
 
-  //     let quaternion = new Quaternion(0, 0, 0, 0);
-  //     quaternion.setFromRotationMatrix(chassisBody.current.matrixWorld);
+      for (let k = 1; k <= 9; k++)
+        if (controls[k]) {
+          var cameraPosition = position.clone().add(wDir.clone().multiplyScalar(1).add(cameras[k]));
+          state.camera.position.copy(cameraPosition);
+        }
+    } else {
 
-  //     let wDir = new Vector3(0, 0, 10);
-  //     // let wDir = new Quaternion(0, 0, 0, 0);
-  //     wDir.applyQuaternion(quaternion);
-  //     wDir.normalize();
+      let position = new Vector3(0, 0, 0);
+      position.setFromMatrixPosition(chassisBody.current.matrixWorld);
+      // chassisAPI.position.set(vehicle.current.matrixWorld);
 
-  //     let cameraPosition = position.clone().add(wDir.clone().multiplyScalar(20).add(new Vector3(0, 32, 0)));
+      let quaternion = new Quaternion(0, 0, 0, 0);
+      quaternion.setFromRotationMatrix(chassisBody.current.matrixWorld);
 
-  //     // wDir.add(new Vector3(0, 0.2, 0));
-  //     state.camera.position.copy(cameraPosition);
-  //     state.camera.lookAt(position);
-  //   }
+      let wDir = new Vector3(0, 0, 10);
+      // let wDir = new Quaternion(0, 0, 0, 0);
+      wDir.applyQuaternion(quaternion);
+      wDir.normalize();
 
-  // });
+      let cameraPosition = position.clone().add(wDir.clone().multiplyScalar(20).add(new Vector3(0, 32, 0)));
+
+      // wDir.add(new Vector3(0, 0.2, 0));
+      state.camera.position.copy(cameraPosition);
+      state.camera.lookAt(position);
+    }
+
+  });
 
   return (
     <Suspense callback={null}>

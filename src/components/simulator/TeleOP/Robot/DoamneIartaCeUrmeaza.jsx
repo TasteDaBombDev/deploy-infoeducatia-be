@@ -14,6 +14,9 @@ class DoamneIartaCeUrmeaza{
 
     static controls;
 
+    static junctionCount = 0;
+    static junctions = [];
+
 }
 
 export default DoamneIartaCeUrmeaza

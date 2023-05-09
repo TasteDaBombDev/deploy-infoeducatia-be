@@ -7,7 +7,7 @@ function Overlay() {
     return (
         <div className="wrapper_MAMA_CUIVA">
             <div className="controls">
-                <div>Camere: 1 - 89</div>
+                <div>Camere: 1 - 9</div>
                 <div>Camera pe robot: 0</div>
                 <div>CONTROL: W A S D</div>
                 <div>STRAFES: Q și E</div>
