@@ -24,7 +24,7 @@ export const Junction = ({ position, height, planeRef }) => {
   }), useRef(null));
 
   const [junctionBodyCylinder, junctionAPICylinder] = useCylinder(() => ({
-    args: [0.05, 0.05, height, 32],
+    args: [0.5, 0.5, height, 32],
     position: [position[0], position[1] + height / 2, position[2]],
     mass: 0,
     type: 'Static'

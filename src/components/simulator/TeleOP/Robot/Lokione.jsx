@@ -45,7 +45,7 @@ export default function Lokione(props) {
   var robotRotation;
 
   const [controls, setControls] = useState({});
-  
+
   const chassisBodyArgs = [width, height, front * 2];
   const [chassisBody, chassisAPI] = useBox(
     () => ({
@@ -54,10 +54,10 @@ export default function Lokione(props) {
       position
     }),
     useRef(null)
-    );
-    DoamneIartaCeUrmeaza.robotBody = chassisBody;
-    DoamneIartaCeUrmeaza.robotApi = chassisAPI;
-    
+  );
+  DoamneIartaCeUrmeaza.robotBody = chassisBody;
+  DoamneIartaCeUrmeaza.robotApi = chassisAPI;
+
 
   const [bratBody, bratAPI] = useBox(
     () => ({
@@ -70,23 +70,6 @@ export default function Lokione(props) {
   )
   DoamneIartaCeUrmeaza.bratBody = bratBody;
   DoamneIartaCeUrmeaza.bratApi = bratAPI;
-
-
-  // useEffect(() => {
-
-  //   let viata = new Vector3(0, 0, 0);
-  //   viata.setFromMatrixPosition(chassisBody.current.matrixWorld);
-  //   var raycast = new Raycaster();
-  //   raycast.far = 100
-  //   raycast.set(new Vector3(0, 1, 0), new Vector3(0, 0, 0))
-  //   // console.log(raycast.ray.distanceToPoint(viata))
-  //   // console.log(raycast.intersectObjects(chassisBody))
-
-  //   // let mama = new Vector3(0, 0, 0)
-  //   // mama.setFromMatrixPosition(DoamneIartaCeUrmeaza.robotBody.current.matrixWorld)
-  //   // console.log(mama)
-
-  // })
 
   useEffect(() => {
 
@@ -111,41 +94,34 @@ export default function Lokione(props) {
       window.removeEventListener("keyup", keyUp);
     };
 
+    DoamneIartaCeUrmeaza.controls = controls;
+
   }, []);
 
   useEffect(() => {
 
     DoamneIartaCeUrmeaza.controls = controls
 
-    if (controls.f)
-      setBratApuca(!bratApuca);
+    // if (controls.f)
+    //   setBratApuca(!bratApuca);
 
-    if (controls.shift)
+    if (controls.arrowup)
       if (bratPosition <= 12) {
         setBratPosition(bratPosition + bratIncrease);
         // bratPosition += bratIncrease;
       }
 
-    if (controls.control)
+    if (controls.arrowdown)
       if (bratPosition >= -6) {
         setBratPosition(bratPosition - bratIncrease);
         // bratPosition -= bratIncrease
       }
-    // bratAPI.position.set(0, bratPosition, -10);
 
-    // if (bratApuca) {
-    //   bratAPI.position.set(10000, bratPosition, 100000);
-    // } else {
-    //   bratAPI.position.set(0, bratPosition, -10);
-    // }
-
-    // bratCollisionAPI.position.set(bratPosition.x, bratPosition.y, bratPosition.z);
-
-    if (controls[0])
-      setCamController(false);
-    for (let k = 1; k <= 9; k++)
-      if (controls[k])
-        setCamController(true);
+    // if (controls[0])
+    //   setCamController(false);
+    // for (let k = 1; k <= 9; k++)
+    //   if (controls[k])
+    //     setCamController(true);
 
   }, [controls]);
 
@@ -180,43 +156,41 @@ export default function Lokione(props) {
   })
 
   // AICI AR FI CONTROLLER UL PENTRU CAMERA POATE MERGE
-  useFrame((state) => {
-    if (cameraController) {
-      let position = new Vector3(0, 0, 0);
-      let quaternion = new Quaternion(0, 0, 0, 0);
-      let wDir = new Vector3(0, 0, 10);
-      wDir.applyQuaternion(quaternion);
-      wDir.normalize();
+  // useFrame((state) => {
+  //   if (cameraController) {
+  //     let position = new Vector3(0, 0, 0);
+  //     let quaternion = new Quaternion(0, 0, 0, 0);
+  //     let wDir = new Vector3(0, 0, 10);
+  //     wDir.applyQuaternion(quaternion);
+  //     wDir.normalize();
 
-      for (let k = 1; k <= 9; k++)
-        if (controls[k]) {
-          var cameraPosition = position.clone().add(wDir.clone().multiplyScalar(1).add(cameras[k]));
-          state.camera.position.copy(cameraPosition);
-        }
+  //     for (let k = 1; k <= 9; k++)
+  //       if (controls[k]) {
+  //         var cameraPosition = position.clone().add(wDir.clone().multiplyScalar(1).add(cameras[k]));
+  //         state.camera.position.copy(cameraPosition);
+  //       }
+  //   } else {
 
+  //     let position = new Vector3(0, 0, 0);
+  //     position.setFromMatrixPosition(chassisBody.current.matrixWorld);
+  //     // chassisAPI.position.set(vehicle.current.matrixWorld);
 
-    } else {
+  //     let quaternion = new Quaternion(0, 0, 0, 0);
+  //     quaternion.setFromRotationMatrix(chassisBody.current.matrixWorld);
 
-      let position = new Vector3(0, 0, 0);
-      position.setFromMatrixPosition(chassisBody.current.matrixWorld);
-      // chassisAPI.position.set(vehicle.current.matrixWorld);
+  //     let wDir = new Vector3(0, 0, 10);
+  //     // let wDir = new Quaternion(0, 0, 0, 0);
+  //     wDir.applyQuaternion(quaternion);
+  //     wDir.normalize();
 
-      let quaternion = new Quaternion(0, 0, 0, 0);
-      quaternion.setFromRotationMatrix(chassisBody.current.matrixWorld);
+  //     let cameraPosition = position.clone().add(wDir.clone().multiplyScalar(20).add(new Vector3(0, 32, 0)));
 
-      let wDir = new Vector3(0, 0, 10);
-      // let wDir = new Quaternion(0, 0, 0, 0);
-      wDir.applyQuaternion(quaternion);
-      wDir.normalize();
+  //     // wDir.add(new Vector3(0, 0.2, 0));
+  //     state.camera.position.copy(cameraPosition);
+  //     state.camera.lookAt(position);
+  //   }
 
-      let cameraPosition = position.clone().add(wDir.clone().multiplyScalar(20).add(new Vector3(0, 32, 0)));
-
-      // wDir.add(new Vector3(0, 0.2, 0));
-      state.camera.position.copy(cameraPosition);
-      state.camera.lookAt(position);
-    }
-
-  });
+  // });
 
   return (
     <Suspense callback={null}>
@@ -227,15 +201,11 @@ export default function Lokione(props) {
             <meshPhongMaterial attach={"material"} color="B00B00" />
           </mesh>
         </group> */}
-        <group ref={bratBody}>
+        <group ref={bratBody} >
           <mesh>
-            <meshPhongMaterial color={"#000000"} attach={"material"} />
-            {/* <cylinderGeometry args={[0.3, 0.3, 2, 32]} attach={"geometry"} /> */}
-            <boxGeometry args={[2, 1, 2]} attach={"geometry"} />
+            <meshPhongMaterial color={"#ffffff"} attach={"material"} transparent opacity={0} />
+            <boxGeometry args={[2, 1, 2]} />
           </mesh>
-          {/* <group scale={[0.3, 0.3, 0.3]} rotation={[0, Math.PI, 0]} >
-            <Brat />
-          </group> */}
         </group>
         <group>
           <WheelDebug wheelRef={wheels[0]} wheelRadius={wheelRadius} />
@@ -377,7 +347,7 @@ export default function Lokione(props) {
                 rotation={[Math.PI, 0, Math.PI / 2]}
                 scale={0.06}
               />
-              <mesh
+              {/* <mesh
                 castShadow
                 receiveShadow
                 geometry={nodes.Circle002.geometry}
@@ -394,7 +364,7 @@ export default function Lokione(props) {
                 rotation={[-Math.PI, 0, 0]}
                 scale={-0.04}
               />
-              {/* <mesh
+              <mesh
                 castShadow
                 receiveShadow
                 geometry={nodes.Circle004.geometry}

@@ -27,8 +27,8 @@ export default function Cone({ position,  props }) {
 
   const [coneBodyCylinder, coneAPICylinder] = useCylinder(
     () => ({
-      // args: [.71, 1.4, 3.4, 32, 1, true],
-      args: [1, 1, 3.4, 32, 1, true],
+      args: [.71, 1.4, 3.4, 32, 1, true],
+      // args: [1, 1, 3.4, 32, 1, true],
       mass: 1,
       position: position,
       type: 'Dynamic'
@@ -36,6 +36,8 @@ export default function Cone({ position,  props }) {
     useRef(null)
   );
 
+
+  //CEVA CONTROLLER PENTRU CAND SE APROPIE BRATUL
   useFrame((state) => {
     let bratPosition = new Vector3(0, 0, 0);
     bratPosition.setFromMatrixPosition(DoamneIartaCeUrmeaza.bratBody.current.matrixWorld)
@@ -54,15 +56,14 @@ export default function Cone({ position,  props }) {
       // coneAPICylinder.position.copy(bratPosition)
       // coneAPICylinder.quaternion.copy()
 
-      // coneBodyCylinder.current.type = 'Static'
-
       let carrierPosition = new Vector3(0, 0, 0);
-      carrierPosition.applyQuaternion(bratQuaternion);
+      // carrierPosition.applyQuaternion(bratQuaternion);
 
-      let finalCarryPosition = carrierPosition.clone().add(bratPosition);
+      // let finalCarryPosition = carrierPosition.clone().add(bratPosition);
       // coneAPICylinder.position.copy(finalCarryPosition);
       // coneAPICylinder.quaternion.copy(bratQuaternion);
-      coneAPICylinder.position.copy(bratPosition.add(new Vector3(0.5)))
+      coneAPICylinder.position.copy(bratPosition.add(new Vector3(0, 1.6, 0)))
+     
       coneAPICylinder.velocity.set(0, 0, 0);
       coneAPICylinder.angularVelocity.set(0, 0, 0);
       coneAPICylinder.quaternion.copy(new Quaternion(0, 0, 0, 1))
@@ -105,7 +106,7 @@ export default function Cone({ position,  props }) {
         <meshStandardMaterial attach={"material"} />
       </mesh> */}
       {/* <mesh position={[0, (3.4 / 2) - 1.5, 0]}>
-        <cylinderGeometry args={[.71, 1.4, 3.4, 32, 1, true]} attach="geometry" />
+        <cylinderGeometry args={[2, 2, 3.4, 32, 1, true]} attach="geometry" />
         <meshStandardMaterial attach={"material"} color={0x000000} />
       </mesh> */}
       <group {...props} dispose={null} scale={[0.028, 0.028, 0.028]} position={[0, -1.55, 0]}>

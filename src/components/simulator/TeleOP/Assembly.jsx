@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Canvas } from "react-three-fiber";
 import { Physics } from "@react-three/cannon";
 import Scena from "./Scena";
@@ -6,6 +6,12 @@ import "../canvas.scss"
 import Overlay from "../Overlay";
 
 function Assembly() {
+
+    useEffect(()=>{
+        var foot = document.getElementById("footer-id");
+        foot.style.display = "none";
+    }, [])
+
     return (
             <>
         <Canvas className="canvas">

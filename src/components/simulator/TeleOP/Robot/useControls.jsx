@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import DoamneIartaCeUrmeaza from "./DoamneIartaCeUrmeaza";
 
 
 export const useControls = (vehicleAPI, chassisAPI) => {
@@ -133,6 +134,9 @@ export const useControls = (vehicleAPI, chassisAPI) => {
             chassisAPI.angularVelocity.set(0, 0, 0);
             chassisAPI.rotation.set(0, 0, 0);
         }
+
+        DoamneIartaCeUrmeaza.controls = controls;
+
     }, [controls, vehicleAPI, chassisAPI]);
 
     return controls;

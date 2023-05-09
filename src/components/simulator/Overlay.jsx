@@ -5,13 +5,15 @@ function Overlay() {
 
 
     return (
-        <div className="wrapper_PULA_MEA">
+        <div className="wrapper_MAMA_CUIVA">
             <div className="controls">
-                <div>Camere: 1 - 8</div>
+                <div>Camere: 1 - 89</div>
                 <div>Camera pe robot: 0</div>
                 <div>CONTROL: W A S D</div>
                 <div>STRAFES: Q și E</div>
-                <div>ROTIREA: SĂGEȚI</div>
+                <div>ROTIREA ST-DR: SĂGEȚI</div>
+                <div>SUS - JOS BRAT: SĂGEȚI</div>
+                <div>ARUNCĂ CON: F</div>
                 <div>RESETARE: R</div>
                 {/* press k to swap camera<br /> */}
                 {/* Teren stricat sau robot ce se misca ciudat?<br />

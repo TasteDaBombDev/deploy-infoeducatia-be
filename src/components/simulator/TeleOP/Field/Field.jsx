@@ -48,11 +48,12 @@ function Field() {
                 <Cone position={[-2 + 7.5, 2, 0]} />
                 <Cone position={[2 + 7.5, 2, 0]} />
              </group> */}
-
-            <Cone position={[30 - 15 / 2, 2, 30 - 15 / 2]} />
-            <Cone position={[30 - 15 / 2, 2, -(30 - 15 / 2)]} />
-            <Cone position={[-(30 - 15 / 2), 2, 30 - 15 / 2]} />
-            <Cone position={[-(30 - 15 / 2), 2, -(30 - 15 / 2)]} />
+            <group>
+                <Cone position={[30 - 15 / 2, 2, 30 - 15 / 2]} />
+                <Cone position={[30 - 15 / 2, 2, -(30 - 15 / 2)]} />
+                <Cone position={[-(30 - 15 / 2), 2, 30 - 15 / 2]} />
+                <Cone position={[-(30 - 15 / 2), 2, -(30 - 15 / 2)]} />
+            </group>
 
             <Ground position={[0, 0, 0]} />
             <Ground position={[30, 0, 0]} />

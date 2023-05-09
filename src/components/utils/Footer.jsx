@@ -2,7 +2,7 @@ import React from 'react'
 
 function Footer() {
   return (
-    <footer className="footer">
+    <footer className="footer" id='footer-id'>
       <div className="footer__addr">
       <img src={require("../../img/logo_thobor_celalalt.png")} alt="" className="footer__logo" />
         {/* <h1 className="footer__logo">Thobor</h1> */}
