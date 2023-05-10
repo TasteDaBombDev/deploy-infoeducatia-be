@@ -10,20 +10,18 @@ import DoamneIartaCeUrmeaza from '../Robot/DoamneIartaCeUrmeaza';
 import { useState } from 'react';
 import { useFrame } from 'react-three-fiber';
 
-export default function Cone({ position,  props }) {
+export default function Cone({ position, selected, props }) {
 
   const { nodes, materials } = useGLTF('/cone.glb');
 
+  //nush de unde a aparut asta dar imi este frica sa il sterg
   materials.da = 1;
 
-  // useBox(
-  //   () => ({
-  //     args: [0.23, .5, 0.23],
-  //     mass: .8,
-  //     position: position
-  //   }),
-  //   useRef(null)
-  // );
+  const [onJunction, setOnJunction] = useState(false);
+  const [picked, setPicked] = useState(false);
+  const [homeJunction, setHomeJunction] = useState(0);
+
+  var toStay = new Vector3(0, 0, 0);
 
   const [coneBodyCylinder, coneAPICylinder] = useCylinder(
     () => ({
@@ -36,44 +34,95 @@ export default function Cone({ position,  props }) {
     useRef(null)
   );
 
+  //CEVA CONTROLLER SA STEA PE JUNCTION
+  useFrame(() => {
+    if (!onJunction && selected) {
+      let conePosition = new Vector3(0, 0, 0)
+      conePosition.setFromMatrixPosition(coneBodyCylinder.current.matrixWorld);
+
+      for (let i = 1; i <= DoamneIartaCeUrmeaza.junctionCount && !onJunction; i++) {
+        let junctionPosition = new Vector3(0, 0, 0)
+        junctionPosition.copy(DoamneIartaCeUrmeaza.junctions[i])
+
+        let xDiff = Math.abs(conePosition.x - junctionPosition.x);
+        let zDiff = Math.abs(conePosition.z - junctionPosition.z);
+
+        if (xDiff <= 1 && zDiff <= 1) {
+          // coneAPICylinder.position.copy(DoamneIartaCeUrmeaza.junctions[i]);
+          // coneAPICylinder.position.copy(junctionPosition)
+          // coneAPICylinder.collisionResponse.set(false);
+          // toStay.copy(junctionPosition)
+
+          if (toStay.distanceTo(new Vector3(0, 0, 0)) !== 0)
+            console.log("vreau sa fac stanila ca mama o suge mai bine decat cel mai oligofren director cu fata de aspirator")
+
+          DoamneIartaCeUrmeaza.conesCount++;
+          setHomeJunction(DoamneIartaCeUrmeaza.conesCount);
+          DoamneIartaCeUrmeaza.conesOnJunction[DoamneIartaCeUrmeaza.conesCount] = junctionPosition
+          toStay.copy(junctionPosition)
+          // console.log(toStay)
+          coneAPICylinder.collisionResponse.set(false);
+          setOnJunction(true);
+          break;
+        }
+      }
+    }
+    else if (onJunction) {
+      let homePosition = new Vector3(0, 0, 0);
+      homePosition.copy(DoamneIartaCeUrmeaza.conesOnJunction[homeJunction]);
+      homePosition.add(new Vector3(0, 1, 0));
+      coneAPICylinder.position.copy(homePosition)
+
+      // coneAPICylinder.position.copy(DoamneIartaCeUrmeaza.conesOnJunction[homeJunction]);
+      // coneAPICylinder.position.copy(toStay)
+      coneAPICylinder.quaternion.set(0, 0, 0, 1)
+    }
+
+  })
 
   //CEVA CONTROLLER PENTRU CAND SE APROPIE BRATUL
   useFrame((state) => {
-    let bratPosition = new Vector3(0, 0, 0);
-    bratPosition.setFromMatrixPosition(DoamneIartaCeUrmeaza.bratBody.current.matrixWorld)
-    // console.log("dada", bratPosition)
+    if (!onJunction) {
+      if (toStay.distanceTo(new Vector3(0, 0, 0) !== 0))
+        console.log("alerta de gloc gloc dinala foartemare cu tot cu mama si autostrada")
 
-    let bratQuaternion = new Quaternion(0, 0, 0, 0);
-    bratQuaternion.setFromRotationMatrix(DoamneIartaCeUrmeaza.bratBody.current.matrixWorld);
+      let bratPosition = new Vector3(0, 0, 0);
+      bratPosition.setFromMatrixPosition(DoamneIartaCeUrmeaza.bratBody.current.matrixWorld)
+      // console.log("dada", bratPosition)
 
-    let conePosition = new Vector3(0, 0, 0)
-    conePosition.setFromMatrixPosition(coneBodyCylinder.current.matrixWorld);
+      let bratQuaternion = new Quaternion(0, 0, 0, 0);
+      bratQuaternion.setFromRotationMatrix(DoamneIartaCeUrmeaza.bratBody.current.matrixWorld);
 
-    let dist = conePosition.distanceTo(bratPosition)
+      let conePosition = new Vector3(0, 0, 0)
+      conePosition.setFromMatrixPosition(coneBodyCylinder.current.matrixWorld);
 
-    if(dist <= 2 && conePosition.y >= 1.5 && !DoamneIartaCeUrmeaza.controls.f)
-    {
-      // coneAPICylinder.position.copy(bratPosition)
-      // coneAPICylinder.quaternion.copy()
+      let dist = conePosition.distanceTo(bratPosition)
 
-      let carrierPosition = new Vector3(0, 0, 0);
-      // carrierPosition.applyQuaternion(bratQuaternion);
+      if (dist <= 2 && conePosition.y >= 1.5 && !DoamneIartaCeUrmeaza.controls.f) {
+        // coneAPICylinder.position.copy(bratPosition)
+        // coneAPICylinder.quaternion.copy()
 
-      // let finalCarryPosition = carrierPosition.clone().add(bratPosition);
-      // coneAPICylinder.position.copy(finalCarryPosition);
-      // coneAPICylinder.quaternion.copy(bratQuaternion);
-      coneAPICylinder.position.copy(bratPosition.add(new Vector3(0, 1.6, 0)))
-     
-      coneAPICylinder.velocity.set(0, 0, 0);
-      coneAPICylinder.angularVelocity.set(0, 0, 0);
-      coneAPICylinder.quaternion.copy(new Quaternion(0, 0, 0, 1))
-    } 
+        let carrierPosition = new Vector3(0, 0, 0);
+        // carrierPosition.applyQuaternion(bratQuaternion);
+
+        // let finalCarryPosition = carrierPosition.clone().add(bratPosition);
+        // coneAPICylinder.position.copy(finalCarryPosition);
+        // coneAPICylinder.quaternion.copy(bratQuaternion);
+        coneAPICylinder.position.copy(bratPosition.add(new Vector3(0, 1.6, 0)))
+
+        coneAPICylinder.velocity.set(0, 0, 0);
+        coneAPICylinder.angularVelocity.set(0, 0, 0);
+        coneAPICylinder.quaternion.copy(new Quaternion(0, 0, 0, 1))
+      }
+    }
   })
 
   useEffect(() => {
 
     const keyDown = (e) => {
       if (e.key === "r") {
+        setOnJunction(false);
+
         coneAPICylinder.position.set(position[0], position[1], position[2]);
         coneAPICylinder.velocity.set(0, 0, 0);
         coneAPICylinder.angularVelocity.set(0, 0, 0);
@@ -89,15 +138,18 @@ export default function Cone({ position,  props }) {
   }, [coneAPICylinder.angularVelocity, coneAPICylinder.rotation, coneAPICylinder.velocity, coneAPICylinder.position, position]);
 
 
-  useEffect(() => {
-    setTimeout(() => {
-      coneAPICylinder.position.set(position[0], position[1], position[2]);
-      coneAPICylinder.velocity.set(0, 0, 0);
-      coneAPICylinder.angularVelocity.set(0, 0, 0);
-      coneAPICylinder.rotation.set(0, 0, 0);
-    }, 100);
-  }, [coneAPICylinder.angularVelocity, coneAPICylinder.rotation, coneAPICylinder.velocity, coneAPICylinder.position, position]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     coneAPICylinder.position.set(position[0], position[1], position[2]);
+  //     coneAPICylinder.velocity.set(0, 0, 0);
+  //     coneAPICylinder.angularVelocity.set(0, 0, 0);
+  //     coneAPICylinder.rotation.set(0, 0, 0);
+  //   }, 100);
+  // }, [coneAPICylinder.angularVelocity, coneAPICylinder.rotation, coneAPICylinder.velocity, coneAPICylinder.position, position]);
 
+  var color = 0x373cdb;
+  if (selected)
+    color = 0xff0000;
 
   return (
     <group ref={coneBodyCylinder}>
@@ -111,7 +163,7 @@ export default function Cone({ position,  props }) {
       </mesh> */}
       <group {...props} dispose={null} scale={[0.028, 0.028, 0.028]} position={[0, -1.55, 0]}>
         <mesh geometry={nodes.mesh_0.geometry} material={nodes.mesh_0.material} >
-          <meshStandardMaterial attach={"material"} color={0x373cdb} />
+          <meshStandardMaterial attach={"material"} color={color} />
         </mesh>
       </group>
     </group>

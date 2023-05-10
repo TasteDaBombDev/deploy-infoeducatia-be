@@ -160,7 +160,7 @@ export default function Lokione(props) {
   // AICI AR FI CONTROLLER UL PENTRU CAMERA POATE MERGE
   useFrame((state) => {
 
-    console.log(DoamneIartaCeUrmeaza.junctions)
+    // console.log(DoamneIartaCeUrmeaza.junctions)
 
     if (cameraController) {
       let position = new Vector3(0, 0, 0);

@@ -39,7 +39,7 @@ function Field() {
                 {/* <Cone position={[-7.5, 2, 0]} />
                 <Cone position={[-7.5, 2, 3]} />
                 <Cone position={[-7.5, 2, -3]} /> */}
-                <Cone position={[-7.5, 2, -1.6]} />
+                <Cone position={[-7.5, 2, -1.6]} selected={true} />
                 <Cone position={[-7.5, 2, 1.6]} />
                 {/* <Cone position={[-7.8, 5.1, 0]} /> */}
             </group>
