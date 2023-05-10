@@ -8,6 +8,7 @@ export const Junction = ({ position, height, planeRef }) => {
   var realPose = [position[0], (position[1] + height / 2 + 1.5), position[2]];
 
   DoamneIartaCeUrmeaza.junctionCount++;
+  DoamneIartaCeUrmeaza.junctionsHeight[DoamneIartaCeUrmeaza.junctionCount] = height;
   DoamneIartaCeUrmeaza.junctions[DoamneIartaCeUrmeaza.junctionCount] = new Vector3(position[0], position[1], position[2]);
 
   const [planeBody, planeAPI] = useBox(() => ({

@@ -20,9 +20,9 @@ class DoamneIartaCeUrmeaza{
 
     static junctionCount = 0;
     static junctions = [];
+    static junctionsHeight = [];
 
-    static conesOnJunction = [];
-    static conesCount = 0;
+    static conesInJunction = []
 
 }
 
