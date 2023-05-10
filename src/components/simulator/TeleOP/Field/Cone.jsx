@@ -10,7 +10,7 @@ import DoamneIartaCeUrmeaza from '../Robot/DoamneIartaCeUrmeaza';
 import { useState } from 'react';
 import { useFrame } from 'react-three-fiber';
 
-export default function Cone({ position, selected, props }) {
+export default function Cone({ position, props }) {
 
   const { nodes, materials } = useGLTF('/cone.glb');
 
@@ -36,7 +36,7 @@ export default function Cone({ position, selected, props }) {
 
   //CEVA CONTROLLER SA STEA PE JUNCTION
   useFrame(() => {
-    if (!onJunction && selected) {
+    if (!onJunction) {
       let conePosition = new Vector3(0, 0, 0)
       conePosition.setFromMatrixPosition(coneBodyCylinder.current.matrixWorld);
 
@@ -70,12 +70,14 @@ export default function Cone({ position, selected, props }) {
     else if (onJunction) {
       let homePosition = new Vector3(0, 0, 0);
       homePosition.copy(DoamneIartaCeUrmeaza.conesOnJunction[homeJunction]);
-      homePosition.add(new Vector3(0, 1, 0));
+      homePosition.add(new Vector3(0, 2, 0));
       coneAPICylinder.position.copy(homePosition)
 
       // coneAPICylinder.position.copy(DoamneIartaCeUrmeaza.conesOnJunction[homeJunction]);
       // coneAPICylinder.position.copy(toStay)
       coneAPICylinder.quaternion.set(0, 0, 0, 1)
+      coneAPICylinder.angularVelocity.set(0, 0, 0);
+      coneAPICylinder.velocity.set(0, 0, 0);
     }
 
   })
@@ -137,33 +139,15 @@ export default function Cone({ position, selected, props }) {
 
   }, [coneAPICylinder.angularVelocity, coneAPICylinder.rotation, coneAPICylinder.velocity, coneAPICylinder.position, position]);
 
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     coneAPICylinder.position.set(position[0], position[1], position[2]);
-  //     coneAPICylinder.velocity.set(0, 0, 0);
-  //     coneAPICylinder.angularVelocity.set(0, 0, 0);
-  //     coneAPICylinder.rotation.set(0, 0, 0);
-  //   }, 100);
-  // }, [coneAPICylinder.angularVelocity, coneAPICylinder.rotation, coneAPICylinder.velocity, coneAPICylinder.position, position]);
-
-  var color = 0x373cdb;
-  if (selected)
-    color = 0xff0000;
-
   return (
     <group ref={coneBodyCylinder}>
-      {/* <mesh>
-        <boxGeometry args={[1,1,1]}/>
-        <meshStandardMaterial attach={"material"} />
-      </mesh> */}
       {/* <mesh position={[0, (3.4 / 2) - 1.5, 0]}>
         <cylinderGeometry args={[2, 2, 3.4, 32, 1, true]} attach="geometry" />
         <meshStandardMaterial attach={"material"} color={0x000000} />
       </mesh> */}
       <group {...props} dispose={null} scale={[0.028, 0.028, 0.028]} position={[0, -1.55, 0]}>
         <mesh geometry={nodes.mesh_0.geometry} material={nodes.mesh_0.material} >
-          <meshStandardMaterial attach={"material"} color={color} />
+          <meshStandardMaterial attach={"material"} color={0x373cdb} />
         </mesh>
       </group>
     </group>
