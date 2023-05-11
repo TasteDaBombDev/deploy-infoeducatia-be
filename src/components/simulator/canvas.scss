@@ -1,5 +1,18 @@
-.canvas{
-    margin-top: 70px;
-    width: 100vw !important;
-    height:  calc(100vh - 70px) !important;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+}
+.canvas {
+  width: 100vw !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+#root {
+  width: 100vw !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+  position: relative !important;
 }
