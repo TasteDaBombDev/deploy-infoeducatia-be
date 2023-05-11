@@ -18,6 +18,9 @@ class DoamneIartaCeUrmeaza{
 
     static controls;
 
+    //PENTRU MAI TARZIU NOTA
+    //NU MAI STIU CE FACEA FIECARE VARIABILA DE MAI JOS
+
     static junctionCount = 0;
     static junctions = [];
     static junctionsHeight = [];

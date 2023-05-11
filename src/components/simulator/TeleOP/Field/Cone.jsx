@@ -21,6 +21,7 @@ export default function Cone({ position, props }) {
   const [picked, setPicked] = useState(false);
   const [homeJunction, setHomeJunction] = useState(0);
   const [homeHeight, setHomeHeight] = useState(0);
+  const [fallHeight, setFallHeight] = useState(0)
 
   const [coneBodyCylinder, coneAPICylinder] = useCylinder(
     () => ({
@@ -61,6 +62,7 @@ export default function Cone({ position, props }) {
             DoamneIartaCeUrmeaza.conesInJunction[i]++;
             setHomeHeight(1 * DoamneIartaCeUrmeaza.conesInJunction[i]);
           }
+          setFallHeight(DoamneIartaCeUrmeaza.junctionsHeight[i])
           setHomeJunction(i);
           setOnJunction(true);
           coneAPICylinder.collisionResponse.set(false);
@@ -71,8 +73,7 @@ export default function Cone({ position, props }) {
     else if (onJunction) {
       let homePosition = new Vector3(0, 0, 0);
       homePosition.copy(DoamneIartaCeUrmeaza.junctions[homeJunction]);
-      homePosition.add(new Vector3(0, 0, 0));
-      homePosition.add(new Vector3(0, homeHeight, 0))
+      // homePosition.add(new Vector3(0, homeHeight, 0))
       coneAPICylinder.position.copy(homePosition)
 
       // coneAPICylinder.position.copy(DoamneIartaCeUrmeaza.conesOnJunction[homeJunction]);
