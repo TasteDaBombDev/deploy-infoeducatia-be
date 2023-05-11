@@ -6,13 +6,6 @@ import "../canvas.scss"
 import Overlay from "../Overlay";
 
 function Assembly() {
-
-    useEffect(() => {
-        var foot = document.getElementById("footer-id");
-        if (foot)
-            foot.style.display = "none";
-    }, [])
-
     return (
         <>
             <Canvas className="canvas">
