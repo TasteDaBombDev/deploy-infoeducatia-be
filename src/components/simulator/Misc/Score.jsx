@@ -23,7 +23,7 @@ function Score() {
             <h5>LOW: {low * 3}</h5>
             <h5>MEDIU: {med * 4}</h5>
             <h5>HIGH: {high * 5}</h5>
-            <h4>TOTAL:{low * 3 + med * 4 + high * 5}</h4>
+            <h4>TOTAL: {low * 3 + med * 4 + high * 5}</h4>
         </div>
     )
 }
