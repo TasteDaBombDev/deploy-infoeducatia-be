@@ -1,23 +1,22 @@
-import React, { Suspense, useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
-import { Vector3, Quaternion, Raycaster } from 'three'
-import { useFrame } from 'react-three-fiber';
-import { useBox, useCylinder, useRaycastVehicle } from '@react-three/cannon';
+import React, { Suspense, useRef } from "react";
+import { useGLTF } from "@react-three/drei";
+import { Vector3, Quaternion, Raycaster } from "three";
+import { useFrame } from "react-three-fiber";
+import { useBox, useCylinder, useRaycastVehicle } from "@react-three/cannon";
 
-import { useWheels } from './useWheels';
-import { useControls } from './useControls';
-import { WheelDebug } from './WheelDebug';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import Brat from './Brat';
+import { useWheels } from "./useWheels";
+import { useControls } from "./useControls";
+import { WheelDebug } from "./WheelDebug";
+import { useState } from "react";
+import { useEffect } from "react";
+import Brat from "./Brat";
 
-import DoamneIartaCeUrmeaza from './DoamneIartaCeUrmeaza';
+import DoamneIartaCeUrmeaza from "./DoamneIartaCeUrmeaza";
 
 export default function Lokione(props) {
-
   const { nodes, materials } = useGLTF("/robotNou.glb");
 
-  const position = [22.5, 0, 38];
+  const position = [-22.5, 0, 38];
   const width = 6;
   const height = 2; //.84
   const front = 2.8;
@@ -33,7 +32,7 @@ export default function Lokione(props) {
     7: new Vector3(0, 40, -47),
     8: new Vector3(47, 40, -47),
     9: new Vector3(0, 69, 0),
-  }
+  };
 
   const [bratPosition, setBratPosition] = useState(-4.5);
   const [bratApuca, setBratApuca] = useState(true);
@@ -51,58 +50,53 @@ export default function Lokione(props) {
     () => ({
       args: chassisBodyArgs,
       mass: 150,
-      position
+      position,
     }),
     useRef(null)
   );
   DoamneIartaCeUrmeaza.robotBody = chassisBody;
   DoamneIartaCeUrmeaza.robotApi = chassisAPI;
 
-
   const [bratBody, bratAPI] = useBox(
     () => ({
       // args: [0.3, 0.3, 2, 32],
       args: [2, 1, 2],
       position: [0, 0, 0],
-      type: 'Static'
+      type: "Static",
     }),
     useRef(null)
-  )
+  );
   DoamneIartaCeUrmeaza.bratBody = bratBody;
   DoamneIartaCeUrmeaza.bratApi = bratAPI;
 
   useEffect(() => {
-
     const keyDown = (e) => {
       setControls((controls) => ({
         ...controls,
-        [e.key.toLowerCase()]: true
+        [e.key.toLowerCase()]: true,
       }));
-    }
+    };
 
     const keyUp = (e) => {
       setControls((controls) => ({
         ...controls,
-        [e.key.toLowerCase()]: false
+        [e.key.toLowerCase()]: false,
       }));
-    }
+    };
 
     window.addEventListener("keydown", keyDown);
     window.addEventListener("keyup", keyUp);
-    
+
     DoamneIartaCeUrmeaza.controls = controls;
-    
+
     return () => {
       window.removeEventListener("keydown", keyDown);
       window.removeEventListener("keyup", keyUp);
     };
-
-
   }, []);
 
   useEffect(() => {
-
-    DoamneIartaCeUrmeaza.controls = controls
+    DoamneIartaCeUrmeaza.controls = controls;
 
     // if (controls.f)
     //   setBratApuca(!bratApuca);
@@ -119,12 +113,8 @@ export default function Lokione(props) {
         // bratPosition -= bratIncrease
       }
 
-    if (controls[0])
-      setCamController(false);
-    for (let k = 1; k <= 9; k++)
-      if (controls[k])
-        setCamController(true);
-
+    if (controls[0]) setCamController(false);
+    for (let k = 1; k <= 9; k++) if (controls[k]) setCamController(true);
   }, [controls]);
 
   const [wheels, wheelInfos] = useWheels(width, height, front, wheelRadius);
@@ -133,9 +123,9 @@ export default function Lokione(props) {
     () => ({
       chassisBody,
       wheelInfos,
-      wheels
+      wheels,
     }),
-    useRef(null),
+    useRef(null)
   );
 
   useControls(vehicleAPI, chassisAPI);
@@ -147,19 +137,18 @@ export default function Lokione(props) {
     robotRotation = new Quaternion(0, 0, 0, 0);
     robotRotation.setFromRotationMatrix(chassisBody.current.matrixWorld);
 
-    let holiad = bratPosition + 2.7
+    let holiad = bratPosition + 2.7;
     let vec = new Vector3(0, holiad, -4.6);
 
-    vec.applyQuaternion(robotRotation)
+    vec.applyQuaternion(robotRotation);
 
     let bratPose = vec.clone().add(robotPosition);
 
     bratAPI.position.copy(bratPose);
-  })
+  });
 
   // AICI AR FI CONTROLLER UL PENTRU CAMERA POATE MERGE
   useFrame((state) => {
-
     // console.log(DoamneIartaCeUrmeaza.junctions)
 
     if (cameraController) {
@@ -171,11 +160,12 @@ export default function Lokione(props) {
 
       for (let k = 1; k <= 9; k++)
         if (controls[k]) {
-          var cameraPosition = position.clone().add(wDir.clone().multiplyScalar(1).add(cameras[k]));
+          var cameraPosition = position
+            .clone()
+            .add(wDir.clone().multiplyScalar(1).add(cameras[k]));
           state.camera.position.copy(cameraPosition);
         }
     } else {
-
       let position = new Vector3(0, 0, 0);
       position.setFromMatrixPosition(chassisBody.current.matrixWorld);
       // chassisAPI.position.set(vehicle.current.matrixWorld);
@@ -188,13 +178,14 @@ export default function Lokione(props) {
       wDir.applyQuaternion(quaternion);
       wDir.normalize();
 
-      let cameraPosition = position.clone().add(wDir.clone().multiplyScalar(20).add(new Vector3(0, 32, 0)));
+      let cameraPosition = position
+        .clone()
+        .add(wDir.clone().multiplyScalar(20).add(new Vector3(0, 32, 0)));
 
       // wDir.add(new Vector3(0, 0.2, 0));
       state.camera.position.copy(cameraPosition);
       state.camera.lookAt(position);
     }
-
   });
 
   return (
@@ -206,9 +197,14 @@ export default function Lokione(props) {
             <meshPhongMaterial attach={"material"} color="B00B00" />
           </mesh>
         </group> */}
-        <group ref={bratBody} >
+        <group ref={bratBody}>
           <mesh>
-            <meshPhongMaterial color={"#ffffff"} attach={"material"} transparent opacity={0} />
+            <meshPhongMaterial
+              color={"#ffffff"}
+              attach={"material"}
+              transparent
+              opacity={0}
+            />
             <boxGeometry args={[2, 1, 2]} />
           </mesh>
         </group>
@@ -221,13 +217,22 @@ export default function Lokione(props) {
         <group ref={chassisBody}>
           <group>
             {/* position={[0, 0, 11.2]} */}
-            <group scale={[0.3, 0.3, 0.3]} rotation={[0, Math.PI, 0]} position={[-0.67, bratPosition, 1.2]}>
+            <group
+              scale={[0.3, 0.3, 0.3]}
+              rotation={[0, Math.PI, 0]}
+              position={[-0.67, bratPosition, 1.2]}
+            >
               <Brat />
             </group>
           </group>
           <mesh ref={chassisBody}>
             <boxGeometry args={[6, 1.5, 6]} />
-            <meshPhongMaterial attach={"material"} color="#FFFF00" transparent opacity={0} />
+            <meshPhongMaterial
+              attach={"material"}
+              color="#FFFF00"
+              transparent
+              opacity={0}
+            />
           </mesh>
           <WheelDebug wheelRef={wheels[0]} wheelRadius={wheelRadius} />
           <WheelDebug wheelRef={wheels[1]} wheelRadius={wheelRadius} />
@@ -235,7 +240,6 @@ export default function Lokione(props) {
           <WheelDebug wheelRef={wheels[3]} wheelRadius={wheelRadius} />
           <group scale={[0.3, 0.3, 0.3]} ref={chassisBody} name="chassisBody">
             <group rotation={[0, Math.PI, 0]} position={[-1.5, -12, 3]}>
-
               <mesh
                 castShadow
                 receiveShadow
@@ -561,14 +565,12 @@ export default function Lokione(props) {
                 position={[-8.29, 8.29, 2.62]}
                 scale={0.06}
               />
-
-
             </group>
           </group>
         </group>
       </group>
     </Suspense>
-  )
+  );
 }
 
 // useGLTF.preload('/robotNou.gltf');
