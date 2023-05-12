@@ -62,9 +62,18 @@ export default function Cone({ position, props }) {
             DoamneIartaCeUrmeaza.conesInJunction[i]++;
             setHomeHeight(1 * DoamneIartaCeUrmeaza.conesInJunction[i]);
           }
+
           setFallHeight(DoamneIartaCeUrmeaza.junctionsHeight[i])
           setHomeJunction(i);
           setOnJunction(true);
+
+          if (DoamneIartaCeUrmeaza.junctionsHeight[i] == DoamneIartaCeUrmeaza.high)
+            DoamneIartaCeUrmeaza.puntaj[2]++
+          else if (DoamneIartaCeUrmeaza.junctionsHeight[i] == DoamneIartaCeUrmeaza.med)
+            DoamneIartaCeUrmeaza.puntaj[1]++
+          else
+            DoamneIartaCeUrmeaza.puntaj[0]++
+
           coneAPICylinder.collisionResponse.set(false);
           break;
         }

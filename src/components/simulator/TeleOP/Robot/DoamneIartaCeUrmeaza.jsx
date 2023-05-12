@@ -10,6 +10,10 @@ import React from 'react'
 
 class DoamneIartaCeUrmeaza{
 
+    static low = 4;
+    static med = 9;
+    static high = 14;
+
     static bratBody;
     static robotBody;
 
@@ -26,6 +30,9 @@ class DoamneIartaCeUrmeaza{
     static junctionsHeight = [];
 
     static conesInJunction = []
+
+    //1:LOW 2:MEDIU 3:HIGH
+    static puntaj = [0, 0, 0];
 
 }
 
