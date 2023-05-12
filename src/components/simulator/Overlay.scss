@@ -19,19 +19,20 @@
     background: black;
     opacity: 0.88;
     color: white;
-    padding: 12px;
+    padding: 20px;
     z-index: 10;
-    width: 220px;
-    height: 160px;
-    /* animation: fade;
-  animation-duration: 1s;
-  animation-fill-mode: forwards;
-  animation-delay: 10s; */
+    width: auto;
+    height: auto;
+
+    h5{
+      width: 100%;
+      text-align: left;
+      padding-bottom: 10px;
+      font-size: 15px;
+    }
+
   }
 
-  .controls > div {
-    text-align: justify;
-  }
 
   @keyframes fade {
     to {
