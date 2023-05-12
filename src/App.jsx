@@ -25,6 +25,10 @@ import Firestore from "./components/utils/Firestore";
 import Footer from "./components/utils/Footer";
 import Incercare from "./components/utils/Incercare";
 import Navbar from "./components/utils/Navbar";
+import Galerie from "./components/galerie/Galerie";
+
+
+
 const firestore = new Firestore();
 function App() {
   const [user, loading, error] = useAuthState(firestore.getuser());
@@ -80,6 +84,7 @@ function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:id" element={<BlogPost />} />
         <Route path="/despre" element={<Despre />} />
+        <Route path="/galerie" element={<Galerie />} />
         <Route path="/apps" element={<Apps />} />
         <Route path="/download" element={<Apps />} />
         <Route path="/team" element={<Alumni />} />

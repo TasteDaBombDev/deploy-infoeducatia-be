@@ -75,6 +75,9 @@ function Navbar() {
               <Link to="/blog">Blog</Link>
             </li>
             <li>
+              <Link to="/galerie">Galerie</Link>
+            </li>
+            <li>
               <Link to="/despre">Despre</Link>
             </li>
             <li>
