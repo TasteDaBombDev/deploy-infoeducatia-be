@@ -8,15 +8,33 @@ function Score() {
     const [med, setMed] = useState(0)
     const [high, setHigh] = useState(0)
 
-    const [True, setFalse] = useState(false)
+    // ASTA ESTE A 5A IMPLEMENTARE SI DEJA MERGE EXTREM DE PROST
+    // DAR MACAR RESTUL DE 4 NU O SA MAI EXISTE
 
     useEffect(() => {
-        setLow(DoamneIartaCeUrmeaza.puntaj[0])
-        setMed(DoamneIartaCeUrmeaza.puntaj[1])
-        setHigh(DoamneIartaCeUrmeaza.puntaj[2])
 
-        setTimeout(() => setFalse(!True), 500);
-    }, [True])
+        // fetchScore();
+
+        const keyDown = (e) => {
+            setLow(DoamneIartaCeUrmeaza.puntaj[0])
+            setMed(DoamneIartaCeUrmeaza.puntaj[1])
+            setHigh(DoamneIartaCeUrmeaza.puntaj[2])
+        }
+
+        const keyUp = (e) => {
+            setLow(DoamneIartaCeUrmeaza.puntaj[0])
+            setMed(DoamneIartaCeUrmeaza.puntaj[1])
+            setHigh(DoamneIartaCeUrmeaza.puntaj[2])
+        }
+
+        window.addEventListener("keydown", keyDown);
+        window.addEventListener("keyup", keyUp);
+        return () => {
+            window.removeEventListener("keydown", keyDown);
+            window.removeEventListener("keyup", keyUp);
+        };
+
+    }, []);
 
     return (
         <div className='CEVA_MAGIC'>

@@ -5,6 +5,7 @@ import { Quaternion, Vector3 } from 'three';
 import DoamneIartaCeUrmeaza from '../Robot/DoamneIartaCeUrmeaza';
 import { useState } from 'react';
 import { useFrame } from 'react-three-fiber';
+import Score from '../../Misc/Score';
 
 export default function Cone({ position, props }) {
 
@@ -63,9 +64,9 @@ export default function Cone({ position, props }) {
           setHomeJunction(i);
           setOnJunction(true);
 
-          if (DoamneIartaCeUrmeaza.junctionsHeight[i] == DoamneIartaCeUrmeaza.high)
+          if (DoamneIartaCeUrmeaza.junctionsHeight[i] === DoamneIartaCeUrmeaza.high)
             DoamneIartaCeUrmeaza.puntaj[2]++
-          else if (DoamneIartaCeUrmeaza.junctionsHeight[i] == DoamneIartaCeUrmeaza.med)
+          else if (DoamneIartaCeUrmeaza.junctionsHeight[i] === DoamneIartaCeUrmeaza.med)
             DoamneIartaCeUrmeaza.puntaj[1]++
           else
             DoamneIartaCeUrmeaza.puntaj[0]++
@@ -148,17 +149,19 @@ export default function Cone({ position, props }) {
   }, [coneAPICylinder.angularVelocity, coneAPICylinder.rotation, coneAPICylinder.velocity, coneAPICylinder.position, position]);
 
   return (
-    <group ref={coneBodyCylinder}>
-      {/* <mesh position={[0, (3.4 / 2) - 1.5, 0]}>
+    <>
+      <group ref={coneBodyCylinder}>
+        {/* <mesh position={[0, (3.4 / 2) - 1.5, 0]}>
         <cylinderGeometry args={[2, 2, 3.4, 32, 1, true]} attach="geometry" />
         <meshStandardMaterial attach={"material"} color={0x000000} />
       </mesh> */}
-      <group {...props} dispose={null} scale={[0.028, 0.028, 0.028]} position={[0, -1.55, 0]}>
-        <mesh geometry={nodes.mesh_0.geometry} material={nodes.mesh_0.material} >
-          <meshStandardMaterial attach={"material"} color={0x373cdb} />
-        </mesh>
+        <group {...props} dispose={null} scale={[0.028, 0.028, 0.028]} position={[0, -1.55, 0]}>
+          <mesh geometry={nodes.mesh_0.geometry} material={nodes.mesh_0.material} >
+            <meshStandardMaterial attach={"material"} color={0x373cdb} />
+          </mesh>
+        </group>
       </group>
-    </group>
+    </>
   )
 }
 
