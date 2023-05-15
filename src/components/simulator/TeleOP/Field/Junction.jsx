@@ -11,37 +11,37 @@ export const Junction = ({ position, height, planeRef }) => {
   DoamneIartaCeUrmeaza.junctionsHeight[DoamneIartaCeUrmeaza.junctionCount] = height;
   DoamneIartaCeUrmeaza.junctions[DoamneIartaCeUrmeaza.junctionCount] = new Vector3(position[0], position[1], position[2]);
 
-  const [planeBody, planeAPI] = useBox(() => ({
-    args: [10, 0.1, 10],
-    position: [0, -0.1, 0],
-    type: 'Static'
-  }), useRef(null));
+  // const [planeBody, planeAPI] = useBox(() => ({
+  //   args: [10, 0.1, 10],
+  //   position: [0, -0.1, 0],
+  //   type: 'Static'
+  // }), useRef(null));
 
-  const [junctionBody, junctionAPI] = useBox(() => ({
-    // Set the dimensions of the box
-    args: [0.05, height / 2, 0.05],
-    // Set the position and orientation of the body
-    position: [position[0], position[1] + height / 2, position[2]],
-    // position: realPose,
-    mass: 0,
-    type: 'Dynamic',
-    // quaternion: new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), 0),
-  }), useRef(null));
+  // const [junctionBody, junctionAPI] = useBox(() => ({
+  //   // Set the dimensions of the box
+  //   args: [0.05, height / 2, 0.05],
+  //   // Set the position and orientation of the body
+  //   position: [position[0], position[1] + height / 2, position[2]],
+  //   // position: realPose,
+  //   mass: 0,
+  //   type: 'Dynamic',
+  //   // quaternion: new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), 0),
+  // }), useRef(null));
 
   const [junctionBodyCylinder, junctionAPICylinder] = useCylinder(() => ({
-    args: [0.5, 0.5, height, 32],
+    args: [0.5, 0.5, height, 8],
     position: [position[0], position[1] + height / 2, position[2]],
     mass: 0,
     type: 'Static'
   }), useRef(null));
 
-  const spring = useSpring(() => ({
-    bodyA: planeBody.current,
-    bodyB: junctionBody.current,
-    length: 5,
-    stiffness: 100,
-    damping: 0
-  }));
+  // const spring = useSpring(() => ({
+  //   bodyA: planeBody.current,
+  //   bodyB: junctionBody.current,
+  //   length: 5,
+  //   stiffness: 100,
+  //   damping: 0
+  // }));
 
   return (
 

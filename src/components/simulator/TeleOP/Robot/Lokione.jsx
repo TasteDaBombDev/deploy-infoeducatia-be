@@ -1,14 +1,12 @@
-import React, { Suspense, useRef } from "react";
+import React, { Suspense, useRef, useState, useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
-import { Vector3, Quaternion, Raycaster } from "three";
+import { Vector3, Quaternion } from "three";
 import { useFrame } from "react-three-fiber";
-import { useBox, useCylinder, useRaycastVehicle } from "@react-three/cannon";
+import { useBox, useRaycastVehicle } from "@react-three/cannon";
 
 import { useWheels } from "./useWheels";
 import { useControls } from "./useControls";
 import { WheelDebug } from "./WheelDebug";
-import { useState } from "react";
-import { useEffect } from "react";
 import Brat from "./Brat";
 
 import DoamneIartaCeUrmeaza from "./DoamneIartaCeUrmeaza";
@@ -35,13 +33,12 @@ export default function Lokione(props) {
   };
 
   const [bratPosition, setBratPosition] = useState(-4.5);
-  const [bratApuca, setBratApuca] = useState(true);
+  // const [bratApuca, setBratApuca] = useState(true);
   const bratIncrease = 0.2;
 
   const [cameraController, setCamController] = useState(false);
 
-  var robotPosition;
-  var robotRotation;
+  var robotPosition, robotRotation;
 
   const [controls, setControls] = useState({});
 
@@ -93,7 +90,7 @@ export default function Lokione(props) {
       window.removeEventListener("keydown", keyDown);
       window.removeEventListener("keyup", keyUp);
     };
-  }, []);
+  }, [controls]);
 
   useEffect(() => {
     DoamneIartaCeUrmeaza.controls = controls;
@@ -104,13 +101,11 @@ export default function Lokione(props) {
     if (controls.arrowup)
       if (bratPosition <= 12) {
         setBratPosition(bratPosition + bratIncrease);
-        // bratPosition += bratIncrease;
       }
 
     if (controls.arrowdown)
       if (bratPosition >= -6) {
         setBratPosition(bratPosition - bratIncrease);
-        // bratPosition -= bratIncrease
       }
 
     if (controls[0]) setCamController(false);

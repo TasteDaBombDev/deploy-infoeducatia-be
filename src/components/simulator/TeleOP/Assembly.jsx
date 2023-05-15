@@ -11,6 +11,7 @@ function Assembly() {
         <>
             <Score />
             <Canvas className="canvas">
+                {/* <Stats showPanel={2} /> */}
                 <Physics
                     broadphase={'SAP'}
                     gravity={[0, -40, 0]}
