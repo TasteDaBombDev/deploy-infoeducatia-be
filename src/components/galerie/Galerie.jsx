@@ -26,9 +26,13 @@ function Galerie() {
     getBlog();
   }, []);
 
-  return(
+  return (
     <>
-    <Preview />
+      <Post sezon={1} />
+      <Post sezon={2} />
+      <Post sezon={3} />
+      <Post sezon={4} />
+      {/* <Preview /> */}
     </>
   )
 
