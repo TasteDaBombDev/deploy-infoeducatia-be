@@ -26,6 +26,7 @@ import Footer from "./components/utils/Footer";
 import Incercare from "./components/utils/Incercare";
 import Navbar from "./components/utils/Navbar";
 import Galerie from "./components/galerie/Galerie";
+import Robot from "./components/galerie/Robot";
 
 
 
@@ -85,6 +86,7 @@ function App() {
         <Route path="/blog/:id" element={<BlogPost />} />
         <Route path="/despre" element={<Despre />} />
         <Route path="/galerie" element={<Galerie />} />
+        <Route path="/robot/:sezon" element={<Robot />} />
         <Route path="/apps" element={<Apps />} />
         <Route path="/download" element={<Apps />} />
         <Route path="/team" element={<Alumni />} />

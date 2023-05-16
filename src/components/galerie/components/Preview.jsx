@@ -5,10 +5,10 @@ import Unu from './robotii/Unu'
 import Doi from './robotii/Doi'
 import Trei from './robotii/Trei'
 import Patru from './robotii/Patru'
+import Cinci from './robotii/Cinci'
+import Sase from './robotii/Sase'
 
 function Preview({sezon}) {
-
-    console.log(sezon)
 
     return (
         <Canvas className='canvas'>
@@ -41,7 +41,9 @@ function Preview({sezon}) {
                     sezon === 1 ? <Unu /> :
                     sezon === 2 ? <Doi /> :
                     sezon === 3 ? <Trei /> :
-                    sezon === 4 ? <Patru /> : null
+                    sezon === 4 ? <Patru /> :
+                    sezon === 5 ? <Cinci /> :
+                    sezon === 6 ? <Sase /> : null
                 }
             </Suspense>
         </Canvas>

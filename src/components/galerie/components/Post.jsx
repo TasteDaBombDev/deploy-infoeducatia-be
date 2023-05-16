@@ -4,24 +4,24 @@ import { Link } from "react-router-dom";
 import post_card_img from "../../../img/post_card_img.svg";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Preview from "./Preview";
+import { useState } from "react";
+import { useEffect } from "react";
 
-function Post({
-  // ajutor,
-  // poza,
-  // deleted,
-  // titlu,
-  // link,
-  // data,
-  // data2,
-  // dalay,
-  // text_scurt,
-  sezon
-}) {
+import Datas from './Datas'
 
-  const titlu = "DADA"
-  const text_scurt = "nu scriue as dads"
-  const link = "mata  "
+function Post({sezon}) {
+
+  // const titlu = "DADA"
+  // const text_scurt = "nu scriue as dads"
   
+  const [titlu, setTitlu] = useState("")
+  const [text_scurt, setScurt] = useState("")
+
+  useEffect(()=>{
+    setTitlu(Datas.titles[sezon])
+    setScurt(Datas.text_scurt[sezon])
+  }, [])
+
   return (
     <>
       <div className="post" style={{ height: "auto" }}>
@@ -39,7 +39,7 @@ function Post({
             <div className="linie_vert"></div>
             <p>{text_scurt}</p>
           </div>
-          <Link to={link} preventScrollReset={true} className="link">
+          <Link to={`/robot/${sezon}`} preventScrollReset={true} className="link">
             <div className="coca"></div>
             <span>
               Citeste mai multe <i className="fas fa-caret-right"></i>

@@ -11,27 +11,35 @@ import banner from "../../img/blog_banner.svg";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Preview from "./components/Preview";
 
-const firestore = new Firestore();
+import Datas from './components/Datas'
+
+// const firestore = new Firestore();
 
 function Galerie() {
-  const [blog, setBlog] = useState([]);
-  const getBlog = async () => {
-    await firestore.sortdata("blog", "createAt", "desc").then((res) => {
-      setBlog(res);
-    });
-  };
+  // const [blog, setBlog] = useState([]);
+  // const getBlog = async () => {
+  //   await firestore.sortdata("blog", "createAt", "desc").then((res) => {
+  //     setBlog(res);
+  //   });
+  // };
+
+  const datas = new Datas;
 
   useEffect(() => {
     AOS.init();
-    getBlog();
+    // getBlog();
   }, []);
+
+
 
   return (
     <>
-      <Post sezon={1} />
+      <Post sezon={1}  />
       <Post sezon={2} />
       <Post sezon={3} />
       <Post sezon={4} />
+      <Post sezon={5} />
+      <Post sezon={6} />
       {/* <Preview /> */}
     </>
   )
