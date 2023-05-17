@@ -1,46 +1,26 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Contact from "../utils/Contact";
-import Svg from "../utils/Svg";
 import Up from "../utils/Up";
 import "./blog_post.scss";
-import Slider from "./components/Slider";
 
-import "firebase/compat/firestore";
-
-import { useState } from "react";
-import Firestore from "../utils/Firestore";
-
-import banner from "../../img/blog_banner.svg";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { data } from "jquery";
-
+import ScenePreview from './components/ScenePreview'
 import Datas from "./components/Datas";
-
-const firestore = new Firestore();
+import './robot.scss'
+import Room1 from "./components/scenesComponents/Room1";
+import { Canvas, extend, useThree } from "react-three-fiber";
+import { Environment, OrbitControls, PerformanceMonitor } from "@react-three/drei";
+import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import CustomEnv from "./components/CustomEnv";
 
 function Robot() {
-  // const [postare, setPosare] = useState({});
-  // const [img, setImg] = useState([]);
   const { sezon } = useParams();
-
-  const [post, setPost] = useState({
-    title:"",
-    text_scurt:"",
-    text_lung:""
-  })
 
   const [title, setTitle] = useState("")
   const [text_scurt, setScurt] = useState("")
   const [text_lung, setLung] = useState("")
-
-  // const getBlogPost = async () => {
-  //   await firestore.getDocById("blog", id).then((res) => {
-  //     setPosare({ ...res });
-  //   });
-  // };
 
   useEffect(() => {
     AOS.init();
@@ -51,14 +31,31 @@ function Robot() {
 
   return (
     <>
-      {/* <LazyLoadImage
-        src={banner}
-        width={"100vw"}
-        height={"auto"}
-        className="header"
-      /> */}
+      <div className="robot">
 
-      <div className="blog_post">
+        <Canvas style={{ height: '100vh' }}>
+          <OrbitControls />
+          <directionalLight
+            position={[40, 50, 10]}
+            castShadow
+            intensity={.9}
+          />
+          {/* <EffectComposer
+            multisampling={8}
+            renderPriority={1}
+          > */}
+            {/* <Bloom kernelSize={1} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={0.4} />
+            <Bloom kernelSize={0} luminanceThreshold={0} luminanceSmoothing={0} intensity={0.2} /> */}
+            <ambientLight position={[0, 10, 0]} intensity={.4} />
+            <Room1 />
+            {/* <CustomEnv /> */}
+            {/* <Environment
+              blur={.1}
+              files={'./studio_maro.hdr'}
+              background={true}
+            /> */}
+          {/* </EffectComposer> */}
+        </Canvas>
 
         <div className="wrapper">
           <div className="title">
@@ -67,6 +64,8 @@ function Robot() {
           </div>
           <div className="desc"><p>{text_lung}</p></div>
         </div>
+
+        <ScenePreview sezon={Number(sezon)} />
 
         {/* <div className="title">
           <div className="title2">
@@ -103,10 +102,7 @@ function Robot() {
             </a>
           </h3>
         </div> */}
-        {/* {postare && postare.texts && postare.texts.map((p) => <p>{p}</p>)} */}
       </div>
-      {/* <Svg />
-      {postare && postare.images && <Slider slides={postare.images} />} */}
       <Contact />
       <Up />
     </>

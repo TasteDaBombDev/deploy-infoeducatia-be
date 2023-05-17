@@ -8,7 +8,7 @@ import Patru from './robotii/Patru'
 import Cinci from './robotii/Cinci'
 import Sase from './robotii/Sase'
 
-function Preview({sezon}) {
+function Preview({ sezon }) {
 
     return (
         <Canvas className='canvas'>
@@ -39,11 +39,11 @@ function Preview({sezon}) {
             <Suspense fallback={null}>
                 {
                     sezon === 1 ? <Unu /> :
-                    sezon === 2 ? <Doi /> :
-                    sezon === 3 ? <Trei /> :
-                    sezon === 4 ? <Patru /> :
-                    sezon === 5 ? <Cinci /> :
-                    sezon === 6 ? <Sase /> : null
+                        sezon === 2 ? <Doi /> :
+                            sezon === 3 ? <Trei /> :
+                                sezon === 4 ? <Patru /> :
+                                    sezon === 5 ? <Cinci /> :
+                                        sezon === 6 ? <Sase /> : null
                 }
             </Suspense>
         </Canvas>
