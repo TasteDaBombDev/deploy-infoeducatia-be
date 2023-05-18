@@ -14,6 +14,7 @@ import { Canvas, extend, useThree } from "react-three-fiber";
 import { Environment, OrbitControls, PerformanceMonitor } from "@react-three/drei";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import CustomEnv from "./components/CustomEnv";
+import { Rig } from "./components/CustomEffect"
 
 function Robot() {
   const { sezon } = useParams();
@@ -33,8 +34,8 @@ function Robot() {
     <>
       <div className="robot">
 
-        <Canvas style={{ height: '100vh' }}>
-          <OrbitControls />
+        <Canvas style={{ height: '80vh' }}>
+          {/* <OrbitControls /> */}
           <directionalLight
             position={[40, 50, 10]}
             castShadow
@@ -44,12 +45,16 @@ function Robot() {
             multisampling={8}
             renderPriority={1}
           > */}
-            {/* <Bloom kernelSize={1} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={0.4} />
+          {/* <Bloom kernelSize={1} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={0.4} />
             <Bloom kernelSize={0} luminanceThreshold={0} luminanceSmoothing={0} intensity={0.2} /> */}
-            <ambientLight position={[0, 10, 0]} intensity={.4} />
-            <Room1 />
-            {/* <CustomEnv /> */}
-            {/* <Environment
+          <ambientLight position={[0, 10, 0]} intensity={.5} />
+          {/* <group position={[2.7, -.9, 2]} rotation={[0, -Math.PI / 3, 0]}> */}
+            <Rig>
+              <Room1 />
+            </Rig>
+          {/* </group> */}
+          {/* <CustomEnv /> */}
+          {/* <Environment
               blur={.1}
               files={'./studio_maro.hdr'}
               background={true}

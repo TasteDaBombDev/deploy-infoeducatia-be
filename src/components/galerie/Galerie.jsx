@@ -3,38 +3,22 @@ import "aos/dist/aos.css";
 import "firebase/compat/firestore";
 import React, { useEffect, useState } from "react";
 import Contact from "../utils/Contact";
-import Firestore from "../utils/Firestore";
 import Up from "../utils/Up";
 import "./blog.scss";
 import Post from "./components/Post";
 import banner from "../../img/blog_banner.svg";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import Preview from "./components/Preview";
 
 import Datas from './components/Datas'
 
-// const firestore = new Firestore();
-
 function Galerie() {
-  // const [blog, setBlog] = useState([]);
-  // const getBlog = async () => {
-  //   await firestore.sortdata("blog", "createAt", "desc").then((res) => {
-  //     setBlog(res);
-  //   });
-  // };
-
-  const datas = new Datas;
 
   useEffect(() => {
     AOS.init();
-    // getBlog();
   }, []);
-
-
 
   return (
     <>
-      <Post sezon={1}  />
+      <Post sezon={1} />
       <Post sezon={2} />
       <Post sezon={3} />
       <Post sezon={4} />
