@@ -58,16 +58,14 @@ function CustomEnv() {
     useFrame((frame) => {
         // const scroll = window.scrollY
         const scroll = document.getElementById('gal-overlay').scrollTop
-        if (scroll <= 200)
+        if (scroll <= 540)
             setState(1)
-        else if (scroll <= 800)
+        else if (scroll <= 1200)
             setState(2)
-        else if (scroll <= 1300)
+        else if (scroll <= 1950)
             setState(3)
-        else if (scroll <= 1800)
+        else if (scroll <= 2700)
             setState(4)
-        else if (scroll <= 2100)
-            setState(5)
         else
             setState(5)
         // let item = document.getElementById('gal-overlay').scrollTop

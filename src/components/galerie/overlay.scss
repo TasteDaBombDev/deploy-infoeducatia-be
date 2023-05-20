@@ -16,13 +16,13 @@
     color: #fff;
     // color: #06083d;
 
-    background: rgba(0, 0, 0, 0.571);
+    background: rgba(0, 0, 0, 0);
     background: linear-gradient(90deg, rgba(0, 0, 0, 0.8) 2%, rgba(0, 0, 0, 0.433) 30%, rgba(0, 0, 0, 0.264) 50%);
 
     overflow-y: scroll;
 
     .page-galerie {
-        height: 70vh;
+        height: 85vh;
         width: 100vw;
         // width: max-content;
 
@@ -73,7 +73,10 @@
             }
         }
 
-        &#robot {
+        &#robot,
+        &#chassis,
+        &#arm,
+        &#lift {
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -99,12 +102,23 @@
                     font-weight: 600;
                     font-size: 30px;
                     text-transform: uppercase;
+                    color: #6ef188;
+
                 }
 
                 h2 {
                     font-weight: 500;
                     font-size: 28px;
                 }
+
+            }
+
+            li {
+                font-weight: 400;
+                font-size: 19px;
+                line-height: 26px;
+
+                margin-left: 20px;
             }
 
             .title {
@@ -120,6 +134,10 @@
             //     font-weight: 500;
             //     font-size: 24px;
             // }
+        }
+
+        &#lift{
+            margin-bottom: 50px;
         }
 
     }
