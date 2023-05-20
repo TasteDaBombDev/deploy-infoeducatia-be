@@ -1,10 +1,29 @@
-import React, { useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 
-export default function Sase(props) {
+export default function Sase({ position }, props) {
   const { nodes, materials } = useGLTF("/robotii/sez6.glb");
+
+  useMemo(() => {
+    // Object.values(materials).forEach((mat) => {
+    //   if (mat.isMaterial) {
+    //     console.log(mat)
+    //     Object.assign(mat, {metalness: 0.1})
+    //     // mat.toneMapped=false
+    //     Object.assign(mat, {toneMapped: false})
+    //   }
+    // })
+
+
+    Object.values(nodes).forEach((obj) => {
+      if (obj.isMesh) {
+        Object.assign(obj, { castShadow: true, receiveShadow: true });
+      }
+    });
+  }, [nodes]);
+
   return (
-    <group {...props} dispose={null} scale={[1.7, 1.7, 1.7]} position={[0, -7, 0]}>
+    <group {...props} dispose={null} scale={[.01, .01, .01]} position={position}>
       <mesh
         castShadow
         receiveShadow

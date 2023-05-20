@@ -1,0 +1,26 @@
+.overlay{
+    position: absolute;
+    // z-index: 999;
+    z-index: -1;
+    margin-top: 70px;
+
+    height: 100vh;
+    // width: 100vw;
+    width: max-content;
+
+    font-family: 'Montserrat', sans-serif;
+    color: #ffffff;
+
+    overflow-y: scroll;
+
+    .page-galerie{
+        height: 100vh;
+        width: max-content;
+
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    background-color: aquamarine;
+}

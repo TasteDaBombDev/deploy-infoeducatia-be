@@ -27,6 +27,7 @@ import Incercare from "./components/utils/Incercare";
 import Navbar from "./components/utils/Navbar";
 import Galerie from "./components/galerie/Galerie";
 import Robot from "./components/galerie/Robot";
+import SingleScene from "./components/galerie/SingleScene";
 
 
 
@@ -85,8 +86,8 @@ function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:id" element={<BlogPost />} />
         <Route path="/despre" element={<Despre />} />
-        <Route path="/galerie" element={<Galerie />} />
-        <Route path="/robot/:sezon" element={<Robot />} />
+        <Route path="/galerie" element={<SingleScene />} />
+        {/* <Route path="/robot/:sezon" element={<Robot />} /> */}
         <Route path="/apps" element={<Apps />} />
         <Route path="/download" element={<Apps />} />
         <Route path="/team" element={<Alumni />} />

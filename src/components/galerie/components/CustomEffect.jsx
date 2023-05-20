@@ -9,10 +9,11 @@ export function CustomEffect() {
             multisampling={8}
         >
             <Bloom
-                kernelSize={3}
-                luminanceThreshold={0}
+                kernelSize={2}
+                luminanceThreshold={0.4}
                 luminanceSmoothing={0.1}
-                intensity={0.3}
+                height={480}
+                // intensity={0.3}
             />
         </EffectComposer>
     )
