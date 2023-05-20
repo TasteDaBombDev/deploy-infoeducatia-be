@@ -1,26 +1,33 @@
-.overlay{
+.overlay {
     position: absolute;
-    // z-index: 999;
-    z-index: -1;
-    margin-top: 70px;
+    z-index: 999;
+    // z-index: -1;
+    // margin-top: 70px;
 
     height: 100vh;
     // width: 100vw;
-    width: max-content;
+    // width: max-content;
 
     font-family: 'Montserrat', sans-serif;
-    color: #ffffff;
+    font-weight: 700;
+    color: #000;
 
     overflow-y: scroll;
 
-    .page-galerie{
-        height: 100vh;
-        width: max-content;
+    .page-galerie {
+        height: 70vh;
+        width: 100vw;
+        // width: max-content;
 
         display: flex;
         flex-direction: column;
+        justify-content: center;
         gap: 10px;
-    }
 
-    background-color: aquamarine;
+        &#general{
+            font-size: 32px;
+            color: aquamarine;
+        }
+
+    }
 }

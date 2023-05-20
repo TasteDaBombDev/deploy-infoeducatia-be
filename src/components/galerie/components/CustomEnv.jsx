@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 function CustomEnv() {
 
-    const [STATE, setState] = useState(4)
+    const [STATE, setState] = useState(1)
 
     // CONSIDER A FI FOARTE INEFICIENT PROCESUL DE A DETERMINA
     // COORDONATELE PERFECTE PENTRU CAMERA SI SUNT SIGUR
@@ -52,18 +52,21 @@ function CustomEnv() {
     // NU MAI REZIST
     useFrame((frame) => {
         // const scroll = window.scrollY
-        // if (scroll <= 5)
-        //     setState(1)
-        // else if (scroll <= 10)
-        //     setState(2)
-        // else if (scroll <= 15)
-        //     setState(3)
-        // else if (scroll <= 20)
-        //     setState(4)
-        // else if (scroll <= 25)
-        //     setState(5)
-        // else
-        //     setState(5)
+        const scroll = document.getElementById('gal-overlay').scrollTop
+        if (scroll <= 200)
+            setState(1)
+        else if (scroll <= 800)
+            setState(2)
+        else if (scroll <= 1300)
+            setState(3)
+        else if (scroll <= 1800)
+            setState(4)
+        else if (scroll <= 2100)
+            setState(5)
+        else
+            setState(5)
+        // let item = document.getElementById('gal-overlay').scrollTop
+        // console.log(item)
     })
 
     // CAMERA STATE UPDATER

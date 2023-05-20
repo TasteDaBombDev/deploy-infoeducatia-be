@@ -80,7 +80,7 @@ function App() {
   };
   return (
     <BrowserRouter>
-      <Navbar />
+      {/* <Navbar /> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/blog" element={<Blog />} />
@@ -121,7 +121,7 @@ function App() {
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {link !== "/simulator" && <Footer />}
+      {/* {link !== "/simulator" && <Footer />} */}
     </BrowserRouter>
   );
 }

@@ -3,31 +3,30 @@ import './overlay.scss'
 
 function Overlay() {
   return (
-    <div className='overlay'>
+    <div className='overlay' id='gal-overlay'>
       <div className="page-galerie" id='general'>
-        <div className="title">Titlul geeric</div>
-        <div className="subtitle">Subtitlul descirere</div>
-        <div className="list">ceva lista cu termenii</div>
+        <div className="title">Loki</div>
+        <div className="subtitle">A șasea generație Thobor</div>
       </div>
-      <div className="page" id='robot'>
-        <div className="title"></div>
-        <div className="subtitle"></div>
+      <div className="page-galerie" id='robot'>
+        <div className="title">Al doilea prototip din generatia sa</div>
+        <div className="subtitle">Produs pentru depasi limitele tehnicii</div>
+        <div className="list">ceva altceva droguri</div>
+      </div>
+      <div className="page-galerie" id='chassis'>
+        <div className="title">Sasiul</div>
+        <div className="subtitle">ceva intereasant</div>
+        <div className="list">nush nu intreba</div>
+      </div>
+      <div className="page-galerie" id='arm'>
+        <div className="title">brat</div>
+        <div className="subtitle">cati nervi mi-a facut ala</div>
         <div className="list"></div>
       </div>
-      <div className="page" id='chassis'>
-        <div className="title"></div>
-        <div className="subtitle"></div>
-        <div className="list"></div>
-      </div>
-      <div className="page" id='arm'>
-        <div className="title"></div>
-        <div className="subtitle"></div>
-        <div className="list"></div>
-      </div>
-      <div className="page" id='lift'>
-        <div className="title"></div>
-        <div className="subtitle"></div>
-        <div className="list"></div>
+      <div className="page-galerie" id='lift'>
+        <div className="title">lift</div>
+        <div className="subtitle">asta este si mai oribil</div>
+        <div className="list">simt ca nu mai rezist</div>
       </div>
     </div>
   )
