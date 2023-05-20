@@ -89,7 +89,7 @@ function Overlay() {
         <ul className="list">
           <li>Profile GoBilda redimensionate</li>
           <li>Odometrie cu 3 dead-wheels</li>
-          <li>Sistem de lift compact</li>
+          <li>Motoare de 312 RPM</li>
         </ul>
         <div className="stripes">
           <div className="stripe">
