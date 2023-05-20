@@ -1,18 +1,14 @@
 import React from 'react'
-// import { Canvas } from 'react-three-fiber'
-import { Canvas, extend, useFrame, useThree } from "react-three-fiber";
-import CustomEnv from './components/CustomEnv'
-import { OrbitControls, softShadows } from '@react-three/drei'
+import { Canvas } from "react-three-fiber";
 import { Suspense } from 'react'
-import Sase from './components/robotii/Sase'
-
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Room1 from './components/scenesComponents/Room1';
+
+import Sase from './components/robotii/Sase'
 import SingleRoom from './components/scenesComponents/SingleRoom';
-import { MathUtils, Quaternion } from 'three';
 import Overlay from './Overlay';
 import { CustomEffect } from './components/CustomEffect';
+import CustomEnv from './components/CustomEnv'
 import SpecialLights from './components/SpecialLights';
 
 

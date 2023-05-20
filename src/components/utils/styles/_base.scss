@@ -8,67 +8,67 @@
   outline: none;
 }
 
-a,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-span,
-p,
-label,
-i {
-  text-decoration: none;
+// a,
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6,
+// span,
+// p,
+// label,
+// i {
+//   text-decoration: none;
 
-  &::first-letter {
-    text-transform: uppercase;
-  }
-}
-div time,
-h1,
-h2,
-label {
-  font-family: "Montserrat", sans-serif;
-  font-weight: 500;
-}
-p {
-  text-indent: 30px;
-}
-a,
-h5,
-h6,
-i,
-span,
-strong {
-  font-weight: 600;
-  font-family: "Roboto", sans-serif;
-}
+//   &::first-letter {
+//     text-transform: uppercase;
+//   }
+// }
+// div time,
+// h1,
+// h2,
+// label {
+//   font-family: "Montserrat", sans-serif;
+//   font-weight: 500;
+// }
+// p {
+//   text-indent: 30px;
+// }
+// a,
+// h5,
+// h6,
+// i,
+// span,
+// strong {
+//   font-weight: 600;
+//   font-family: "Roboto", sans-serif;
+// }
 
-p,
-h3,
-h4 {
-  font-weight: 600;
-  font-family: $font_anek;
-}
+// p,
+// h3,
+// h4 {
+//   font-weight: 600;
+//   font-family: $font_anek;
+// }
 
-html,
-body {
-  scroll-behavior: auto;
-  background: $black2;
-  overflow-x: hidden;
-}
+// html,
+// body {
+//   scroll-behavior: auto;
+//   background: $black2;
+//   overflow-x: hidden;
+// }
 
-.header {
-  padding-top: 70px;
-  width: 100vw !important ;
-  position: relative;
-  top: 0;
-  height: auto;
-  left: 0;
-  object-fit: cover;
-  max-height: 500px;
-}
+// .header {
+//   padding-top: 70px;
+//   width: 100vw !important ;
+//   position: relative;
+//   top: 0;
+//   height: auto;
+//   left: 0;
+//   object-fit: cover;
+//   max-height: 500px;
+// }
 
 @import "./scrollbar";
 @import "./navbar";

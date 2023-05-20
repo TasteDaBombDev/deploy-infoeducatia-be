@@ -10,6 +10,8 @@ function CustomEnv() {
 
     const [STATE, setState] = useState(1)
 
+    var variable_target = new Vector3(0, 0, 0)
+
     // CONSIDER A FI FOARTE INEFICIENT PROCESUL DE A DETERMINA
     // COORDONATELE PERFECTE PENTRU CAMERA SI SUNT SIGUR
     // CA NU AR TREBUI SA FACA ASTA DAR DEJA AM VAZUT
@@ -47,6 +49,9 @@ function CustomEnv() {
             camera_fov: 60
         }
     }
+    useEffect(() => {
+        variable_target.copy(CAMERA_STATE[1].camera_target)
+    }, [])
 
     // SCROLL STATE CONTROLLER
     // NU MAI REZIST
@@ -80,19 +85,36 @@ function CustomEnv() {
         // quaternion.copy(CAMERA_STATE[STATE].camera_rotation)
         // let position = CAMERA_STATE[STATE].camera_position
         // let quaternion = CAMERA_STATE[STATE].camera_rotation
-
         let camera_position = position.clone();
 
-        state.camera.position.copy(camera_position);
+        // if (STATE == 1) {
+        //     variable_target.copy(target)
+        //     variable_target.lerpVectors(variable_target, CAMERA_STATE[STATE].camera_target, 0.05)
+        //     state.camera.lookAt(variable_target)
+        // }
+        // else
+        // // old_target = CAMERA_STATE[STATE - 1].camera_target;
+        // {
+        //     // console.log(vectorInterpol)
+        //     state.camera.lookAt(variable_target);
+        // }
+        // variable_target.lerp(CAMERA_STATE[STATE].camera_target, 0.1)
+        // state.camera.lookAt(variable_target)
+
+        state.camera.position.lerp(camera_position, .05)
+        state.camera.fov = MathUtils.lerp(state.camera.fov, CAMERA_STATE[STATE].camera_fov, 0.05)
+        // state.camera.lookAt(MathUtils.lerp(old_target, CAMERA_STATE[STATE], .05))
+
+        // state.camera.position.copy(camera_position);
         state.camera.lookAt(target)
-        state.camera.fov = CAMERA_STATE[STATE].camera_fov
+        // state.camera.fov = CAMERA_STATE[STATE].camera_fov
         state.camera.updateProjectionMatrix()
     })
 
     // useFrame(({ mouse, camera }) => {
-        // camera.position.x = MathUtils.lerp(camera.position.x, mouse.x * 0.05, 0.03)
+    // camera.position.x = MathUtils.lerp(camera.position.x, mouse.x * 0.05, 0.03)
     //     camera.position.y = MathUtils.lerp(camera.position.y, mouse.y * 0.8, 0.01)
-        // camera.position.z = MathUtils.lerp(camera.position.z, Math.max(4, Math.abs(mouse.x * mouse.y * 8)), 0.01)
+    // camera.position.z = MathUtils.lerp(camera.position.z, Math.max(4, Math.abs(mouse.x * mouse.y * 8)), 0.01)
     //     camera.rotation.y = MathUtils.lerp(camera.rotation.y, mouse.x * -Math.PI * 0.025, 0.001)
     // })
 
