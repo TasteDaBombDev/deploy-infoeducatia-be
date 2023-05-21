@@ -17,18 +17,14 @@ function SingleScene() {
     return (
         <>
             <Overlay />
-            <Canvas camera={{}} style={{
+            <Canvas style={{
                 height: '100vh',
                 width: '100vw',
                 // position: 'absolute'
             }}>
                 <CustomEnv />
-                {/* <CustomEffect /> */}
+                <CustomEffect />
                 {/* <SpecialLights /> */}
-                {/* <mesh position={[-2, 4.7, -2.1]}>
-                    <boxGeometry attach={"geometry"} args={[.1, .1, .1]} />
-                    <meshPhongMaterial attach={"material"} color={'red'}/>
-                </mesh> */}
                 <Suspense fallback={null}>
                     <SingleRoom />
                 </Suspense>

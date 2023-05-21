@@ -6,15 +6,15 @@ import { MathUtils, Vector3 } from 'three'
 export function CustomEffect() {
     return (
         <EffectComposer
-            // multisampling={4}
+            // multisampling={8}
         >
-            {/* <Bloom
+            <Bloom
                 kernelSize={2}
                 luminanceThreshold={0.4}
                 luminanceSmoothing={0.1}
                 height={480}
-                // intensity={0.3}
-            /> */}
+                intensity={0.3}
+            />
         </EffectComposer>
     )
 }
