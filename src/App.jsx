@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NotFound from "./components/notfound/NotFound";
-import Robot from "./components/galerie/Robot";
 import SingleScene from "./components/galerie/SingleScene";
 
 

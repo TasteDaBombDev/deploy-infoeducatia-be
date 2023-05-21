@@ -4,8 +4,8 @@ import { Suspense } from 'react'
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-import Sase from './components/robotii/Sase'
-import SingleRoom from './components/scenesComponents/SingleRoom';
+import Sase from './components/Sase'
+import SingleRoom from './components/SingleRoom';
 import Overlay from './Overlay';
 import CustomEffect from './components/CustomEffect';
 import CustomEnv from './components/CustomEnv'
