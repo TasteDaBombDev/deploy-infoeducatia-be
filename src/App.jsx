@@ -10,7 +10,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/galerie" element={<SingleScene />} />
+        <Route path="/" element={<SingleScene />} />
         {/* <Route path="/robot/:sezon" element={<Robot />} /> */}
         {/* <Route path="/simulator" element={<Assembly />} /> */}
         <Route path="*" element={<NotFound />} />

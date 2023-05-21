@@ -10,7 +10,7 @@ function CustomEnv() {
 
     const [STATE, setState] = useState(1)
 
-    var variable_target = new Vector3(0, 0, 0)
+    const [ghost_object, setGhost] = useState(new Vector3(0, 0, 0))
 
     // CONSIDER A FI FOARTE INEFICIENT PROCESUL DE A DETERMINA
     // COORDONATELE PERFECTE PENTRU CAMERA SI SUNT SIGUR
@@ -50,7 +50,7 @@ function CustomEnv() {
         }
     }
     useEffect(() => {
-        variable_target.copy(CAMERA_STATE[1].camera_target)
+        ghost_object.copy(CAMERA_STATE[1].camera_target)
     }, [])
 
     // SCROLL STATE CONTROLLER
@@ -73,6 +73,8 @@ function CustomEnv() {
     })
 
     // CAMERA STATE UPDATER
+    // NU MAI STIU A CATA INCERCARE ESTE DAR NU MAI POT
+    // THO FUNCTIA LERP E FAINA
     useFrame((state) => {
         let position = new Vector3(0, 0, 0);
         // let quaternion = new Quaternion(0, 0, 0, 1)
@@ -80,41 +82,32 @@ function CustomEnv() {
 
         position.copy(CAMERA_STATE[STATE].camera_position)
         target.copy(CAMERA_STATE[STATE].camera_target)
+        let camera_position = position.clone();
         // quaternion.copy(CAMERA_STATE[STATE].camera_rotation)
         // let position = CAMERA_STATE[STATE].camera_position
         // let quaternion = CAMERA_STATE[STATE].camera_rotation
-        let camera_position = position.clone();
 
-        // if (STATE == 1) {
-        //     variable_target.copy(target)
-        //     variable_target.lerpVectors(variable_target, CAMERA_STATE[STATE].camera_target, 0.05)
-        //     state.camera.lookAt(variable_target)
-        // }
-        // else
-        // // old_target = CAMERA_STATE[STATE - 1].camera_target;
-        // {
-        //     // console.log(vectorInterpol)
-        //     state.camera.lookAt(variable_target);
-        // }
-        // variable_target.lerp(CAMERA_STATE[STATE].camera_target, 0.1)
-        // state.camera.lookAt(variable_target)
+        let calc = new Vector3(0, 0, 0)
+        calc.copy(ghost_object)
+        calc.lerp(CAMERA_STATE[STATE].camera_target, 0.03)
+        setGhost(calc)
+        state.camera.lookAt(ghost_object)
 
         state.camera.position.lerp(camera_position, .05)
         state.camera.fov = MathUtils.lerp(state.camera.fov, CAMERA_STATE[STATE].camera_fov, 0.05)
-        // state.camera.lookAt(MathUtils.lerp(old_target, CAMERA_STATE[STATE], .05))
 
         // state.camera.position.copy(camera_position);
-        state.camera.lookAt(target)
+        // state.camera.lookAt(target)
         // state.camera.fov = CAMERA_STATE[STATE].camera_fov
         state.camera.updateProjectionMatrix()
     })
 
-    // useFrame(({ mouse, camera }) => {
-    // camera.position.x = MathUtils.lerp(camera.position.x, mouse.x * 0.05, 0.03)
-    //     camera.position.y = MathUtils.lerp(camera.position.y, mouse.y * 0.8, 0.01)
-    // camera.position.z = MathUtils.lerp(camera.position.z, Math.max(4, Math.abs(mouse.x * mouse.y * 8)), 0.01)
-    //     camera.rotation.y = MathUtils.lerp(camera.rotation.y, mouse.x * -Math.PI * 0.025, 0.001)
-    // })
+    useFrame(({ mouse, camera }) => {
+        // camera.position.x = MathUtils.lerp(camera.position.x, mouse.x * 0.5, 0.03)
+        //     camera.position.y = MathUtils.lerp(camera.position.y, mouse.y * 0.8, 0.01)
+        // camera.position.z = MathUtils.lerp(camera.position.z, Math.max(4, Math.abs(mouse.x * mouse.y * 8)), 0.01)
+        //     camera.rotation.y = MathUtils.lerp(camera.rotation.y, mouse.x * -Math.PI * 0.025, 0.001)
+    })
 
     return (
         <Suspense fallback={null}>
