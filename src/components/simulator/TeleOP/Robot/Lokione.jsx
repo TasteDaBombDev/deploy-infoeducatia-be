@@ -10,8 +10,6 @@ import { WheelDebug } from "./WheelDebug";
 import Brat from "./Brat";
 
 import DoamneIartaCeUrmeaza from "./DoamneIartaCeUrmeaza";
-import useGamepads from "./useGamepads";
-import { getActiveElement } from "@testing-library/user-event/dist/utils";
 
 export default function Lokione(props) {
   const { nodes, materials } = useGLTF("/robotNou.glb");
@@ -94,11 +92,19 @@ export default function Lokione(props) {
     };
   }, [controls]);
 
+  const isGamepadConnected = () => { return (isNaN(navigator.getGamepads()[0])) }
+  useFrame(() => {
+    if (isGamepadConnected()) {
+      let gamepad = navigator.getGamepads()[0]
+      if (gamepad.axes[3] < -0.1 && bratPosition <= 12)
+        setBratPosition(bratPosition + (-gamepad.axes[3] / 7))
+      if (gamepad.axes[3] > 0.1 && bratPosition >= -6)
+        setBratPosition(bratPosition - (gamepad.axes[3] / 7))
+    }
+  })
+
   useEffect(() => {
     DoamneIartaCeUrmeaza.controls = controls;
-
-    // if (controls.f)
-    //   setBratApuca(!bratApuca);
 
     if (controls.arrowup)
       if (bratPosition <= 12) {
@@ -126,6 +132,18 @@ export default function Lokione(props) {
   );
 
   useControls(vehicleAPI, chassisAPI);
+
+  // const isGamepadConnected = () => { return (isNaN(navigator.getGamepads()[0])) }
+  // useFrame((frame) => {
+  //   if(isGamepadConnected())
+  //   {
+  //     let gamepad = navigator.getGamepads()[0]
+  //     let buttons = []
+  //     for(let i=0; i<=17; i++)
+  //       buttons.push(gamepad.buttons[i].value)
+  //     console.log(buttons)
+  //   }
+  // })
 
   // const [gamepads, setGamepads] = useState({})
   // useGamepads((gamepads) => setGamepads(gamepads))

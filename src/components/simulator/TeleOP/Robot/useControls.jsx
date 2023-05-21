@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import DoamneIartaCeUrmeaza from "./DoamneIartaCeUrmeaza";
-import useGamepads from "./useGamepads";
+// import useGamepads from "./useGamepads";
 import { useFrame } from "react-three-fiber";
-
+import { MathUtils } from "three";
 
 export const useControls = (vehicleAPI, chassisAPI) => {
     const viteza = 600;
@@ -14,16 +14,26 @@ export const useControls = (vehicleAPI, chassisAPI) => {
 
     let [controls, setControls] = useState({});
 
-    // const [onKeyboard, setKeyboard] = useState(true)
+    const [onKeyboard, setKeyboard] = useState(true)
+    const [isController, setController] = useState(false)
 
-    // useEffect(() => {
-    //     const foo = (e) => {
-    //         if (e.key.toLowerCase() == 'k')
-    //             setKeyboard(!onKeyboard)
-    //     }
-    //     window.addEventListener('keydown', foo)
-    //     return () => { window.removeEventListener('keydown', foo) }
-    // })
+    useEffect(() => {
+        const foo = (e) => {
+            if (e.key.toLowerCase() == 'k') {
+                setKeyboard(!onKeyboard)
+                for (let i = 0; i < 4; i++) {
+                    vehicleAPI.setSteeringValue(0, i);
+
+                    vehicleAPI.applyEngineForce(0, 0);
+                    vehicleAPI.applyEngineForce(0, 1);
+                    vehicleAPI.applyEngineForce(0, 2);
+                    vehicleAPI.applyEngineForce(0, 3);
+                }
+            }
+        }
+        window.addEventListener('keydown', foo)
+        return () => { window.removeEventListener('keydown', foo) }
+    })
 
     const variableSteer = (delta) => {
         let fl = 0.35 * multiTurn * delta;
@@ -38,14 +48,18 @@ export const useControls = (vehicleAPI, chassisAPI) => {
     }
 
     const variableAccelerate = (delta) => {
-        vehicleAPI.applyEngineForce(delta, 0);
-        vehicleAPI.applyEngineForce(delta, 1);
-        vehicleAPI.applyEngineForce(delta, 2);
-        vehicleAPI.applyEngineForce(delta, 3);
+        vehicleAPI.applyEngineForce(delta * viteza, 0);
+        vehicleAPI.applyEngineForce(delta * viteza, 1);
+        vehicleAPI.applyEngineForce(delta * viteza, 2);
+        vehicleAPI.applyEngineForce(delta * viteza, 3);
     }
 
     useEffect(() => {
-
+        if (!onKeyboard) {
+            // window.removeEventListener("keydown", keyDown);
+            // window.removeEventListener("keyup", keyUp);
+            return;
+        }
         const keyDown = (e) => {
             setControls((controls) => ({
                 ...controls,
@@ -79,13 +93,9 @@ export const useControls = (vehicleAPI, chassisAPI) => {
             }
         };
 
-        // if ( || !onKeyboard) {
-        //     return;
-        // }
+        // if (!onKeyboard) { return; }
 
-        if (!vehicleAPI || !chassisAPI) {
-            return;
-        }
+        if (!vehicleAPI || !chassisAPI) { return; }
 
         if ((controls.w || controls.s) && (controls.a || controls.d)) {
             // stopBrake();
@@ -100,10 +110,9 @@ export const useControls = (vehicleAPI, chassisAPI) => {
         } else if (controls.s) {
             // stopBrake();
             bagaViteza(-viteza);
-        } else {
-            bagaViteza(0);
             // brake();
-        }
+        } else if (onKeyboard)
+            bagaViteza(0);
 
         if (controls.a) {
             vehicleAPI.setSteeringValue(0.35 * multiTurn, 2);
@@ -115,11 +124,12 @@ export const useControls = (vehicleAPI, chassisAPI) => {
             vehicleAPI.setSteeringValue(-0.35 * multiTurn, 3);
             vehicleAPI.setSteeringValue(0.1 * multiTurn, 0);
             vehicleAPI.setSteeringValue(0.1 * multiTurn, 1);
-        } else {
-            for (let i = 0; i < 4; i++) {
-                vehicleAPI.setSteeringValue(0, i);
+        } else if (isController)
+            if (Math.abs(navigator.getGamepads()[0].axes[0]) <= 0.1) {
+                for (let i = 0; i < 4; i++) {
+                    vehicleAPI.setSteeringValue(0, i);
+                }
             }
-        }
 
 
         if (controls.q) {
@@ -164,6 +174,59 @@ export const useControls = (vehicleAPI, chassisAPI) => {
     // SUPORT PENTRU GAMEPADS, DACA AJUNG SA FAC MULTIPLAYER MA ANGAJEZ
     // const [gamepads, setGamepads] = useState({})
     // useGamepads((gamepads) => setGamepads(gamepads))
+
+    // AM REUSIT SA REFAC O LIBRARIE IN LINIILE ASTEA
+    // MAJIK
+    const isGamepadConnected = () => { return (isNaN(navigator.getGamepads()[0])) }
+
+    const buttonValue = (gamepad, buttonIndex) => { return (gamepad.buttons[buttonIndex].value) }
+    const setControlState = (key, value) =>
+        setControls((controls) => ({
+            ...controls,
+            [key]: value
+        }));
+    const mapButton2Controls = (gamepad, buttonIndex, controlKey) => {
+        if (buttonValue(gamepad, buttonIndex)) {
+            setControlState(controlKey, true)
+        }
+        else {
+            setControlState(controlKey, false)
+        }
+    }
+
+    useFrame((frame) => {
+        if (isGamepadConnected() && !onKeyboard) {
+            setController(true)
+            let gamepad = navigator.getGamepads()[0]
+            mapButton2Controls(gamepad, 0, 'f')
+            mapButton2Controls(gamepad, 1, 'arrowright')
+            mapButton2Controls(gamepad, 2, 'arrowleft')
+            mapButton2Controls(gamepad, 3, 'r')
+
+            mapButton2Controls(gamepad, 12, 'w')
+            mapButton2Controls(gamepad, 13, 's')
+            mapButton2Controls(gamepad, 14, 'a')
+            mapButton2Controls(gamepad, 15, 'd')
+
+            mapButton2Controls(gamepad, 4, 'q')
+            mapButton2Controls(gamepad, 5, 'e')
+
+            if (Math.abs(parseFloat(gamepad.axes[0].toPrecision(2))) > 0.05) {
+                variableSteer(parseFloat(-gamepad.axes[0].toPrecision(2)))
+            }
+
+            // if(parseFloat(gamepad.buttons[7]).toPrecision(1) > 0.1)
+            let lt = parseFloat(gamepad.buttons[6].value.toPrecision(2))
+            let rt = parseFloat(gamepad.buttons[7].value.toPrecision(2))
+            if (lt > 0.1)
+                variableAccelerate(-lt)
+            else if (rt >= 0.1)
+                variableAccelerate(rt)
+            else
+                variableAccelerate(0)
+
+        }
+    })
 
     // HARTA SFANTA PENTRU PS4 CONTROLLER DUAL SHOCK
     //
@@ -242,7 +305,7 @@ export const useControls = (vehicleAPI, chassisAPI) => {
     //                 ['q']: false
     //             }));
 
-    //         //B BUTTON DE PULA SA MA TRECI STRADA 
+    //         //B
     //         if (gamepads[0].buttons[1].value)
     //             setControls((controls) => ({
     //                 ...controls,
