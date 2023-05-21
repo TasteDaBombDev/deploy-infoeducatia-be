@@ -14,7 +14,6 @@ import { Canvas, extend, useThree } from "react-three-fiber";
 import { Environment, OrbitControls, PerformanceMonitor } from "@react-three/drei";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import CustomEnv from "./components/CustomEnv";
-import { Rig } from "./components/CustomEffect"
 
 function Robot() {
   const { sezon } = useParams();
@@ -49,9 +48,7 @@ function Robot() {
             <Bloom kernelSize={0} luminanceThreshold={0} luminanceSmoothing={0} intensity={0.2} /> */}
           <ambientLight position={[0, 10, 0]} intensity={.5} />
           {/* <group position={[2.7, -.9, 2]} rotation={[0, -Math.PI / 3, 0]}> */}
-            <Rig>
-              <Room1 />
-            </Rig>
+          <Room1 />
           {/* </group> */}
           {/* <CustomEnv /> */}
           {/* <Environment

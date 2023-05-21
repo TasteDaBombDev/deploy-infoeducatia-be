@@ -7,7 +7,7 @@ import "aos/dist/aos.css";
 import Sase from './components/robotii/Sase'
 import SingleRoom from './components/scenesComponents/SingleRoom';
 import Overlay from './Overlay';
-import { CustomEffect } from './components/CustomEffect';
+import CustomEffect from './components/CustomEffect';
 import CustomEnv from './components/CustomEnv'
 import SpecialLights from './components/SpecialLights';
 
@@ -23,7 +23,7 @@ function SingleScene() {
                 // position: 'absolute'
             }}>
                 <CustomEnv />
-                <CustomEffect />
+                {/* <CustomEffect /> */}
                 {/* <SpecialLights /> */}
                 <Suspense fallback={null}>
                     <SingleRoom />
