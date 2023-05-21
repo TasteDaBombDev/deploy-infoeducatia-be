@@ -22,6 +22,7 @@
     "react-countup": "^6.4.0",
     "react-dom": "^18.2.0",
     "react-firebase-hooks": "^5.1.1",
+    "react-gamepad": "^1.0.3",
     "react-google-maps": "^9.4.5",
     "react-id-generator": "^3.0.2",
     "react-loading": "^2.0.3",

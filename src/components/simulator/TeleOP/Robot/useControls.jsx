@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import DoamneIartaCeUrmeaza from "./DoamneIartaCeUrmeaza";
+import useGamepads from "./useGamepads";
+import { useFrame } from "react-three-fiber";
 
 
 export const useControls = (vehicleAPI, chassisAPI) => {
@@ -12,20 +14,35 @@ export const useControls = (vehicleAPI, chassisAPI) => {
 
     let [controls, setControls] = useState({});
 
-    // const brake = () => {
-    //     vehicleAPI.setBrake(breke, 2);
-    //     vehicleAPI.setBrake(breke, 3);
-    //     vehicleAPI.setBrake(breke, 0);
-    //     vehicleAPI.setBrake(breke, 1);
-    // };
+    // const [onKeyboard, setKeyboard] = useState(true)
 
-    // const stopBrake = () => {
-    //     vehicleAPI.setBrake(0, 2);
-    //     vehicleAPI.setBrake(0, 3);
-    //     vehicleAPI.setBrake(0, 0);
-    //     vehicleAPI.setBrake(0, 1);
-    // };
+    // useEffect(() => {
+    //     const foo = (e) => {
+    //         if (e.key.toLowerCase() == 'k')
+    //             setKeyboard(!onKeyboard)
+    //     }
+    //     window.addEventListener('keydown', foo)
+    //     return () => { window.removeEventListener('keydown', foo) }
+    // })
 
+    const variableSteer = (delta) => {
+        let fl = 0.35 * multiTurn * delta;
+        let fr = 0.35 * multiTurn * delta;
+        let rl = -0.1 * multiTurn * delta;
+        let rr = -0.1 * multiTurn * delta;
+
+        vehicleAPI.setSteeringValue(fl, 2);
+        vehicleAPI.setSteeringValue(fr, 3);
+        vehicleAPI.setSteeringValue(rl, 0);
+        vehicleAPI.setSteeringValue(rr, 1);
+    }
+
+    const variableAccelerate = (delta) => {
+        vehicleAPI.applyEngineForce(delta, 0);
+        vehicleAPI.applyEngineForce(delta, 1);
+        vehicleAPI.applyEngineForce(delta, 2);
+        vehicleAPI.applyEngineForce(delta, 3);
+    }
 
     useEffect(() => {
 
@@ -53,10 +70,8 @@ export const useControls = (vehicleAPI, chassisAPI) => {
     }, []);
 
     useEffect(() => {
-
         const bagaViteza = (speed) => {
-            // if (chassisAPI.)
-             {
+            {
                 vehicleAPI.applyEngineForce(speed, 0);
                 vehicleAPI.applyEngineForce(speed, 1);
                 vehicleAPI.applyEngineForce(speed, 2);
@@ -64,7 +79,13 @@ export const useControls = (vehicleAPI, chassisAPI) => {
             }
         };
 
-        if (!vehicleAPI || !chassisAPI) return;
+        // if ( || !onKeyboard) {
+        //     return;
+        // }
+
+        if (!vehicleAPI || !chassisAPI) {
+            return;
+        }
 
         if ((controls.w || controls.s) && (controls.a || controls.d)) {
             // stopBrake();
@@ -138,6 +159,193 @@ export const useControls = (vehicleAPI, chassisAPI) => {
         DoamneIartaCeUrmeaza.controls = controls;
 
     }, [controls, vehicleAPI, chassisAPI]);
+
+
+    // SUPORT PENTRU GAMEPADS, DACA AJUNG SA FAC MULTIPLAYER MA ANGAJEZ
+    // const [gamepads, setGamepads] = useState({})
+    // useGamepads((gamepads) => setGamepads(gamepads))
+
+    // HARTA SFANTA PENTRU PS4 CONTROLLER DUAL SHOCK
+    //
+    //  BUTOANE
+    //
+    // 0: A
+    // 1: B
+    // 2: X
+    // 3: Y
+    // 4: LEFT BUMPER
+    // 5: RIGHT BUMPER
+    // 6: LEFT TRIGGER 0 - 1 (FLOAT)
+    // 7: RIGHT TRIGGER 0 - 1 (FLOAT)
+    // 8: SHARE (LEFT START-MENU)
+    // 9: OPTIONS (RIGHT START-MENU)
+    // 10: LEFT JOYSTICK PRESS
+    // 11: RIGHT JOYSTICK PRESS
+    // 12: DPAD UP
+    // 13: DPAD DOWN
+    // 14: DPAD LEFT
+    // 15: DPAD RIGHT
+    // 16: BOTTOM MENU (PS4-ICON)
+    // 17: TOUCH PAD PRESS
+    //
+    //  AXE
+    //
+    // 0: LEFT JOYSTICK X (FLOAT) LEFT -1 RIGHT 1
+    // 1: LEFT JOYSTICK Y (FLOAT) UP -1 DOWN 1
+    // 2: RIGHT JOYSTICK X (FLOAT) LEFT -1 RIGHT 1
+    // 3: RIGHT JOYSTICK Y (FLOAT) UP -1 DOWN 1
+
+    // IN PUNCTUL ASTA IMI ESTE FRICA SA FOLOSESC FOR
+    // PENTRU A TRECE PRIN TOATE MAI REPEDE DE FRICA
+    // TIMPULUI DE EXECUTARE SI ACTIONARE
+    //
+    // IN PUNCTUL ASTA CRED CA SUNT FORTAT SA FOLOSESC FOR
+    // useFrame(() => {
+    //     // console.log(gamepads)
+    //     if (!onKeyboard)
+    //         return;
+    //     if (Object.keys(gamepads).length) {
+    //         //DROP F - A BUTTON
+    //         if (gamepads[0].buttons[0].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['f']: true
+    //             }));
+    //         else if (!gamepads[0].buttons[0].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['f']: false
+    //             }));
+
+    //         //ROTIRI BUMPERE
+    //         if (gamepads[0].buttons[4].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['q']: true
+    //             }));
+    //         else if (!gamepads[0].buttons[4].value &&
+    //             !(controls.a || controls.d))
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['q']: false
+    //             }));
+
+    //         //X BUTTON 
+    //         if (gamepads[0].buttons[2].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['q']: true
+    //             }));
+    //         else if (!gamepads[0].buttons[2].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['q']: false
+    //             }));
+
+    //         //B BUTTON DE PULA SA MA TRECI STRADA 
+    //         if (gamepads[0].buttons[1].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['e']: true
+    //             }));
+    //         else if (!gamepads[0].buttons[1].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['e']: false
+    //             }));
+
+    //         //LEFT BUMPER 
+    //         if (gamepads[0].buttons[4].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['arrowleft']: true
+    //             }));
+    //         else if (!gamepads[0].buttons[4].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['arrowleft']: false
+    //             }));
+
+    //         //RIGHT BUMPER 
+    //         if (gamepads[0].buttons[5].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['arrowright']: true
+    //             }));
+    //         else if (!gamepads[0].buttons[5].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['arrowright']: false
+    //             }));
+
+    //         //DPAD LEFT 
+    //         if (gamepads[0].buttons[14].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['a']: true
+    //             }));
+    //         else if (!gamepads[0].buttons[14].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['a']: false
+    //             }));
+
+    //         //DPAD RIGHT 
+    //         if (gamepads[0].buttons[15].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['d']: true
+    //             }));
+    //         else if (!gamepads[0].buttons[15].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['d']: false
+    //             }));
+
+    //         //DPAD UP 
+
+    //         if (gamepads[0].buttons[12].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['w']: true
+    //             }));
+    //         else if (!gamepads[0].buttons[12].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['w']: false
+    //             }));
+
+    //         //DPAD DOWN 
+
+    //         if (gamepads[0].buttons[13].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['s']: true
+    //             }));
+    //         else if (!gamepads[0].buttons[13].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['s']: false
+    //             }))
+
+    //         //OPTIONS 
+    //         if (gamepads[0].buttons[9].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['r']: true
+    //             }));
+    //         else if (!gamepads[0].buttons[9].value)
+    //             setControls((controls) => ({
+    //                 ...controls,
+    //                 ['r']: false
+    //             }))
+
+    //         // if (gamepads[0].axes[0] != 0 && (gamepads[0].buttons[4].value || gamepads[0].buttons[4].value))
+    //         // if (!(controls.a && controls.d && controls.q && controls.e))
+    //         //     variableSteer(gamepads[0].axes[0])
+    //     }
+
+    // })
 
     return controls;
 

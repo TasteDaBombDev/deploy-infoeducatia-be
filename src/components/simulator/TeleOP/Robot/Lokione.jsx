@@ -10,6 +10,8 @@ import { WheelDebug } from "./WheelDebug";
 import Brat from "./Brat";
 
 import DoamneIartaCeUrmeaza from "./DoamneIartaCeUrmeaza";
+import useGamepads from "./useGamepads";
+import { getActiveElement } from "@testing-library/user-event/dist/utils";
 
 export default function Lokione(props) {
   const { nodes, materials } = useGLTF("/robotNou.glb");
@@ -124,6 +126,17 @@ export default function Lokione(props) {
   );
 
   useControls(vehicleAPI, chassisAPI);
+
+  // const [gamepads, setGamepads] = useState({})
+  // useGamepads((gamepads) => setGamepads(gamepads))
+  // useEffect(() => {
+  //   if (Object.keys(gamepads).length == 0)
+  //     return;
+  //   let buttons = []
+  //   for (let i = 0; i <= 17; i++)
+  //     buttons.push(gamepads[0].buttons[i].value)
+  //   console.log(buttons)
+  // }, [gamepads])
 
   //POSIBIL CONTROLLER PENTRU COLIZIUNEA BRATULUI DACA EXISTA
   useFrame((state) => {
