@@ -7,7 +7,7 @@ function Overlay() {
       <div className="page-galerie" id='general'>
         <div className="title">
           <p>Modelul</p><br />
-          <h1>Loki</h1>
+          <h1>Kronos</h1>
         </div>
         <div className="subtitle"><p>A șasea generație</p><br /><h1>THOBOR</h1></div>
         <div className="stripes">
@@ -183,7 +183,118 @@ function Overlay() {
           </div>
         </div>
       </div>
-
+      <div className="page-galerie" id='detectie'>
+        <div className="stripes">
+          <div className="stripe">
+            <div className="stripe-1" />
+            <div className="stripe-3" />
+          </div>
+          <div className="stripe">
+            <div className="stripe-4" />
+            <div className="stripe-2" />
+          </div>
+          <div className="stripe">
+            <div className="stripe-4" />
+            <div className="stripe-5" />
+          </div>
+        </div>
+        <div className="title"><h2>Detectie video prin</h2><h1>OpenCV</h1>
+        </div>
+        <div className="subtitle"><h1>Flexibil</h1><h2>pentru modificari oricand</h2></div>
+        <img alt='' src="./img/detectie.png" />
+        <div className="stripes">
+          <div className="stripe">
+            <div className="stripe-1" />
+            <div className="stripe-2" />
+          </div>
+          <div className="stripe">
+            <div className="stripe-5" />
+          </div>
+          <div className="stripe">
+            <div className="stripe-4" />
+          </div>
+          <div className="stripe">
+            <div className="stripe-1" />
+          </div>
+        </div>
+      </div>
+      <div className="page-galerie" id='threads'>
+        <div className="stripes">
+          <div className="stripe">
+            <div className="stripe-1" />
+            <div className="stripe-3" />
+          </div>
+          <div className="stripe">
+            <div className="stripe-4" />
+            <div className="stripe-2" />
+          </div>
+          <div className="stripe">
+            <div className="stripe-4" />
+            <div className="stripe-5" />
+          </div>
+        </div>
+        <div className="title"><h2>Functie de autonom pe baza</h2><h1>Threadurilor</h1></div>
+        <div className="subtitle"><h2>Are capacitatea de a executa actiuni</h2><h1>asincron</h1></div>
+        <ul className="list">
+          <li>Timp de miscare economisit</li>
+          <li>Simplificare a structurii codului</li>
+          <li>Posibilitatea de cod polimorfic</li>
+        </ul>
+        <img alt='' src='./img/threads.png' />
+        {/* <div className="stripes">
+          <div className="stripe">
+            <div className="stripe-1" />
+            <div className="stripe-2" />
+          </div>
+          <div className="stripe">
+            <div className="stripe-5" />
+          </div>
+          <div className="stripe">
+            <div className="stripe-4" />
+          </div>
+          <div className="stripe">
+            <div className="stripe-1" />
+          </div>
+        </div> */}
+      </div>
+      <div className="page-galerie" id='road'>
+        <div className="stripes">
+          <div className="stripe">
+            <div className="stripe-1" />
+            <div className="stripe-3" />
+          </div>
+          <div className="stripe">
+            <div className="stripe-4" />
+            <div className="stripe-2" />
+          </div>
+          <div className="stripe">
+            <div className="stripe-4" />
+            <div className="stripe-5" />
+          </div>
+        </div>
+        <div className="title"><h2>Control total prin</h2><h1>controllere</h1></div>
+        <div className="subtitle"><h2>Permite</h2><h1>FLEXIBILITATE</h1><h2>in orice situatie</h2></div>
+        <ul className="list">
+          <li>Proiectat pentru doi driveri</li>
+          <li>Controale separate pe sasiu si intake</li>
+          <li>Controalele nu se suprapun</li>
+        </ul>
+        <div className="stripes" style={{marginBottom: '50px'}}>
+          <div className="stripe">
+            <div className="stripe-1" />
+            <div className="stripe-2" />
+          </div>
+          <div className="stripe">
+            <div className="stripe-5" />
+          </div>
+          <div className="stripe">
+            <div className="stripe-4" />
+          </div>
+          <div className="stripe">
+            <div className="stripe-1" />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

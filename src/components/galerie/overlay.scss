@@ -17,7 +17,7 @@
     // color: #06083d;
 
     background: rgba(0, 0, 0, 0);
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0.8) 2%, rgba(0, 0, 0, 0.433) 30%, rgba(0, 0, 0, 0.264) 50%);
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.8) 2%, rgba(0, 0, 0, 0.64) 30%, rgba(0, 0, 0, 0) 60%);
 
     overflow-y: scroll;
 
@@ -54,6 +54,7 @@
                     font-weight: 600;
                     font-size: 64px;
                     color: #26b33e
+                    // color: #26b33e
                 }
 
                 p {
@@ -76,7 +77,10 @@
         &#robot,
         &#chassis,
         &#arm,
-        &#lift {
+        &#lift,
+        &#detectie,
+        &#threads,
+        &#road {
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -102,7 +106,8 @@
                     font-weight: 600;
                     font-size: 30px;
                     text-transform: uppercase;
-                    color: #6ef188;
+                    color: #26b33e;
+                    // color: #6ef188;
 
                 }
 
@@ -111,6 +116,13 @@
                     font-size: 28px;
                 }
 
+            }
+
+            img{
+                width: 500px;
+                // height: 200px;
+                z-index: 100;
+                content: url("./img/detectie.png");
             }
 
             li {
@@ -137,6 +149,10 @@
         }
 
         &#lift{
+            margin-bottom: 50px;
+        }
+
+        &#detectie{
             margin-bottom: 50px;
         }
 

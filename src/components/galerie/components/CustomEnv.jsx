@@ -47,7 +47,24 @@ function CustomEnv() {
             camera_position: new Vector3(-1.72, 4.72, -1.48),
             camera_target: new Vector3(-1.64, 4.58, -1.6),
             camera_fov: 60
-        }
+        },
+        //detectie video
+        6: {
+            camera_position: new Vector3(-1.65, 4.58, -1.28),
+            camera_target: new Vector3(-1.73, 4.48, -1.5),
+            camera_fov: 55
+        },
+        //threads
+        7: {
+            camera_position: new Vector3(-1.6, 4.66, -1.45),
+            camera_target: new Vector3(-1.73, 4.55, -1.48),
+            camera_fov: 55
+        },
+        8: {
+            camera_position: new Vector3(-1.65, 4.7, -1.6),
+            camera_target: new Vector3(-1.65, 4.55, -1.5),
+            camera_fov: 55
+        },
     }
     useEffect(() => {
         ghost_object.copy(CAMERA_STATE[1].camera_target)
@@ -66,10 +83,16 @@ function CustomEnv() {
             setState(3)
         else if (scroll <= 2700)
             setState(4)
-        else
+        else if (scroll <= 3390)
             setState(5)
+        else if (scroll <= 4040)
+            setState(6)
+        else if (scroll <= 4765)
+            setState(7)
+        else
+            setState(8)
         // let item = document.getElementById('gal-overlay').scrollTop
-        // console.log(item)
+        console.log(scroll)
     })
 
     // CAMERA STATE UPDATER
