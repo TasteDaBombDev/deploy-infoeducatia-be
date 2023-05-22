@@ -31,7 +31,12 @@ export default function Cone({ position, props }) {
   );
 
   //CEVA CONTROLLER SA STEA PE JUNCTION
+  // urmeaza sa adaug logica pentru multiplayer si
+  // singurul lucru pe care se bazeaza este for(players)
+  // deja imi este frica 
   useFrame(() => {
+    Object.keys(DoamneIartaCeUrmeaza.robotStates).forEach((key) => {
+    })
     if (!onJunction) {
       let conePosition = new Vector3(0, 0, 0)
       conePosition.setFromMatrixPosition(coneBodyCylinder.current.matrixWorld);
@@ -91,36 +96,40 @@ export default function Cone({ position, props }) {
   })
 
   //CEVA CONTROLLER PENTRU CAND SE APROPIE BRATUL
+  //acel for sfant pentru toti playerii
   useFrame((state) => {
-    if (!onJunction) {
-      let bratPosition = new Vector3(0, 0, 0);
-      bratPosition.setFromMatrixPosition(DoamneIartaCeUrmeaza.bratBody.current.matrixWorld)
+    Object.keys(DoamneIartaCeUrmeaza.robotStates).forEach((playerIndex) => {
+      if (playerIndex != 0)
+        if (!onJunction) {
+          let bratPosition = new Vector3(0, 0, 0);
+          bratPosition.setFromMatrixPosition(DoamneIartaCeUrmeaza.robotStates[playerIndex].bratBody.current.matrixWorld)
 
-      let bratQuaternion = new Quaternion(0, 0, 0, 0);
-      bratQuaternion.setFromRotationMatrix(DoamneIartaCeUrmeaza.bratBody.current.matrixWorld);
+          let bratQuaternion = new Quaternion(0, 0, 0, 0);
+          bratQuaternion.setFromRotationMatrix(DoamneIartaCeUrmeaza.robotStates[playerIndex].bratBody.current.matrixWorld);
 
-      let conePosition = new Vector3(0, 0, 0)
-      conePosition.setFromMatrixPosition(coneBodyCylinder.current.matrixWorld);
+          let conePosition = new Vector3(0, 0, 0)
+          conePosition.setFromMatrixPosition(coneBodyCylinder.current.matrixWorld);
 
-      let dist = conePosition.distanceTo(bratPosition)
+          let dist = conePosition.distanceTo(bratPosition)
 
-      if (dist <= 2 && conePosition.y >= 1.5 && !DoamneIartaCeUrmeaza.controls.f) {
-        // coneAPICylinder.position.copy(bratPosition)
-        // coneAPICylinder.quaternion.copy()
+          if (dist <= 2 && conePosition.y >= 1.5 && !DoamneIartaCeUrmeaza.robotStates[playerIndex].controls.f) {
+            // coneAPICylinder.position.copy(bratPosition)
+            // coneAPICylinder.quaternion.copy()
 
-        let carrierPosition = new Vector3(0, 0, 0);
-        // carrierPosition.applyQuaternion(bratQuaternion);
+            let carrierPosition = new Vector3(0, 0, 0);
+            // carrierPosition.applyQuaternion(bratQuaternion);
 
-        // let finalCarryPosition = carrierPosition.clone().add(bratPosition);
-        // coneAPICylinder.position.copy(finalCarryPosition);
-        // coneAPICylinder.quaternion.copy(bratQuaternion);
-        coneAPICylinder.position.copy(bratPosition.add(new Vector3(0, 1.6, 0)))
+            // let finalCarryPosition = carrierPosition.clone().add(bratPosition);
+            // coneAPICylinder.position.copy(finalCarryPosition);
+            // coneAPICylinder.quaternion.copy(bratQuaternion);
+            coneAPICylinder.position.copy(bratPosition.add(new Vector3(0, 1.6, 0)))
 
-        coneAPICylinder.velocity.set(0, 0, 0);
-        coneAPICylinder.angularVelocity.set(0, 0, 0);
-        coneAPICylinder.quaternion.copy(new Quaternion(0, 0, 0, 1))
-      }
-    }
+            coneAPICylinder.velocity.set(0, 0, 0);
+            coneAPICylinder.angularVelocity.set(0, 0, 0);
+            coneAPICylinder.quaternion.copy(new Quaternion(0, 0, 0, 1))
+          }
+        }
+    })
   })
 
   useEffect(() => {

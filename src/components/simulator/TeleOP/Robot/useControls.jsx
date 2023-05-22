@@ -4,7 +4,7 @@ import DoamneIartaCeUrmeaza from "./DoamneIartaCeUrmeaza";
 import { useFrame } from "react-three-fiber";
 import { MathUtils } from "three";
 
-export const useControls = (vehicleAPI, chassisAPI) => {
+export const useControls = (vehicleAPI, chassisAPI, playerIndex) => {
     const viteza = 600;
     const turnViteza = 680;
     // const breke = 20;
@@ -16,6 +16,54 @@ export const useControls = (vehicleAPI, chassisAPI) => {
 
     const [onKeyboard, setKeyboard] = useState(true)
     const [isController, setController] = useState(false)
+
+    const keyboardMap = {
+        1: {
+            'forward': 'w',
+            'backward': 's',
+            'left': 'a',
+            'right': 'd',
+            'strafeLeft': 'q',
+            'strafeRight': 'e',
+            'rotateLeft': 'arrowleft',
+            'rotateRight': 'arrowright'
+        },
+        2: {
+            'forward': 'o',
+            'backward': 's',
+            'left': 'a',
+            'right': 'd',
+            'strafeLeft': 'q',
+            'strafeRight': 'e',
+            'rotateLeft': 'arrowleft',
+            'rotateRight': 'arrowright'
+
+        }
+    }
+
+    const getControlsFor = (command) => {
+        let key = ''
+        let cv = Object.entries(keyboardMap[playerIndex])
+        cv.forEach((object) => {
+            if (object[0] == command && key == '')
+                key = object[1]
+            // console.log(object[1])
+        })
+        return key
+    }
+
+    const pressForPlayer = (command) => {
+        let result = ''
+        let key = getControlsFor(command);
+        let controlEntries = Object.entries(controls)
+        controlEntries.forEach((object) => {
+            if (object[0] == key && result == '')
+                result = object[1]
+            // console.log(object[1])
+            // return object[1]
+        })
+        return result
+    }
 
     useEffect(() => {
         const foo = (e) => {
@@ -97,29 +145,29 @@ export const useControls = (vehicleAPI, chassisAPI) => {
 
         if (!vehicleAPI || !chassisAPI) { return; }
 
-        if ((controls.w || controls.s) && (controls.a || controls.d)) {
+        if ((pressForPlayer('forward') || pressForPlayer('backward')) && (pressForPlayer('left') || pressForPlayer('right'))) {
             // stopBrake();
-            if (controls.w)
+            if (pressForPlayer('forward'))
                 bagaViteza(turnViteza);
-            else if (controls.s)
+            else if (pressForPlayer('backward'))
                 bagaViteza(-turnViteza);
         }
-        else if (controls.w) {
+        else if (pressForPlayer('forward')) {
             // stopBrake();
             bagaViteza(viteza);
-        } else if (controls.s) {
+        } else if (pressForPlayer('backward')) {
             // stopBrake();
             bagaViteza(-viteza);
             // brake();
         } else if (onKeyboard)
             bagaViteza(0);
 
-        if (controls.a) {
+        if (pressForPlayer('left')) {
             vehicleAPI.setSteeringValue(0.35 * multiTurn, 2);
             vehicleAPI.setSteeringValue(0.35 * multiTurn, 3);
             vehicleAPI.setSteeringValue(-0.1 * multiTurn, 0);
             vehicleAPI.setSteeringValue(-0.1 * multiTurn, 1);
-        } else if (controls.d) {
+        } else if (pressForPlayer('right')) {
             vehicleAPI.setSteeringValue(-0.35 * multiTurn, 2);
             vehicleAPI.setSteeringValue(-0.35 * multiTurn, 3);
             vehicleAPI.setSteeringValue(0.1 * multiTurn, 0);
@@ -136,13 +184,13 @@ export const useControls = (vehicleAPI, chassisAPI) => {
                 vehicleAPI.setSteeringValue(0, i);
             }
 
-        if (controls.q) {
+        if (pressForPlayer('strafeLeft')) {
             vehicleAPI.setSteeringValue(Math.PI / 2, 2);
             vehicleAPI.setSteeringValue(Math.PI / 2, 3);
             vehicleAPI.setSteeringValue(Math.PI / 2, 0);
             vehicleAPI.setSteeringValue(Math.PI / 2, 1);
             bagaViteza(viteza)
-        } else if (controls.e) {
+        } else if (pressForPlayer('strafeRight')) {
             vehicleAPI.setSteeringValue(Math.PI / 2, 2);
             vehicleAPI.setSteeringValue(Math.PI / 2, 3);
             vehicleAPI.setSteeringValue(Math.PI / 2, 0);
@@ -151,12 +199,12 @@ export const useControls = (vehicleAPI, chassisAPI) => {
 
         }
 
-        if (controls.arrowleft) {
+        if (pressForPlayer('rotateLeft')) {
             vehicleAPI.applyEngineForce(-viteza * multiRotate, 0);
             vehicleAPI.applyEngineForce(viteza * multiRotate, 1);
             vehicleAPI.applyEngineForce(-viteza * multiRotate, 2);
             vehicleAPI.applyEngineForce(viteza * multiRotate, 3);
-        } else if (controls.arrowright) {
+        } else if (pressForPlayer('rotateRight')) {
             vehicleAPI.applyEngineForce(viteza * multiRotate, 0);
             vehicleAPI.applyEngineForce(-viteza * multiRotate, 1);
             vehicleAPI.applyEngineForce(viteza * multiRotate, 2);
@@ -164,13 +212,14 @@ export const useControls = (vehicleAPI, chassisAPI) => {
         }
 
         if (controls.r) {
-            chassisAPI.position.set(-22.5, 5, 38);
+            chassisAPI.position.set(...DoamneIartaCeUrmeaza.robotStates[playerIndex].startPose);
             chassisAPI.velocity.set(0, 0, 0);
             chassisAPI.angularVelocity.set(0, 0, 0);
             chassisAPI.rotation.set(0, 0, 0);
         }
 
-        DoamneIartaCeUrmeaza.controls = controls;
+        // DoamneIartaCeUrmeaza.controls = controls;
+        DoamneIartaCeUrmeaza.robotStates[playerIndex].controls = controls;
 
     }, [controls, vehicleAPI, chassisAPI]);
 

@@ -11,10 +11,13 @@ import Brat from "./Brat";
 
 import DoamneIartaCeUrmeaza from "./DoamneIartaCeUrmeaza";
 
-export default function Lokione(props) {
+export default function Lokione({ player }, props) {
   const { nodes, materials } = useGLTF("/robotNou.glb");
 
-  const position = [-22.5, 0, 38];
+  var position = [-22.5, 0, 38];
+  if (player == 2)
+    position = [22.5, 0, 38];
+
   const width = 6;
   const height = 2; //.84
   const front = 2.8;
@@ -51,8 +54,8 @@ export default function Lokione(props) {
     }),
     useRef(null)
   );
-  DoamneIartaCeUrmeaza.robotBody = chassisBody;
-  DoamneIartaCeUrmeaza.robotApi = chassisAPI;
+  // DoamneIartaCeUrmeaza.robotStates[player].robotBody = chassisBody;
+  // DoamneIartaCeUrmeaza.robotStates[player].robotApi = chassisAPI;
 
   const [bratBody, bratAPI] = useBox(
     () => ({
@@ -63,8 +66,18 @@ export default function Lokione(props) {
     }),
     useRef(null)
   );
-  DoamneIartaCeUrmeaza.bratBody = bratBody;
-  DoamneIartaCeUrmeaza.bratApi = bratAPI;
+
+  // DoamneIartaCeUrmeaza.robotStates[player].bratBody = bratBody;
+  // DoamneIartaCeUrmeaza.robotStates[player].bratApi = bratAPI;
+
+  DoamneIartaCeUrmeaza.robotStates[player] = {
+    ...DoamneIartaCeUrmeaza.robotStates[player],
+    'startPose': position,
+    'robotBody': chassisBody,
+    'robotApi': chassisAPI,
+    'bratBody': bratBody,
+    'bratApi': bratAPI
+  }
 
   useEffect(() => {
     const keyDown = (e) => {
@@ -84,7 +97,12 @@ export default function Lokione(props) {
     window.addEventListener("keydown", keyDown);
     window.addEventListener("keyup", keyUp);
 
-    DoamneIartaCeUrmeaza.controls = controls;
+    // DoamneIartaCeUrmeaza.robotStates[player].controls = controls;
+
+    DoamneIartaCeUrmeaza.robotStates[player] = {
+      ...DoamneIartaCeUrmeaza.robotStates[player],
+      'controls': controls
+    }
 
     return () => {
       window.removeEventListener("keydown", keyDown);
@@ -104,7 +122,11 @@ export default function Lokione(props) {
   })
 
   useEffect(() => {
-    DoamneIartaCeUrmeaza.controls = controls;
+    // DoamneIartaCeUrmeaza.robotStates[player].controls = controls;
+    DoamneIartaCeUrmeaza.robotStates[player] = {
+      ...DoamneIartaCeUrmeaza.robotStates[player],
+      'controls': controls
+    }
 
     if (controls.arrowup)
       if (bratPosition <= 12) {
@@ -131,7 +153,7 @@ export default function Lokione(props) {
     useRef(null)
   );
 
-  useControls(vehicleAPI, chassisAPI);
+  useControls(vehicleAPI, chassisAPI, player);
 
   // const isGamepadConnected = () => { return (isNaN(navigator.getGamepads()[0])) }
   // useFrame((frame) => {

@@ -14,7 +14,8 @@ function Scena() {
                 > */}
             <Field />
             <Scene />
-            <Lokione />
+            {/* <Lokione player={2} /> */}
+            <Lokione player={1} />
         </Suspense>
         /* </Physics> */
         /* </Canvas> */

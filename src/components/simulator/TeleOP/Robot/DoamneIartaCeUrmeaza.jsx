@@ -8,19 +8,16 @@ import React from 'react'
 // IN CLASA ASTA INUMANA MA SIMT INVINS CA SI FIINTA SI PROGRAMATOR
 // NU AR TREBUI SA FIE NEVOIE SA EXISTE ASA CEVA
 
-class DoamneIartaCeUrmeaza{
+// IARA TREBUIE SA FAC MODIFICARI AICI
+// DOAMNE IARTA PACATELE PE CARE LE VOI FACE
 
+class DoamneIartaCeUrmeaza {
     static low = 4;
     static med = 9;
     static high = 14;
 
-    static bratBody;
-    static robotBody;
-
-    static bratApi;
-    static robotApi;
-
-    static controls;
+    //1:LOW 2:MEDIU 3:HIGH
+    static puntaj = [0, 0, 0];
 
     //PENTRU MAI TARZIU NOTA
     //NU MAI STIU CE FACEA FIECARE VARIABILA DE MAI JOS
@@ -29,10 +26,22 @@ class DoamneIartaCeUrmeaza{
     static junctions = [];
     static junctionsHeight = [];
 
-    static conesInJunction = []
+    static conesInJunction = [];
 
-    //1:LOW 2:MEDIU 3:HIGH
-    static puntaj = [0, 0, 0];
+    static robotStates = {
+        0: {
+            startPose: 0,
+
+            bratBody: 0,
+            robotBody: 0,
+
+            bratApi: 0,
+            robotApi: 0,
+
+            controls: 0
+        },
+
+    }
 
 }
 
