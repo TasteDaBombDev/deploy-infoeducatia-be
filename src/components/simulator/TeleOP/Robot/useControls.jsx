@@ -124,13 +124,17 @@ export const useControls = (vehicleAPI, chassisAPI) => {
             vehicleAPI.setSteeringValue(-0.35 * multiTurn, 3);
             vehicleAPI.setSteeringValue(0.1 * multiTurn, 0);
             vehicleAPI.setSteeringValue(0.1 * multiTurn, 1);
-        } else if (isController)
+        } else if (isController) {
             if (Math.abs(navigator.getGamepads()[0].axes[0]) <= 0.1) {
                 for (let i = 0; i < 4; i++) {
                     vehicleAPI.setSteeringValue(0, i);
                 }
             }
-
+        }
+        else
+            for (let i = 0; i < 4; i++) {
+                vehicleAPI.setSteeringValue(0, i);
+            }
 
         if (controls.q) {
             vehicleAPI.setSteeringValue(Math.PI / 2, 2);

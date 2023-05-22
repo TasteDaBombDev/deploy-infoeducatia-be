@@ -21,7 +21,7 @@ export default function Cone({ position, props }) {
 
   const [coneBodyCylinder, coneAPICylinder] = useCylinder(
     () => ({
-      args: [.71, 1.4, 3.4, 16, 1, true],
+      args: [.71, 1.4, 3.4, 6, 1, true],
       // args: [1, 1, 3.4, 32, 1, true],
       mass: 1,
       position: position,

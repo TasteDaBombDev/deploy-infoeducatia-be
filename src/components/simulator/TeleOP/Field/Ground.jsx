@@ -10,7 +10,7 @@ export default function Ground({ position, props }) {
 
 
   const [groundBody, groundAPI] = useCylinder(() => ({
-    args: [1.4, 1.86, .38, 8, 1],
+    args: [1.4, 1.86, .38, 6, 1],
     position: realPose,
     mass: 0,
     type: 'Static',
