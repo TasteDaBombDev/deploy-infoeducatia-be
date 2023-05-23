@@ -10,6 +10,7 @@ import Overlay from './Overlay';
 import CustomEffect from './components/CustomEffect';
 import CustomEnv from './components/CustomEnv'
 import SpecialLights from './components/SpecialLights';
+import Loader from './components/Loader';
 
 
 function SingleScene() {
@@ -17,21 +18,17 @@ function SingleScene() {
     return (
         <>
             <Overlay />
-            <Canvas style={{
-                height: '100vh',
-                width: '100vw',
-                // position: 'absolute'
-            }}>
-                <CustomEnv />
-                {/* <CustomEffect /> */}
-                {/* <SpecialLights /> */}
-                <Suspense fallback={null}>
+            {/* <Loader /> */}
+            <Suspense fallback={<Loader />}>
+                <Canvas style={{
+                    height: '100vh',
+                    width: '100vw',
+                }}>
+                    <CustomEnv />
                     <SingleRoom />
-                </Suspense>
-                <Suspense fallback={null}>
                     <Sase position={[-1.65, 4.45, -1.5]} />
-                </Suspense>
-            </Canvas>
+                </Canvas>
+            </Suspense>
         </>
     )
 }

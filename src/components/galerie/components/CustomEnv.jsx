@@ -92,7 +92,7 @@ function CustomEnv() {
         else
             setState(8)
         // let item = document.getElementById('gal-overlay').scrollTop
-        console.log(scroll)
+        // console.log(scroll)
     })
 
     // CAMERA STATE UPDATER
@@ -102,21 +102,31 @@ function CustomEnv() {
         let position = new Vector3(0, 0, 0);
         // let quaternion = new Quaternion(0, 0, 0, 1)
         let target = new Vector3(0, 0, 0)
+        let actual_camera = new Vector3(0, 0, 0)
 
         position.copy(CAMERA_STATE[STATE].camera_position)
         target.copy(CAMERA_STATE[STATE].camera_target)
         let camera_position = position.clone();
+        actual_camera.copy(state.camera.position)
+
         // quaternion.copy(CAMERA_STATE[STATE].camera_rotation)
         // let position = CAMERA_STATE[STATE].camera_position
         // let quaternion = CAMERA_STATE[STATE].camera_rotation
 
         let calc = new Vector3(0, 0, 0)
         calc.copy(ghost_object)
-        calc.lerp(CAMERA_STATE[STATE].camera_target, 0.03)
+        if (calc.distanceTo(CAMERA_STATE[STATE].camera_target) >= 0.001)
+            calc.lerp(CAMERA_STATE[STATE].camera_target, 0.03)
+        else
+            calc.copy(CAMERA_STATE[STATE].camera_target)
         setGhost(calc)
         state.camera.lookAt(ghost_object)
 
-        state.camera.position.lerp(camera_position, .05)
+        if (actual_camera.distanceTo(camera_position) >= 0.001)
+            state.camera.position.lerp(camera_position, .05)
+        else
+            state.camera.position.copy(camera_position)
+
         state.camera.fov = MathUtils.lerp(state.camera.fov, CAMERA_STATE[STATE].camera_fov, 0.05)
 
         // state.camera.position.copy(camera_position);
@@ -125,12 +135,13 @@ function CustomEnv() {
         state.camera.updateProjectionMatrix()
     })
 
-    useFrame(({ mouse, camera }) => {
+    // ASTA ERA PENTRU MISCARI SMOOTH ALE CAMEREI DUPA MOUSE
+    // useFrame(({ mouse, camera }) => {
         // camera.position.x = MathUtils.lerp(camera.position.x, mouse.x * 0.5, 0.03)
         //     camera.position.y = MathUtils.lerp(camera.position.y, mouse.y * 0.8, 0.01)
         // camera.position.z = MathUtils.lerp(camera.position.z, Math.max(4, Math.abs(mouse.x * mouse.y * 8)), 0.01)
         //     camera.rotation.y = MathUtils.lerp(camera.rotation.y, mouse.x * -Math.PI * 0.025, 0.001)
-    })
+    // })
 
     return (
         <Suspense fallback={null}>
@@ -161,9 +172,7 @@ function CustomEnv() {
                 fov={80}
             /> */}
             {/* <OrbitControls /> */}
-            {/* <OrbitControls target={[0, -3.5, -0.5]} zoomSpeed={0.5} /> */}
             {/* <gridHelper args={[100, 100]} /> */}
-            {/* <OrbitControls target={[0, 0.15, 0]} zoomSpeed={.7}/> */}
         </Suspense>
     );
 }
