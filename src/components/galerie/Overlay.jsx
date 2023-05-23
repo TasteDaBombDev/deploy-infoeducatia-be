@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './overlay.scss'
 import Stripes from './components/Stripes'
+import { useFrame } from 'react-three-fiber';
+import { useState } from 'react';
 
 function Overlay() {
+
   return (
     <div className='overlay' id='gal-overlay'>
       <div className="page-galerie" id='general'>
@@ -28,7 +31,7 @@ function Overlay() {
           <Stripes mix={[4, 2]} />
           <Stripes mix={[4, 5]} />
         </div>
-        <div className="title"><h2>Al</h2><h1>doilea</h1><h2>prototip conceput</h2>
+        <div className="title"><div style={{display: 'flex', gap: '8px'}}><h2>Al</h2><h1>doilea</h1></div><h2>prototip conceput</h2>
         </div>
         <div className="subtitle"><h2>Proiectat pentru</h2><h1>control extins</h1></div>
         <ul className="list">
@@ -69,7 +72,7 @@ function Overlay() {
           <Stripes mix={[4, 2]} />
           <Stripes mix={[4, 5]} />
         </div>
-        <div className="title"><h2>Sistem</h2><h1>INTAKE</h1><h2>custom</h2></div>
+        <div className="title"><div style={{display: 'flex', gap: '8px'}}><h2>Sistem</h2><h1>INTAKE</h1></div><h2>custom</h2></div>
         <div className="subtitle"><h2>Bazat pe</h2><h1>MOBILITATE EXTINSA</h1></div>
         <ul className="list">
           <li>Integrat cu ajutorul senzorilor</li>

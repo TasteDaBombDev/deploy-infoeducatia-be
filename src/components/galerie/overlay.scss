@@ -73,13 +73,7 @@
             }
         }
 
-        &#robot,
-        &#chassis,
-        &#arm,
-        &#lift,
-        &#detectie,
-        &#threads,
-        &#road {
+        &:not(#general) {
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -93,8 +87,6 @@
 
             .title,
             .subtitle {
-                padding: 0px;
-                margin: 0px;
                 line-height: 20px;
 
                 display: flex;
@@ -107,7 +99,6 @@
                     text-transform: uppercase;
                     color: #26b33e;
                     // color: #6ef188;
-
                 }
 
                 h2 {
@@ -208,6 +199,52 @@
                 width: 50%;
                 height: 100%;
                 background: linear-gradient(90deg, #26b33e 0%, #6ef188 100%);
+            }
+
+        }
+    }
+
+    @media screen and (max-width: 780px) {
+        & {
+            background: rgba(0, 0, 0, 0.449);
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.8) 2%, rgba(0, 0, 0, 0.64) 30%, rgba(0, 0, 0, 0.325) 100%);
+        }
+
+        padding-left: 10px;
+
+        .page-galerie {
+            padding: 0px;
+            margin-left: 0px;
+
+            // background-color: #6ef188;
+
+            img {
+                // left: 0;
+                // position: absolute;
+                image-rendering: crisp-edges;
+                margin-left: -90px;
+            }
+
+            ul {
+                padding: 0;
+                margin: 0;
+            }
+
+            &:not(#general) .title,
+            .subtitle {
+                display: flex;
+                flex-direction: column;
+                line-height: 24px;
+
+                margin-left: 0px;
+
+                h1 {
+                    font-size: 28px;
+                }
+            }
+
+            &:not(#general) .subtitle {
+                line-height: 24px;
             }
 
         }
