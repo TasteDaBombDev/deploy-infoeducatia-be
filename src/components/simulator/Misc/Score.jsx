@@ -11,9 +11,11 @@ function Score() {
     // ASTA ESTE A 5A IMPLEMENTARE SI DEJA MERGE EXTREM DE PROST
     // DAR MACAR RESTUL DE 4 NU O SA MAI EXISTE
 
+    // TREBUIE ADAUGAT DATA FETCH SI LA CONTROLLER INPUT
+    // NU SUNT SIGUR CUM
+
     useEffect(() => {
 
-        // fetchScore();
 
         const keyDown = (e) => {
             setLow(DoamneIartaCeUrmeaza.puntaj[0])

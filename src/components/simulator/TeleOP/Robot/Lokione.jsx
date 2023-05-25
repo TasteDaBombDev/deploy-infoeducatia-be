@@ -70,6 +70,9 @@ export default function Lokione({ player }, props) {
   // DoamneIartaCeUrmeaza.robotStates[player].bratBody = bratBody;
   // DoamneIartaCeUrmeaza.robotStates[player].bratApi = bratAPI;
 
+  //ad player to active gamepads
+  // useEffect(() => { DoamneIartaCeUrmeaza.gamepadAssignment[player] = undefined }, [])
+
   DoamneIartaCeUrmeaza.robotStates[player] = {
     ...DoamneIartaCeUrmeaza.robotStates[player],
     'startPose': position,
@@ -110,10 +113,10 @@ export default function Lokione({ player }, props) {
     };
   }, [controls]);
 
-  const isGamepadConnected = () => { return (isNaN(navigator.getGamepads()[0])) }
+  const isGamepadConnected = () => { return (isNaN(navigator.getGamepads()[DoamneIartaCeUrmeaza.gamepadAssignment[player]])) }
   useFrame(() => {
     if (isGamepadConnected()) {
-      let gamepad = navigator.getGamepads()[0]
+      let gamepad = navigator.getGamepads()[DoamneIartaCeUrmeaza.gamepadAssignment[player]]
       if (gamepad.axes[3] < -0.1 && bratPosition <= 12)
         setBratPosition(bratPosition + (-gamepad.axes[3] / 7))
       if (gamepad.axes[3] > 0.1 && bratPosition >= -6)

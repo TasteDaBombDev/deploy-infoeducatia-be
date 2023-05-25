@@ -28,6 +28,18 @@ class DoamneIartaCeUrmeaza {
 
     static conesInJunction = [];
 
+    // NU AR TREBUI SA FOLOSESC CHESTIA ASTA PENTRU
+    // A FACE CONTROL LA CONTROLLERE
+    // CA SA NU UIT
+    // KEY = NUMARUL PLAYERULUI
+    // VALUE = NUMARUL INDEXULUI CONTROLLERULUI
+    static gamepadAssignment = {
+        1: 0,
+        2: 1
+    }
+
+    static gamepadControlled = false
+
     static robotStates = {
         0: {
             startPose: 0,

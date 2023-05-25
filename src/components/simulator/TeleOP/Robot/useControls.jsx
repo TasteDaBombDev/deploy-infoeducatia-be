@@ -69,6 +69,7 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex) => {
         const foo = (e) => {
             if (e.key.toLowerCase() == 'k') {
                 setKeyboard(!onKeyboard)
+                DoamneIartaCeUrmeaza.gamepadControlled = !DoamneIartaCeUrmeaza.gamepadControlled
                 for (let i = 0; i < 4; i++) {
                     vehicleAPI.setSteeringValue(0, i);
 
@@ -103,11 +104,9 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex) => {
     }
 
     useEffect(() => {
-        if (!onKeyboard) {
-            // window.removeEventListener("keydown", keyDown);
-            // window.removeEventListener("keyup", keyUp);
-            return;
-        }
+        // if (!onKeyboard) {
+        //     return;
+        // }
         const keyDown = (e) => {
             setControls((controls) => ({
                 ...controls,
@@ -173,7 +172,7 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex) => {
             vehicleAPI.setSteeringValue(0.1 * multiTurn, 0);
             vehicleAPI.setSteeringValue(0.1 * multiTurn, 1);
         } else if (isController) {
-            if (Math.abs(navigator.getGamepads()[0].axes[0]) <= 0.1) {
+            if (Math.abs(navigator.getGamepads()[DoamneIartaCeUrmeaza.gamepadAssignment[playerIndex]].axes[0]) <= 0.1) {
                 for (let i = 0; i < 4; i++) {
                     vehicleAPI.setSteeringValue(0, i);
                 }
@@ -228,9 +227,9 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex) => {
     // const [gamepads, setGamepads] = useState({})
     // useGamepads((gamepads) => setGamepads(gamepads))
 
-    // AM REUSIT SA REFAC O LIBRARIE IN LINIILE ASTEA
+    // AM REUSIT SA REFAC O LIBRARIE IN 6 LINII
     // MAJIK
-    const isGamepadConnected = () => { return (isNaN(navigator.getGamepads()[0])) }
+    const isGamepadConnected = () => { return (isNaN(navigator.getGamepads()[DoamneIartaCeUrmeaza.gamepadAssignment[playerIndex]])) }
 
     const buttonValue = (gamepad, buttonIndex) => { return (gamepad.buttons[buttonIndex].value) }
     const setControlState = (key, value) =>
@@ -250,7 +249,7 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex) => {
     useFrame((frame) => {
         if (isGamepadConnected() && !onKeyboard) {
             setController(true)
-            let gamepad = navigator.getGamepads()[0]
+            let gamepad = navigator.getGamepads()[DoamneIartaCeUrmeaza.gamepadAssignment[playerIndex]]
             mapButton2Controls(gamepad, 0, 'f')
             mapButton2Controls(gamepad, 1, 'arrowright')
             mapButton2Controls(gamepad, 2, 'arrowleft')
