@@ -14,15 +14,16 @@ import DoamneIartaCeUrmeaza from "./DoamneIartaCeUrmeaza";
 export default function Lokione({ player }, props) {
   const { nodes, materials } = useGLTF("/robotNou.glb");
 
-  var position = [-22.5, 0, 38];
+  var position = [-22.5, 2.5, 38];
   if (player == 2)
-    position = [22.5, 0, 38];
+    position = [22.5, 2.5, 38];
 
   const width = 6;
   const height = 2; //.84
   const front = 2.8;
   const wheelRadius = 1.1;
 
+  
   const cameras = {
     1: new Vector3(47, 40, 0),
     2: new Vector3(47, 40, 47),
@@ -201,6 +202,8 @@ export default function Lokione({ player }, props) {
   // AICI AR FI CONTROLLER UL PENTRU CAMERA POATE MERGE
   useFrame((state) => {
     // console.log(DoamneIartaCeUrmeaza.junctions)
+    if(player == 2)
+      return;
 
     if (cameraController) {
       let position = new Vector3(0, 0, 0);
@@ -237,6 +240,7 @@ export default function Lokione({ player }, props) {
       state.camera.position.copy(cameraPosition);
       state.camera.lookAt(position);
     }
+
   });
 
   return (
