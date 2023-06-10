@@ -9,6 +9,14 @@ function Menu() {
     const [part, setPart] = useState(1)
 
     useEffect(() => {
+        if (!localStorage.getItem("horia_id")) {
+            localStorage.setItem("horia_id", Date.now())
+        } else {
+            console.log("assigned id:", localStorage.getItem("horia_id"))
+        }
+    }, [])
+
+    useEffect(() => {
         Mouse()
     })
 
