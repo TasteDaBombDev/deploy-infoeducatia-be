@@ -5,7 +5,7 @@ import Lokione from "./Robot/Lokione";
 
 function Scena() {
 
-    const mode = sessionStorage.getItem('mode')
+    // const mode = sessionStorage.getItem('mode')
 
     return (
         // <Canvas className="canvas">
@@ -17,7 +17,7 @@ function Scena() {
             <Field />
             <Scene />
             <Lokione player={1} />
-            {mode == 'multi' ? <Lokione player={2} /> : null}
+            {/* {mode == 'multi' ? <Lokione player={2} /> : null} */}
         </Suspense>
         /* </Physics> */
         /* </Canvas> */

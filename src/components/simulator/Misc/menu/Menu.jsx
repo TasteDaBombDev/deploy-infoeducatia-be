@@ -13,7 +13,6 @@ function Menu() {
     })
 
     const start_game = () => {
-        sessionStorage.setItem('host', host)
         window.location.pathname = '/'
     }
 
@@ -27,8 +26,8 @@ function Menu() {
                     </ul>
                     :
                     <ul className="threeD-button-set">
-                        <li><button onClick={() => { setHost(true); start_game() }} >Host Game</button></li>
-                        <li><button onClick={() => { start_game() }}>Join Game</button></li>
+                        <li><button onClick={() => { sessionStorage.setItem('host', true); start_game() }} >Host Game</button></li>
+                        <li><button onClick={() => { sessionStorage.setItem('host', false); start_game() }}>Join Game</button></li>
                         <li><button onClick={() => { setPart(1) }}>Back</button></li>
                     </ul>
 

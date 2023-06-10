@@ -11,12 +11,12 @@
 }
 
 html {
-  block-size: 100%;
-  background: conic-gradient(at -10% 50%, #26b33e, black);
+  /* block-size: 100%; */
+  /* background: conic-gradient(at -10% 50%, #26b33e, black); */
 
-  @media (--dark) {
+  /* @media (--dark) {
     background: conic-gradient(at -10% 50%, #212529, 50%, #495057, #212529);    
-  }
+  } */
 }
 
 .menu {
@@ -24,7 +24,7 @@ html {
   font-family: system-ui, sans-serif;
 
   background-image: url('./back.png');
-  background-size: contain;
+  background-size: cover;
 
   width: 100vw;
   height: 100vh;

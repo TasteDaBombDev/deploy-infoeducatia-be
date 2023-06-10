@@ -5,9 +5,13 @@ import Scena from "./Scena";
 import "../canvas.scss"
 import Overlay from "../Misc/Overlay";
 import Score from "../Misc/Score";
-import { SplitScreen } from "../Misc/SplitScreen";
 
 function Assembly() {
+
+    const mode = sessionStorage.getItem('mode')
+    const hosting = sessionStorage.getItem('host')
+
+
     return (
         <>
             <Score />
