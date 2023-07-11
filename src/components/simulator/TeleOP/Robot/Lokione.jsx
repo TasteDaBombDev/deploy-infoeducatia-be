@@ -1,6 +1,6 @@
 import React, { Suspense, useRef, useState, useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
-import { Vector3, Quaternion } from "three";
+import { Vector3, Quaternion, Object3D } from "three";
 import { useFrame } from "react-three-fiber";
 import { useBox, useRaycastVehicle } from "@react-three/cannon";
 
@@ -11,19 +11,39 @@ import Brat from "./Brat";
 
 import DoamneIartaCeUrmeaza from "./DoamneIartaCeUrmeaza";
 
-export default function Lokione({ player }, props) {
+export default function Lokione({ player, socket }, props) {
   const { nodes, materials } = useGLTF("/robotNou.glb");
 
+  // create socket worker and default functions
+  const [socketWorker, setSocketWorker] = useState(undefined)
+  useEffect(() => {
+    if ((player == 1 && sessionStorage.getItem('host') == 'true') ||
+      (player == 2 && sessionStorage.getItem('host') == 'false'))
+      setSocketWorker(new Worker('socketWorker.js'))
+  }, [])
+  useEffect(() => {
+    if (socketWorker) {
+      socketWorker.onmessage = (e) => { console.log(`[WORKER]: ${e.data}`) }
+      socketWorker.onerror = (e) => { socketWorker.terminate() }
+    }
+  }, [socketWorker])
+  // var [socketWorker, setWorker] = useState(new Worker("socketWorker.js"));
+
+  //player positions
   var position = [-22.5, 2.5, 38];
   if (player == 2)
     position = [22.5, 2.5, 38];
 
+  // robot sizes
   const width = 6;
   const height = 2; //.84
   const front = 2.8;
   const wheelRadius = 1.1;
 
-  
+  // nu vorbesc despre asta
+  const [dataSend, setDataSend] = useState(false)
+
+  // poz camerelor pe robot
   const cameras = {
     1: new Vector3(47, 40, 0),
     2: new Vector3(47, 40, 47),
@@ -132,15 +152,22 @@ export default function Lokione({ player }, props) {
       'controls': controls
     }
 
-    if (controls.arrowup)
-      if (bratPosition <= 12) {
-        setBratPosition(bratPosition + bratIncrease);
+    // partea asta controleaza bratul din sageati
+    // nu doresc sa discut despre asta
+    // oricum totul trebuia sa fie in hooks diferite
+    if (sessionStorage.getItem('mode') == 'multi' || sessionStorage.getItem('mode') === null)
+      if (sessionStorage.getItem('mode') === null || (sessionStorage.getItem('host') == 'true' && player == 1) || (sessionStorage.getItem('host') == 'false' && player == 2)) {
+        if (controls.arrowup)
+          if (bratPosition <= 12) {
+            setBratPosition(bratPosition + bratIncrease);
+          }
+
+        if (controls.arrowdown)
+          if (bratPosition >= -6) {
+            setBratPosition(bratPosition - bratIncrease);
+          }
       }
 
-    if (controls.arrowdown)
-      if (bratPosition >= -6) {
-        setBratPosition(bratPosition - bratIncrease);
-      }
 
     if (controls[0]) setCamController(false);
     for (let k = 1; k <= 9; k++) if (controls[k]) setCamController(true);
@@ -202,8 +229,8 @@ export default function Lokione({ player }, props) {
   // AICI AR FI CONTROLLER UL PENTRU CAMERA POATE MERGE
   useFrame((state) => {
     // console.log(DoamneIartaCeUrmeaza.junctions)
-    if(player == 2)
-      return;
+    // if(player == 2)
+    //   return;
 
     if (cameraController) {
       let position = new Vector3(0, 0, 0);
@@ -240,8 +267,121 @@ export default function Lokione({ player }, props) {
       state.camera.position.copy(cameraPosition);
       state.camera.lookAt(position);
     }
-
   });
+
+  // aici majik pentru multiplayer
+  // nu ar trebui sa am acces al societate
+  // daca este multi si nu e controled atunci copiaza datele primite in asta
+  // after 2 zile update nu mai este majik
+  // useFrame(() => {
+  //   socket.emit('info', "bag update real")
+  //   socket.emit('updateData', JSON.stringify({
+  //     'player_id': localStorage.getItem('horia_id'),
+  //     'brat_height': bratPosition,
+  //     'brat_chassis': bratBody,
+  //     'body_chassis': chassisBody
+  //   }))
+  // }) 
+
+  // useEffect(() => {
+  // socket.emit('info', "bag update real")
+  // console.log("am trimis date reale")
+  // console.log(JSON.stringify([bratPosition, bratBody, chassisBody]))
+  // socket.emit('updateData', JSON.stringify({
+  //   'player_id': localStorage.getItem('horia_id'),
+  //   'brat_height': bratPosition,
+  //   'brat_chassis': bratBody,
+  //   'body_chassis': chassisBody
+  // }))
+  // console.log("trimit")
+  // setTimeout(()=>{setDataSend(!dataSend)}, 5000)
+
+  //   async function sendUpdateData() {
+  //     socket.emit('updateData', JSON.stringify({
+  //       'player_id': localStorage.getItem('horia_id'),
+  //       'brat_height': bratPosition,
+  //       'brat_chassis': bratBody,
+  //       'body_chassis': chassisBody
+  //     }))
+  //     console.log("am trimis")
+  //   }
+  //   setTimeout(()=>{sendUpdateData(); setDataSend(!dataSend)}, 5000)
+  // }, [dataSend])
+
+  //main function
+  // const sendUpdateData = (bratPosition, bratBody, chassisBody) => {
+  //   importScripts("https://cdn.socket.io/4.6.0/socket.io.min.js")
+  //   const worker_socket = io("ws://localhost:3005")
+  //   worker_socket.emit('updateData', JSON.stringify({
+  //     'player_id': localStorage.getItem('horia_id'),
+  //     'brat_height': bratPosition,
+  //     'brat_chassis': bratBody,
+  //     'body_chassis': chassisBody
+  //   }))
+  // }
+  // const [updateDataWorker] = useWorker(sendUpdateData);
+  // const runSendWorker = async (bratPosition, bratBody, chassisBody) => { updateDataWorker(bratPosition, bratBody, chassisBody) }
+
+  //dubla trei workers og
+
+  // async function makeSocketData() {
+  //   return (JSON.stringify({
+  //     event: 'updateData', data: {
+  //       'brat_height': bratPosition,
+  //       'brat_chassis': bratBody,
+  //       'robot_chassis': chassisBody
+  //     }
+  //   }))
+  // }      
+
+  // aici ar fi dubla 4 cu procesare optimizata si alte lucruri
+  // pe care nu le mai rezist
+  useEffect(() => {
+    if (sessionStorage.getItem('mode') == 'multi' && socketWorker && vehicle.current != undefined) {
+      if ((player == 1 && sessionStorage.getItem('host') == 'true') ||
+        (player == 2 && sessionStorage.getItem('host') == 'false')) {
+        let pose = new Vector3(0, 0, 0)
+        let dir = new Vector3(0, 0, 0)
+        let quat = new Quaternion(0, 0, 0, 1)
+        chassisBody.current.getWorldPosition(pose)
+        chassisBody.current.getWorldDirection(dir)
+        chassisBody.current.getWorldQuaternion(quat)
+        let data = {
+          event: 'updateData',
+          player_id: localStorage.getItem('horia_id'),
+          once: sessionStorage.getItem('once'),
+          brat_height: bratPosition,
+          chassis_position: pose,
+          chassis_direction: dir,
+          chassis_quaternion: quat
+        }
+        // socket.emit('dataUpdate', JSON.stringify(data))
+        socketWorker.postMessage(data)
+      }
+    }
+    setTimeout(() => { setDataSend(!dataSend) }, 50)
+  }, [dataSend])
+
+  if (sessionStorage.getItem('mode') == 'multi' && chassisBody.current != undefined)
+    socket.on('dataReload', (stream) => {
+      // let obj = JSON.parse(stream)
+      if (((player == 2 && sessionStorage.getItem('host') == 'true') ||
+        (player == 1 && sessionStorage.getItem('host') == 'false'))) {
+        if (localStorage.getItem('horia_id') != stream.substring(14, 27)) {
+          let data = JSON.parse(stream)
+          setBratPosition(data.brat_height)
+          
+          let wDir = new Vector3(...(Object.values(data.chassis_position)))
+          let quater = new Quaternion(...((Object.values(data.chassis_quaternion)).slice(1)))
+          chassisAPI.position.copy(wDir)
+          chassisAPI.quaternion.copy(quater)
+
+          chassisAPI.angularVelocity.set(0, 0, 0)
+          chassisAPI.velocity.set(0, 0, 0)
+        }
+      }
+    })
+  // nu are cum merge
 
   return (
     <Suspense callback={null}>

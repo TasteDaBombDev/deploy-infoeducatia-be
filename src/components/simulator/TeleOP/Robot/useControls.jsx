@@ -17,6 +17,9 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex) => {
     const [onKeyboard, setKeyboard] = useState(true)
     const [isController, setController] = useState(false)
 
+    const mode = sessionStorage.getItem('mode')
+    const host = sessionStorage.getItem('host')
+
     const keyboardMap = {
         1: {
             'forward': 'w',
@@ -29,7 +32,7 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex) => {
             'rotateRight': 'arrowright'
         },
         2: {
-            'forward': 'o',
+            'forward': 'w',
             'backward': 's',
             'left': 'a',
             'right': 'd',
@@ -37,7 +40,6 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex) => {
             'strafeRight': 'e',
             'rotateLeft': 'arrowleft',
             'rotateRight': 'arrowright'
-
         }
     }
 
@@ -143,6 +145,15 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex) => {
         // if (!onKeyboard) { return; }
 
         if (!vehicleAPI || !chassisAPI) { return; }
+
+        if (mode == 'multi') {
+            if (host == 'true' && playerIndex == 2)
+                return;
+            // console.log('sencondul nu ia power')
+            if (host == 'false' && playerIndex == 1)
+                return;
+            // console.log('primul nu ia control')
+        }
 
         if ((pressForPlayer('forward') || pressForPlayer('backward')) && (pressForPlayer('left') || pressForPlayer('right'))) {
             // stopBrake();

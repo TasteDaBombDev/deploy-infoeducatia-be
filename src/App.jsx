@@ -9,7 +9,7 @@ function App() {
       <Routes>
         <Route path="/da" element={<><h1>ok</h1></>} />
         <Route path="/" element={<Assembly />} />
-        <Route path="/nu_rezist_am_nevoie_de_alcool_macar" element={<Menu />} />
+        <Route path="/multi" element={<Menu />} />
       </Routes>
     </BrowserRouter>
   );

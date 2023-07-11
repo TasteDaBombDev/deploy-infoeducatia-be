@@ -1,4 +1,5 @@
 import React from 'react'
+import { Matrix4, Quaternion, Vector3 } from 'three';
 
 // NU INCERCA SA INTELEGI CE SE INTAMPLA AICI FIINDCA ESTE 
 // A 4A INCERCARE SI ESTE TOTAL INUMAN LUCRURILE pe CARE AM
@@ -9,9 +10,16 @@ import React from 'react'
 // NU AR TREBUI SA FIE NEVOIE SA EXISTE ASA CEVA
 
 // IARA TREBUIE SA FAC MODIFICARI AICI
-// DOAMNE IARTA PACATELE PE CARE LE VOI FACE
+
+// SIMT CA NU MAI REZIST NICI EU SI NICI SOCKETURILE PE CARE LE FAC
 
 class DoamneIartaCeUrmeaza {
+    static mor = {
+        dir : new Vector3(0, 0, 0),
+        pose: new Vector3(0, 0, 0),
+        quat: new Quaternion(0, 0, 0, 1)
+    }
+
     static low = 4;
     static med = 9;
     static high = 14;
