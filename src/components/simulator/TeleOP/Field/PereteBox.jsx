@@ -1,9 +1,9 @@
 import { useBox } from "@react-three/cannon";
-import { useLoader } from "react-three-fiber";
-import { TextureLoader } from "three";
+// import { useLoader } from "react-three-fiber";
+// import { TextureLoader } from "three";
 import { useRef } from "react";
 
-import PereteTextura from "./perete.jpg";
+// import PereteTextura from "./perete.jpg";
 
 const debug = true;
 
@@ -11,9 +11,9 @@ export function PereteBox({ position, scale, ceva }) {
 
     var pose = [position[0], position[1] + scale[1] / 2, position[2]];
 
-    var aux;
+    // var aux;
 
-    const pereteTexture = useLoader(TextureLoader, PereteTextura);
+    // const pereteTexture = useLoader(TextureLoader, PereteTextura);
     // pereteTexture.repeat.set(Math.abs(scale[0]), Math.abs(scale[1]));
     // pereteTexture.repeat.set(9,1);
 
