@@ -175,7 +175,7 @@ export default function Lokione({ player, socket }, props) {
     useRef(null)
   );
 
-  useControls(vehicleAPI, chassisAPI, player);
+  useControls(vehicleAPI, chassisAPI, player, socket, socketWorker);
 
   // const isGamepadConnected = () => { return (isNaN(navigator.getGamepads()[0])) }
   // useFrame((frame) => {
@@ -352,25 +352,27 @@ export default function Lokione({ player, socket }, props) {
 
   useEffect(() => {
     // if (sessionStorage.getItem('mode') == 'multi' && chassisBody.current != undefined)
-    if(socket != undefined)
-    socket.on('dataReload', (stream) => {
-      // let obj = JSON.parse(stream)
-      if (((player == 2 && sessionStorage.getItem('host') == 'true') ||
-        (player == 1 && sessionStorage.getItem('host') == 'false'))) {
-        if (localStorage.getItem('horia_id') != stream.substring(14, 27)) {
-          let data = JSON.parse(stream)
-          setBratPosition(data.brat_height)
+    if (socket != undefined) {
+      socket.on('dataReload', (stream) => {
+        // let obj = JSON.parse(stream)
+        if (((player == 2 && sessionStorage.getItem('host') == 'true') ||
+          (player == 1 && sessionStorage.getItem('host') == 'false'))) {
+          if (localStorage.getItem('horia_id') != stream.substring(14, 27)) {
+            let data = JSON.parse(stream)
+            setBratPosition(data.brat_height)
 
-          let wDir = new Vector3(...(Object.values(data.chassis_position)))
-          let quater = new Quaternion(...((Object.values(data.chassis_quaternion)).slice(1)))
-          chassisAPI.position.copy(wDir)
-          chassisAPI.quaternion.copy(quater)
+            let wDir = new Vector3(...(Object.values(data.chassis_position)))
+            let quater = new Quaternion(...((Object.values(data.chassis_quaternion)).slice(1)))
+            chassisAPI.position.copy(wDir)
+            chassisAPI.quaternion.copy(quater)
 
-          chassisAPI.angularVelocity.set(0, 0, 0)
-          chassisAPI.velocity.set(0, 0, 0)
+            chassisAPI.angularVelocity.set(0, 0, 0)
+            chassisAPI.velocity.set(0, 0, 0)
+          }
         }
-      }
-    })
+      })
+
+    }
   }, [])
 
   return (

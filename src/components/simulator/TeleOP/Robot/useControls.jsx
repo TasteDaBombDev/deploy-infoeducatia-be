@@ -4,7 +4,7 @@ import ExternalData from "./ExternalData";
 import { useFrame } from "react-three-fiber";
 import { MathUtils } from "three";
 
-export const useControls = (vehicleAPI, chassisAPI, playerIndex) => {
+export const useControls = (vehicleAPI, chassisAPI, playerIndex, socket, socketWorker) => {
     const viteza = 600;
     const turnViteza = 680;
     // const breke = 20;
@@ -19,6 +19,38 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex) => {
 
     const mode = sessionStorage.getItem('mode')
     const host = sessionStorage.getItem('host')
+
+    //reset field on socket request
+    useEffect(() => {
+        if (socket != undefined)
+            socket.on('fieldReset', (stream) => {
+                console.log("reset on socket request")
+                window.dispatchEvent(new KeyboardEvent('keydown', {
+                    "key": "r",
+                    "keyCode": 82,
+                    "which": 82,
+                    "code": "KeyR",
+                    "location": 0,
+                    "altKey": false,
+                    "ctrlKey": false,
+                    "metaKey": false,
+                    "shiftKey": false,
+                    "repeat": false
+                }));
+                window.dispatchEvent(new KeyboardEvent('keyup', {
+                    "key": "r",
+                    "keyCode": 82,
+                    "which": 82,
+                    "code": "KeyR",
+                    "location": 0,
+                    "altKey": false,
+                    "ctrlKey": false,
+                    "metaKey": false,
+                    "shiftKey": false,
+                    "repeat": false
+                }));
+            })
+    }, [socket])
 
     const keyboardMap = {
         1: {
@@ -221,7 +253,9 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex) => {
             vehicleAPI.applyEngineForce(-viteza * multiRotate, 3);
         }
 
-        if (controls.r) {
+        if (controls.r && socketWorker != undefined) {
+            let data = { event: 'fieldReset' }
+            socketWorker.postMessage(data)
             chassisAPI.position.set(...ExternalData.robotStates[playerIndex].startPose);
             chassisAPI.velocity.set(0, 0, 0);
             chassisAPI.angularVelocity.set(0, 0, 0);
@@ -234,7 +268,7 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex) => {
     }, [controls, vehicleAPI, chassisAPI]);
 
 
-    // SUPORT PENTRU GAMEPADS, DACA AJUNG SA FAC MULTIPLAYER MA ANGAJEZ
+    // SUPORT PENTRU GAMEPADS
     // const [gamepads, setGamepads] = useState({})
     // useGamepads((gamepads) => setGamepads(gamepads))
 
