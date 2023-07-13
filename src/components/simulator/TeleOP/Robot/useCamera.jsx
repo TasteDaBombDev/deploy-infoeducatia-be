@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import DoamneIartaCeUrmeaza from './DoamneIartaCeUrmeaza';
+import ExternalData from './ExternalData';
 
 const useCamera = () => {
+
+    // #########################
+    // #### NU ESTE FOLOSIT ####
+    // #########################
 
     const [controls, setControls] = useState({})
 
@@ -20,12 +24,12 @@ const useCamera = () => {
     const [cameraController, setCamController] = useState(false);
 
     useEffect(()=>{
-        setControls(DoamneIartaCeUrmeaza.controls)
+        setControls(ExternalData.controls)
     }, [])
 
     useFrame((state) => {
 
-        setControls(DoamneIartaCeUrmeaza.controls);
+        setControls(ExternalData.controls);
 
         if (controls[0])
             setCamController(false);

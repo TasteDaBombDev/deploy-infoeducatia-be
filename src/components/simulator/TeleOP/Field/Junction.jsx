@@ -1,15 +1,15 @@
 import { useRef } from "react";
 import { useBox, useCylinder, useSpring } from "@react-three/cannon";
 import { CylinderGeometry, Vector3 } from "three";
-import DoamneIartaCeUrmeaza from "../Robot/DoamneIartaCeUrmeaza";
+import ExternalData from "../Robot/ExternalData";
 
 export const Junction = ({ position, height, planeRef }) => {
 
   var realPose = [position[0], (position[1] + height / 2 + 1.5), position[2]];
 
-  DoamneIartaCeUrmeaza.junctionCount++;
-  DoamneIartaCeUrmeaza.junctionsHeight[DoamneIartaCeUrmeaza.junctionCount] = height;
-  DoamneIartaCeUrmeaza.junctions[DoamneIartaCeUrmeaza.junctionCount] = new Vector3(position[0], position[1], position[2]);
+  ExternalData.junctionCount++;
+  ExternalData.junctionsHeight[ExternalData.junctionCount] = height;
+  ExternalData.junctions[ExternalData.junctionCount] = new Vector3(position[0], position[1], position[2]);
 
   // const [planeBody, planeAPI] = useBox(() => ({
   //   args: [10, 0.1, 10],

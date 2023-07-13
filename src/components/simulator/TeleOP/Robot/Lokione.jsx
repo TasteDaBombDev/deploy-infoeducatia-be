@@ -9,7 +9,7 @@ import { useControls } from "./useControls";
 import { WheelDebug } from "./WheelDebug";
 import Brat from "./Brat";
 
-import DoamneIartaCeUrmeaza from "./DoamneIartaCeUrmeaza";
+import ExternalData from "./ExternalData";
 
 export default function Lokione({ player, socket }, props) {
   const { nodes, materials } = useGLTF("/robotNou.glb");
@@ -75,8 +75,6 @@ export default function Lokione({ player, socket }, props) {
     }),
     useRef(null)
   );
-  // DoamneIartaCeUrmeaza.robotStates[player].robotBody = chassisBody;
-  // DoamneIartaCeUrmeaza.robotStates[player].robotApi = chassisAPI;
 
   const [bratBody, bratAPI] = useBox(
     () => ({
@@ -88,14 +86,11 @@ export default function Lokione({ player, socket }, props) {
     useRef(null)
   );
 
-  // DoamneIartaCeUrmeaza.robotStates[player].bratBody = bratBody;
-  // DoamneIartaCeUrmeaza.robotStates[player].bratApi = bratAPI;
-
   //ad player to active gamepads
-  // useEffect(() => { DoamneIartaCeUrmeaza.gamepadAssignment[player] = undefined }, [])
+  // useEffect(() => { ExternalData.gamepadAssignment[player] = undefined }, [])
 
-  DoamneIartaCeUrmeaza.robotStates[player] = {
-    ...DoamneIartaCeUrmeaza.robotStates[player],
+  ExternalData.robotStates[player] = {
+    ...ExternalData.robotStates[player],
     'startPose': position,
     'robotBody': chassisBody,
     'robotApi': chassisAPI,
@@ -121,10 +116,9 @@ export default function Lokione({ player, socket }, props) {
     window.addEventListener("keydown", keyDown);
     window.addEventListener("keyup", keyUp);
 
-    // DoamneIartaCeUrmeaza.robotStates[player].controls = controls;
 
-    DoamneIartaCeUrmeaza.robotStates[player] = {
-      ...DoamneIartaCeUrmeaza.robotStates[player],
+    ExternalData.robotStates[player] = {
+      ...ExternalData.robotStates[player],
       'controls': controls
     }
 
@@ -134,10 +128,10 @@ export default function Lokione({ player, socket }, props) {
     };
   }, [controls]);
 
-  const isGamepadConnected = () => { return (isNaN(navigator.getGamepads()[DoamneIartaCeUrmeaza.gamepadAssignment[player]])) }
+  const isGamepadConnected = () => { return (isNaN(navigator.getGamepads()[ExternalData.gamepadAssignment[player]])) }
   useFrame(() => {
     if (isGamepadConnected()) {
-      let gamepad = navigator.getGamepads()[DoamneIartaCeUrmeaza.gamepadAssignment[player]]
+      let gamepad = navigator.getGamepads()[ExternalData.gamepadAssignment[player]]
       if (gamepad.axes[3] < -0.1 && bratPosition <= 12)
         setBratPosition(bratPosition + (-gamepad.axes[3] / 7))
       if (gamepad.axes[3] > 0.1 && bratPosition >= -6)
@@ -146,9 +140,9 @@ export default function Lokione({ player, socket }, props) {
   })
 
   useEffect(() => {
-    // DoamneIartaCeUrmeaza.robotStates[player].controls = controls;
-    DoamneIartaCeUrmeaza.robotStates[player] = {
-      ...DoamneIartaCeUrmeaza.robotStates[player],
+    // ExternalData.robotStates[player].controls = controls;
+    ExternalData.robotStates[player] = {
+      ...ExternalData.robotStates[player],
       'controls': controls
     }
 
@@ -228,7 +222,7 @@ export default function Lokione({ player, socket }, props) {
 
   // AICI AR FI CONTROLLER UL PENTRU CAMERA POATE MERGE
   useFrame((state) => {
-    // console.log(DoamneIartaCeUrmeaza.junctions)
+    // console.log(ExternalData.junctions)
     // if(player == 2)
     //   return;
 
@@ -362,7 +356,9 @@ export default function Lokione({ player, socket }, props) {
     setTimeout(() => { setDataSend(!dataSend) }, 50)
   }, [dataSend])
 
-  if (sessionStorage.getItem('mode') == 'multi' && chassisBody.current != undefined)
+  useEffect(() => {
+    // if (sessionStorage.getItem('mode') == 'multi' && chassisBody.current != undefined)
+    if(socket != undefined)
     socket.on('dataReload', (stream) => {
       // let obj = JSON.parse(stream)
       if (((player == 2 && sessionStorage.getItem('host') == 'true') ||
@@ -370,7 +366,7 @@ export default function Lokione({ player, socket }, props) {
         if (localStorage.getItem('horia_id') != stream.substring(14, 27)) {
           let data = JSON.parse(stream)
           setBratPosition(data.brat_height)
-          
+
           let wDir = new Vector3(...(Object.values(data.chassis_position)))
           let quater = new Quaternion(...((Object.values(data.chassis_quaternion)).slice(1)))
           chassisAPI.position.copy(wDir)
@@ -381,6 +377,7 @@ export default function Lokione({ player, socket }, props) {
         }
       }
     })
+  }, [])
   // nu are cum merge
 
   return (

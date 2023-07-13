@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { useBox, useCylinder } from '@react-three/cannon';
 import { Quaternion, Vector3 } from 'three';
-import DoamneIartaCeUrmeaza from '../Robot/DoamneIartaCeUrmeaza';
+import ExternalData from '../Robot/ExternalData';
 import { useState } from 'react';
 import { useFrame } from 'react-three-fiber';
 import Score from '../../Misc/Score';
@@ -35,45 +35,45 @@ export default function Cone({ position, props }) {
   // singurul lucru pe care se bazeaza este for(players)
   // deja imi este frica 
   useFrame(() => {
-    Object.keys(DoamneIartaCeUrmeaza.robotStates).forEach((key) => {
+    Object.keys(ExternalData.robotStates).forEach((key) => {
     })
     if (!onJunction) {
       let conePosition = new Vector3(0, 0, 0)
       conePosition.setFromMatrixPosition(coneBodyCylinder.current.matrixWorld);
 
-      for (let i = 1; i <= DoamneIartaCeUrmeaza.junctionCount && !onJunction; i++) {
+      for (let i = 1; i <= ExternalData.junctionCount && !onJunction; i++) {
         let junctionPosition = new Vector3(0, 0, 0)
-        junctionPosition.copy(DoamneIartaCeUrmeaza.junctions[i])
+        junctionPosition.copy(ExternalData.junctions[i])
 
         let xDiff = Math.abs(conePosition.x - junctionPosition.x);
-        let yDiff = conePosition.y - DoamneIartaCeUrmeaza.junctionsHeight[i];
+        let yDiff = conePosition.y - ExternalData.junctionsHeight[i];
         let zDiff = Math.abs(conePosition.z - junctionPosition.z);
 
         if (xDiff <= 1 && zDiff <= 1 && yDiff > 0.5 && yDiff < 3) {
-          // coneAPICylinder.position.copy(DoamneIartaCeUrmeaza.junctions[i]);
+          // coneAPICylinder.position.copy(ExternalData.junctions[i]);
           // coneAPICylinder.position.copy(junctionPosition)
-          // DoamneIartaCeUrmeaza.conesCount++;
-          // DoamneIartaCeUrmeaza.conesPerJunction[i]++;
-          // DoamneIartaCeUrmeaza.conesOnJunction[DoamneIartaCeUrmeaza.conesCount] = junctionPosition
-          if (isNaN(DoamneIartaCeUrmeaza.conesInJunction[i])) {
-            DoamneIartaCeUrmeaza.conesInJunction[i] = 1
+          // ExternalData.conesCount++;
+          // ExternalData.conesPerJunction[i]++;
+          // ExternalData.conesOnJunction[ExternalData.conesCount] = junctionPosition
+          if (isNaN(ExternalData.conesInJunction[i])) {
+            ExternalData.conesInJunction[i] = 1
             setHomeHeight(1);
           }
           else {
-            DoamneIartaCeUrmeaza.conesInJunction[i]++;
-            setHomeHeight(1 * DoamneIartaCeUrmeaza.conesInJunction[i]);
+            ExternalData.conesInJunction[i]++;
+            setHomeHeight(1 * ExternalData.conesInJunction[i]);
           }
 
-          setFallHeight(DoamneIartaCeUrmeaza.junctionsHeight[i])
+          setFallHeight(ExternalData.junctionsHeight[i])
           setHomeJunction(i);
           setOnJunction(true);
 
-          if (DoamneIartaCeUrmeaza.junctionsHeight[i] === DoamneIartaCeUrmeaza.high)
-            DoamneIartaCeUrmeaza.puntaj[2]++
-          else if (DoamneIartaCeUrmeaza.junctionsHeight[i] === DoamneIartaCeUrmeaza.med)
-            DoamneIartaCeUrmeaza.puntaj[1]++
+          if (ExternalData.junctionsHeight[i] === ExternalData.high)
+            ExternalData.puntaj[2]++
+          else if (ExternalData.junctionsHeight[i] === ExternalData.med)
+            ExternalData.puntaj[1]++
           else
-            DoamneIartaCeUrmeaza.puntaj[0]++
+            ExternalData.puntaj[0]++
 
           coneAPICylinder.collisionResponse.set(false);
           break;
@@ -82,11 +82,11 @@ export default function Cone({ position, props }) {
     }
     else if (onJunction) {
       let homePosition = new Vector3(0, 0, 0);
-      homePosition.copy(DoamneIartaCeUrmeaza.junctions[homeJunction]);
+      homePosition.copy(ExternalData.junctions[homeJunction]);
       homePosition.add(new Vector3(0, homeHeight, 0))
       coneAPICylinder.position.copy(homePosition)
 
-      // coneAPICylinder.position.copy(DoamneIartaCeUrmeaza.conesOnJunction[homeJunction]);
+      // coneAPICylinder.position.copy(ExternalData.conesOnJunction[homeJunction]);
       // coneAPICylinder.position.copy(toStay)
       coneAPICylinder.quaternion.set(0, 0, 0, 1)
       coneAPICylinder.angularVelocity.set(0, 0, 0);
@@ -98,21 +98,21 @@ export default function Cone({ position, props }) {
   //CEVA CONTROLLER PENTRU CAND SE APROPIE BRATUL
   //acel for sfant pentru toti playerii
   useFrame((state) => {
-    Object.keys(DoamneIartaCeUrmeaza.robotStates).forEach((playerIndex) => {
+    Object.keys(ExternalData.robotStates).forEach((playerIndex) => {
       if (playerIndex != 0)
         if (!onJunction) {
           let bratPosition = new Vector3(0, 0, 0);
-          bratPosition.setFromMatrixPosition(DoamneIartaCeUrmeaza.robotStates[playerIndex].bratBody.current.matrixWorld)
+          bratPosition.setFromMatrixPosition(ExternalData.robotStates[playerIndex].bratBody.current.matrixWorld)
 
           let bratQuaternion = new Quaternion(0, 0, 0, 0);
-          bratQuaternion.setFromRotationMatrix(DoamneIartaCeUrmeaza.robotStates[playerIndex].bratBody.current.matrixWorld);
+          bratQuaternion.setFromRotationMatrix(ExternalData.robotStates[playerIndex].bratBody.current.matrixWorld);
 
           let conePosition = new Vector3(0, 0, 0)
           conePosition.setFromMatrixPosition(coneBodyCylinder.current.matrixWorld);
 
           let dist = conePosition.distanceTo(bratPosition)
 
-          if (dist <= 2 && conePosition.y >= 1.5 && !DoamneIartaCeUrmeaza.robotStates[playerIndex].controls.f) {
+          if (dist <= 2 && conePosition.y >= 1.5 && !ExternalData.robotStates[playerIndex].controls.f) {
             // coneAPICylinder.position.copy(bratPosition)
             // coneAPICylinder.quaternion.copy()
 
@@ -139,8 +139,8 @@ export default function Cone({ position, props }) {
         setOnJunction(false);
         coneAPICylinder.collisionResponse.set(true);
 
-        DoamneIartaCeUrmeaza.conesInJunction.fill(0)
-        DoamneIartaCeUrmeaza.puntaj.fill(0)
+        ExternalData.conesInJunction.fill(0)
+        ExternalData.puntaj.fill(0)
 
         coneAPICylinder.position.set(position[0], position[1], position[2]);
         coneAPICylinder.velocity.set(0, 0, 0);

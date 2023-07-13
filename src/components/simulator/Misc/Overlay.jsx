@@ -2,7 +2,7 @@ import React from "react";
 import "./Overlay.scss";
 import { useEffect } from "react";
 import { useState } from "react";
-import DoamneIartaCeUrmeaza from "../TeleOP/Robot/DoamneIartaCeUrmeaza";
+import ExternalData from "../TeleOP/Robot/ExternalData";
 
 function Overlay({ playerIndex }) {
 
@@ -10,7 +10,7 @@ function Overlay({ playerIndex }) {
   const [update, setUpdate] = useState(false)
 
   useEffect(() => {
-    const gamepadState = () => { setTimeout( ()=>{ setGamepad(DoamneIartaCeUrmeaza.gamepadControlled)}, 300 ) }
+    const gamepadState = () => { setTimeout( ()=>{ setGamepad(ExternalData.gamepadControlled)}, 300 ) }
     window.addEventListener('keydown', gamepadState)
     return () => {
       window.removeEventListener('keydown', gamepadState)

@@ -9,7 +9,7 @@ import { Junction } from './Junction';
 // import FieldTexture from './light_field.jpg';
 import FieldTexture from './teren.png';
 import Ground from "./Ground";
-import DoamneIartaCeUrmeaza from "../Robot/DoamneIartaCeUrmeaza";
+import ExternalData from "../Robot/ExternalData";
 
 function Field() {
 
@@ -17,9 +17,9 @@ function Field() {
     // const med = 9; //57
     // const high = 14; //82
 
-    const low = DoamneIartaCeUrmeaza.low;
-    const med = DoamneIartaCeUrmeaza.med;
-    const high = DoamneIartaCeUrmeaza.high;
+    const low = ExternalData.low;
+    const med = ExternalData.med;
+    const high = ExternalData.high;
 
     const [ref] = usePlane(
         () => ({

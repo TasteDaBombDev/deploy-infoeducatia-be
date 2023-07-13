@@ -13,12 +13,7 @@ import { Matrix4, Quaternion, Vector3 } from 'three';
 
 // SIMT CA NU MAI REZIST NICI EU SI NICI SOCKETURILE PE CARE LE FAC
 
-class DoamneIartaCeUrmeaza {
-    static mor = {
-        dir : new Vector3(0, 0, 0),
-        pose: new Vector3(0, 0, 0),
-        quat: new Quaternion(0, 0, 0, 1)
-    }
+class ExternalData {
 
     static low = 4;
     static med = 9;
@@ -65,4 +60,4 @@ class DoamneIartaCeUrmeaza {
 
 }
 
-export default DoamneIartaCeUrmeaza
+export default ExternalData

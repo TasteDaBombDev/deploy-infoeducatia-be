@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import DoamneIartaCeUrmeaza from '../TeleOP/Robot/DoamneIartaCeUrmeaza'
+import ExternalData from '../TeleOP/Robot/ExternalData'
 import './Score.scss'
 
 function Score() {
@@ -18,15 +18,15 @@ function Score() {
 
 
         const keyDown = (e) => {
-            setLow(DoamneIartaCeUrmeaza.puntaj[0])
-            setMed(DoamneIartaCeUrmeaza.puntaj[1])
-            setHigh(DoamneIartaCeUrmeaza.puntaj[2])
+            setLow(ExternalData.puntaj[0])
+            setMed(ExternalData.puntaj[1])
+            setHigh(ExternalData.puntaj[2])
         }
 
         const keyUp = (e) => {
-            setLow(DoamneIartaCeUrmeaza.puntaj[0])
-            setMed(DoamneIartaCeUrmeaza.puntaj[1])
-            setHigh(DoamneIartaCeUrmeaza.puntaj[2])
+            setLow(ExternalData.puntaj[0])
+            setMed(ExternalData.puntaj[1])
+            setHigh(ExternalData.puntaj[2])
         }
 
         window.addEventListener("keydown", keyDown);
