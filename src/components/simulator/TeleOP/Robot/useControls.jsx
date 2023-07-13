@@ -41,7 +41,7 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex, socket, socketW
                 window.dispatchEvent(new KeyboardEvent('keydown', rKeyEvent));
                 window.dispatchEvent(new KeyboardEvent('keyup', rKeyEvent));
             })
-    }, [socket])
+    }, [])
 
     const keyboardMap = {
         1: {
