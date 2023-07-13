@@ -17,6 +17,19 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex, socket, socketW
     const [onKeyboard, setKeyboard] = useState(true)
     const [isController, setController] = useState(false)
 
+    const rKeyEvent = {
+        "key": "r",
+        "keyCode": 82,
+        "which": 82,
+        "code": "KeyR",
+        "location": 0,
+        "altKey": false,
+        "ctrlKey": false,
+        "metaKey": false,
+        "shiftKey": false,
+        "repeat": false
+    }
+
     const mode = sessionStorage.getItem('mode')
     const host = sessionStorage.getItem('host')
 
@@ -25,30 +38,8 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex, socket, socketW
         if (socket != undefined)
             socket.on('fieldReset', (stream) => {
                 console.log("reset on socket request")
-                window.dispatchEvent(new KeyboardEvent('keydown', {
-                    "key": "r",
-                    "keyCode": 82,
-                    "which": 82,
-                    "code": "KeyR",
-                    "location": 0,
-                    "altKey": false,
-                    "ctrlKey": false,
-                    "metaKey": false,
-                    "shiftKey": false,
-                    "repeat": false
-                }));
-                window.dispatchEvent(new KeyboardEvent('keyup', {
-                    "key": "r",
-                    "keyCode": 82,
-                    "which": 82,
-                    "code": "KeyR",
-                    "location": 0,
-                    "altKey": false,
-                    "ctrlKey": false,
-                    "metaKey": false,
-                    "shiftKey": false,
-                    "repeat": false
-                }));
+                window.dispatchEvent(new KeyboardEvent('keydown', rKeyEvent));
+                window.dispatchEvent(new KeyboardEvent('keyup', rKeyEvent));
             })
     }, [socket])
 
@@ -254,8 +245,7 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex, socket, socketW
         }
 
         if (controls.r && socketWorker != undefined) {
-            let data = { event: 'fieldReset' }
-            socketWorker.postMessage(data)
+            socketWorker.postMessage({ event: 'fieldReset' })
             chassisAPI.position.set(...ExternalData.robotStates[playerIndex].startPose);
             chassisAPI.velocity.set(0, 0, 0);
             chassisAPI.angularVelocity.set(0, 0, 0);
