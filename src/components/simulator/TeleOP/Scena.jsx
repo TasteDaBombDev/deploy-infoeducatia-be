@@ -16,7 +16,6 @@ function Scena({ socket }) {
     // LOADING 2 ESTI GUEST
     // pentru ca ca trebuie sa incarc ultimul robot cel controlat de mine
     // astfel incat camera sa ramana pe el
-    // nu este uman ca nu gasesc alte solutii mai umane
 
     useEffect(() => {
 

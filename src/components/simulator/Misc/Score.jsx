@@ -8,12 +8,6 @@ function Score() {
     const [med, setMed] = useState(0)
     const [high, setHigh] = useState(0)
 
-    // ASTA ESTE A 5A IMPLEMENTARE SI DEJA MERGE EXTREM DE PROST
-    // DAR MACAR RESTUL DE 4 NU O SA MAI EXISTE
-
-    // TREBUIE ADAUGAT DATA FETCH SI LA CONTROLLER INPUT
-    // NU SUNT SIGUR CUM
-
     useEffect(() => {
 
 

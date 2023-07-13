@@ -31,7 +31,6 @@ function Field() {
 
     const textureMap = useLoader(TextureLoader, FieldTexture);
     textureMap.repeat.set(1, 1);
-    // textureMap.rotation;
 
     // const pereteTexture = useLoader(TextureLoader, pereteTexture);
 
@@ -40,7 +39,6 @@ function Field() {
         <>
 
             <group>
-                {/* STACK BLANA DE CONURI THO */}
                 {/* <Cone position={[-7.5, 2, 0]} />
                 <Cone position={[-7.5, 2, 3]} />
                 <Cone position={[-7.5, 2, -3]} /> */}

@@ -34,7 +34,7 @@ function Assembly() {
         else
             role = 'join'
 
-        // baga pentru login cu id si rol
+        // post server pentru login cu id si rol
         socket.emit('justConnect', JSON.stringify({
             player_id: localStorage.getItem('horia_id'),
             'role': role

@@ -40,7 +40,6 @@ export default function Lokione({ player, socket }, props) {
   const front = 2.8;
   const wheelRadius = 1.1;
 
-  // nu vorbesc despre asta
   const [dataSend, setDataSend] = useState(false)
 
   // poz camerelor pe robot
@@ -147,8 +146,6 @@ export default function Lokione({ player, socket }, props) {
     }
 
     // partea asta controleaza bratul din sageati
-    // nu doresc sa discut despre asta
-    // oricum totul trebuia sa fie in hooks diferite
     if (sessionStorage.getItem('mode') == 'multi' || sessionStorage.getItem('mode') === null)
       if (sessionStorage.getItem('mode') === null || (sessionStorage.getItem('host') == 'true' && player == 1) || (sessionStorage.getItem('host') == 'false' && player == 2)) {
         if (controls.arrowup)
@@ -220,7 +217,7 @@ export default function Lokione({ player, socket }, props) {
     bratAPI.position.copy(bratPose);
   });
 
-  // AICI AR FI CONTROLLER UL PENTRU CAMERA POATE MERGE
+  // AICI CONTROLLER UL PENTRU CAMERA 
   useFrame((state) => {
     // console.log(ExternalData.junctions)
     // if(player == 2)
@@ -263,10 +260,8 @@ export default function Lokione({ player, socket }, props) {
     }
   });
 
-  // aici majik pentru multiplayer
-  // nu ar trebui sa am acces al societate
+  // pentru multiplayer
   // daca este multi si nu e controled atunci copiaza datele primite in asta
-  // after 2 zile update nu mai este majik
   // useFrame(() => {
   //   socket.emit('info', "bag update real")
   //   socket.emit('updateData', JSON.stringify({
@@ -316,7 +311,7 @@ export default function Lokione({ player, socket }, props) {
   // const [updateDataWorker] = useWorker(sendUpdateData);
   // const runSendWorker = async (bratPosition, bratBody, chassisBody) => { updateDataWorker(bratPosition, bratBody, chassisBody) }
 
-  //dubla trei workers og
+  //dubla trei workers
 
   // async function makeSocketData() {
   //   return (JSON.stringify({
@@ -328,8 +323,7 @@ export default function Lokione({ player, socket }, props) {
   //   }))
   // }      
 
-  // aici ar fi dubla 4 cu procesare optimizata si alte lucruri
-  // pe care nu le mai rezist
+  // dubla 4 cu procesare optimizata si alte lucruri
   useEffect(() => {
     if (sessionStorage.getItem('mode') == 'multi' && socketWorker && vehicle.current != undefined) {
       if ((player == 1 && sessionStorage.getItem('host') == 'true') ||
@@ -378,7 +372,6 @@ export default function Lokione({ player, socket }, props) {
       }
     })
   }, [])
-  // nu are cum merge
 
   return (
     <Suspense callback={null}>

@@ -238,8 +238,6 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex) => {
     // const [gamepads, setGamepads] = useState({})
     // useGamepads((gamepads) => setGamepads(gamepads))
 
-    // AM REUSIT SA REFAC O LIBRARIE IN 6 LINII
-    // MAJIK
     const isGamepadConnected = () => { return (isNaN(navigator.getGamepads()[ExternalData.gamepadAssignment[playerIndex]])) }
 
     const buttonValue = (gamepad, buttonIndex) => { return (gamepad.buttons[buttonIndex].value) }
@@ -291,7 +289,7 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex) => {
         }
     })
 
-    // HARTA SFANTA PENTRU PS4 CONTROLLER DUAL SHOCK
+    // HARTA PENTRU PS4 CONTROLLER DUAL SHOCK
     //
     //  BUTOANE
     //

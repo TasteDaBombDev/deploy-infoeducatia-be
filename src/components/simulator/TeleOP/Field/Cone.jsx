@@ -11,7 +11,6 @@ export default function Cone({ position, props }) {
 
   const { nodes, materials } = useGLTF('/cone.glb');
 
-  //nush de unde a aparut asta dar imi este frica sa il sterg
   materials.da = 1;
 
   const [onJunction, setOnJunction] = useState(false);
@@ -31,9 +30,6 @@ export default function Cone({ position, props }) {
   );
 
   //CEVA CONTROLLER SA STEA PE JUNCTION
-  // urmeaza sa adaug logica pentru multiplayer si
-  // singurul lucru pe care se bazeaza este for(players)
-  // deja imi este frica 
   useFrame(() => {
     Object.keys(ExternalData.robotStates).forEach((key) => {
     })
@@ -96,7 +92,6 @@ export default function Cone({ position, props }) {
   })
 
   //CEVA CONTROLLER PENTRU CAND SE APROPIE BRATUL
-  //acel for sfant pentru toti playerii
   useFrame((state) => {
     Object.keys(ExternalData.robotStates).forEach((playerIndex) => {
       if (playerIndex != 0)
