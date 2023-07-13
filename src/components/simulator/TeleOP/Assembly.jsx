@@ -26,7 +26,6 @@ function Assembly() {
         }
     }, [])
 
-
     socket.on('connect', () => {
         console.log("server connect")
         // seteaza ce caz load a robotilor in funct de camera
