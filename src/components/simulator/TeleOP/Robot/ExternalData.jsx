@@ -41,6 +41,13 @@ class ExternalData {
 
     }
 
+    // for multiplayer sync
+    // cand obiectul cu pozitia conurilor are numarul de conuri declarate in prima
+    // variabila inseamna ca s-au adaugate toate si pot fi trimise datele
+    static totalCones = 6
+
+    static conesPositions = {}
+
 }
 
 export default ExternalData

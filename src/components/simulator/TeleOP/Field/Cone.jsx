@@ -6,17 +6,24 @@ import ExternalData from '../Robot/ExternalData';
 import { useState } from 'react';
 import { useFrame } from 'react-three-fiber';
 import Score from '../../Misc/Score';
+import { io } from 'socket.io-client';
 
-export default function Cone({ position, props }) {
+export default function Cone({ position, id, props }) {
 
   const { nodes, materials } = useGLTF('/cone.glb');
 
   materials.da = 1;
 
+  // ID UL PENTRU FIECARE CON REPREZINTA NUMARUL INDEX DIN
+  // VECTORUL CU CONURI IN SERVER 
+  // also nota: doar conul cu id-ul 1 detine un socket cat sa trimita datele
+
   const [onJunction, setOnJunction] = useState(false);
   const [homeJunction, setHomeJunction] = useState(0);
   const [homeHeight, setHomeHeight] = useState(0);
   const [fallHeight, setFallHeight] = useState(0)
+  const mode = sessionStorage.getItem('mode')
+  const socket = io('ws://localhost:3005', { autoConnect: false });
 
   const [coneBodyCylinder, coneAPICylinder] = useCylinder(
     () => ({
@@ -28,6 +35,17 @@ export default function Cone({ position, props }) {
     }),
     useRef(null)
   );
+
+  useEffect(() => {
+    if (mode == 'multi')
+      socket.connect();
+
+    socket.on('conesReload', (stream) => {
+      let data = JSON.parse(stream)
+      console.log(data)
+    })
+
+  }, [])
 
   //CEVA CONTROLLER SA STEA PE JUNCTION
   useFrame(() => {
@@ -150,6 +168,30 @@ export default function Cone({ position, props }) {
     };
 
   }, [coneAPICylinder.angularVelocity, coneAPICylinder.rotation, coneAPICylinder.velocity, coneAPICylinder.position, position]);
+
+  //CONTROLLER PENTRU A ADAUGA FIECARE CON IN EXTERNAL DATA SI SYNC IN MULTI
+  useFrame(() => {
+    ExternalData.conesPositions = {
+      ...ExternalData.conesPositions,
+      [id]: {
+        position: coneBodyCylinder.current.position,
+        quaternion: coneBodyCylinder.current.quaternion
+      }
+    }
+
+    // id = 1 sa nu trimit de prea multe ori
+    if (id == 1 && Object.keys(ExternalData.conesPositions).length == ExternalData.totalCones) {
+      let data = {
+        player_id: localStorage.getItem('horia_id'),
+        ...ExternalData.conesPositions
+      }
+      socket.emit('updateCones', JSON.stringify(data))
+      // ############TO DO ACUM: MUTA SOCKETUL IN FIELD
+      // ############SA POTI TRIMITE UPDATEURI DIN SERVER LA TOATE CONES
+      // ACUM DOAR ASTA ARE SOCKET (CONUL CU ID 1) 
+    }
+
+  })
 
   return (
     <>

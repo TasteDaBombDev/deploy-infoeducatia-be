@@ -42,8 +42,8 @@ function Field() {
                 {/* <Cone position={[-7.5, 2, 0]} />
                 <Cone position={[-7.5, 2, 3]} />
                 <Cone position={[-7.5, 2, -3]} /> */}
-                <Cone position={[-7.5, 2, -10]} selected={true} />
-                <Cone position={[-7.5, 2, 1.6]} />
+                <Cone position={[-7.5, 2, -10]} id={1} />
+                <Cone position={[-7.5, 2, 1.6]} id={2} />
                 {/* <Cone position={[-7.8, 5.1, 0]} /> */}
             </group>
 
@@ -52,10 +52,10 @@ function Field() {
                 <Cone position={[2 + 7.5, 2, 0]} />
              </group> */}
             <group>
-                <Cone position={[30 - 15 / 2, 2, 30 - 15 / 2]} />
-                <Cone position={[30 - 15 / 2, 2, -(30 - 15 / 2)]} />
-                <Cone position={[-(30 - 15 / 2), 2, 30 - 15 / 2]} />
-                <Cone position={[-(30 - 15 / 2), 2, -(30 - 15 / 2)]} />
+                <Cone position={[30 - 15 / 2, 2, 30 - 15 / 2]} id={3} />
+                <Cone position={[30 - 15 / 2, 2, -(30 - 15 / 2)]} id={4} />
+                <Cone position={[-(30 - 15 / 2), 2, 30 - 15 / 2]} id={5} />
+                <Cone position={[-(30 - 15 / 2), 2, -(30 - 15 / 2)]} id={6} />
             </group>
 
             <Ground position={[0, 0, 0]} />
