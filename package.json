@@ -1,0 +1,18 @@
+{
+  "name": "eduxxi-meeting",
+  "version": "1.0.0",
+  "main": "server.js",
+  "license": "MIT",
+  "dependencies": {
+    "@sentry/node": "^6.16.1",
+    "@sentry/tracing": "^6.16.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.14",
+    "socket.io": "^4.3.1"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "postinstall": "cd ./client && npm i"
+  }
+}
