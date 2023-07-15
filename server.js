@@ -47,7 +47,7 @@ wss.on('connection', (ws) => {
   // Add the client to the connected clients set
   connectedClients.add(ws);
   console.log(`Client connected. Total clients: ${connectedClients.size}`);
-  if (connectedClients.size >= 50) { console.log('DA RESTART ANIMAL OLIGOFREN') }
+  if (connectedClients.size >= 50) { console.log('DA RESTART') }
 
   // WebSocket message event handler
   // ws.on('message', (message) => {
