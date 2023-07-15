@@ -171,6 +171,7 @@ export default function Cone({ position, id, props }) {
 
   //CONTROLLER PENTRU A ADAUGA FIECARE CON IN EXTERNAL DATA SI SYNC IN MULTI
   useFrame(() => {
+    return; // DISABLED
     ExternalData.conesPositions = {
       ...ExternalData.conesPositions,
       [id]: {
