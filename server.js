@@ -45,7 +45,7 @@ io.on("connection", async (socket) => {
 		const users = await io.in(room).fetchSockets();
 		if (users) {
 			const length = users.length;
-			if (length === 40) {
+			if (length === 50) {
 				socket.emit("room full");
 				return;
 			}
