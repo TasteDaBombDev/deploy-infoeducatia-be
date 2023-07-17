@@ -18,7 +18,7 @@ function Menu() {
 
     useEffect(() => {
         Mouse()
-    })
+    }, [])
 
     const start_game = () => {
         window.location.pathname = '/'

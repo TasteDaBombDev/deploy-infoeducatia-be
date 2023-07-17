@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useFrame } from 'react-three-fiber';
 import Score from '../../Misc/Score';
 
-export default function Cone({ position, id, socket, socketWorker, props }) {
+export default function Cone({ position, id, socket, props }) {
 
   const { nodes, materials } = useGLTF('/cone.glb');
 
@@ -34,22 +34,24 @@ export default function Cone({ position, id, socket, socketWorker, props }) {
     useRef(null)
   );
 
-  useEffect(() => {
-    socket.on('conesReload', (stream) => {
-      let data = JSON.parse(stream)
-      // console.log('[SOCKET]:', data)
-      let player = data['player_id']
-      let me_data = data[id]
-      // coneAPICylinder.position.set(me_data.position)
-      if (player != localStorage.getItem('horia_id')) {
-        coneAPICylinder.position.set(me_data.position.x, me_data.position.y, me_data.position.z)
-        coneAPICylinder.quaternion.set(me_data.quaternion._x, me_data.quaternion._y, me_data.quaternion._z, me_data.quaternion._w)
-        coneAPICylinder.angularVelocity.set(0)
-        coneAPICylinder.velocity.set(0)
-      }
-    })
+  // useEffect(() => {
+  //   socket.on('conesReload', (stream) => {
+  //     // return;
+  //     if (localStorage.getItem('horia_id') != stream.substring(652, 665)) {
+  //       let data = (JSON.parse(stream))[id]
+  //       let position = new Vector3(data.position.x, data.position.y, data.position.z)
+  //       let host = sessionStorage.getItem('host')
+  //       let me_pose = new Vector3(0, 0, 0)
+  //       let other_pose = new Vector3(0, 0, 0)
+  //       if(host == 'true')
+  //       {
+  //         me_pose = ExternalData.robotStates[1].robotBody.current.position
+  //         console.log(me_pose)
+  //       }
+  //     }
+  //   })
 
-  }, [])
+  // }, [])
 
   //CEVA CONTROLLER SA STEA PE JUNCTION
   useFrame(() => {
@@ -173,35 +175,21 @@ export default function Cone({ position, id, socket, socketWorker, props }) {
 
   }, [coneAPICylinder.angularVelocity, coneAPICylinder.rotation, coneAPICylinder.velocity, coneAPICylinder.position, position]);
 
-  //CONTROLLER PENTRU A ADAUGA FIECARE CON IN EXTERNAL DATA SI SYNC IN MULTI
-  useFrame(() => {
-    return; // DISABLED
-    let quaternion = coneBodyCylinder.current.quaternion
-    delete quaternion._onChangeCallback
-    ExternalData.conesPositions = {
-      ...ExternalData.conesPositions,
-      [id]: {
-        position: coneBodyCylinder.current.position,
-        quaternion: quaternion
-      }
-    }
+  //CONTROLLER PENTRU A ADAUGA FIECARE CON IN EXTERNAL DATA
+  //pentru a trimite datele de la conuri sa faca sync
+  // useFrame(() => {
+  //   // return; // DISABLED
+  //   let quaternion = coneBodyCylinder.current.quaternion
+  //   delete quaternion._onChangeCallback
+  //   ExternalData.conesPositions = {
+  //     ...ExternalData.conesPositions,
+  //     [id]: {
+  //       position: coneBodyCylinder.current.position,
+  //       quaternion: quaternion
+  //     }
+  //   }
 
-    // id = 1 sa nu trimit de prea multe ori
-    if (id == 1 && Object.keys(ExternalData.conesPositions).length == ExternalData.totalCones) {
-      let data = {
-        player_id: localStorage.getItem('horia_id'),
-        event: 'updateCones',
-        ...ExternalData.conesPositions
-      }
-      // socket.emit('updateCones', JSON.stringify(data))
-      if (socketWorker != undefined)
-        socketWorker.postMessage(data)
-      // ############TO DO ACUM: MUTA SOCKETUL IN FIELD
-      // ############SA POTI TRIMITE UPDATEURI DIN SERVER LA TOATE CONES
-      // ACUM DOAR ASTA ARE SOCKET (CONUL CU ID 1) 
-    }
-
-  })
+  // })
 
   return (
     <>

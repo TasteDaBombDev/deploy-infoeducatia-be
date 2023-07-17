@@ -1,6 +1,6 @@
 import { usePlane } from "@react-three/cannon";
 import React, { Suspense, useEffect, useRef } from "react";
-import { useLoader } from "react-three-fiber";
+import { useFrame, useLoader } from "react-three-fiber";
 import { TextureLoader } from "three";
 import { PereteBox } from "./PereteBox";
 import Cone from "./Cone";
@@ -10,7 +10,7 @@ import { Junction } from './Junction';
 import FieldTexture from './teren.png';
 import Ground from "./Ground";
 import ExternalData from "../Robot/ExternalData";
-import { io } from "socket.io-client";
+import { Socket, io } from "socket.io-client";
 import { useState } from "react";
 
 function Field() {
@@ -19,8 +19,8 @@ function Field() {
     // const med = 9; //57
     // const high = 14; //82
 
-    const mode = sessionStorage.getItem('mode')
-    const [socketWorker, setWorker] = useState()
+    // const mode = sessionStorage.getItem('mode')
+    // const [socketWorker, setWorker] = useState()
     const socket = io('ws://localhost:3005', { autoConnect: false });
 
     const low = ExternalData.low;
@@ -35,15 +35,28 @@ function Field() {
         useRef(null)
     );
 
-    useEffect(() => {
-        if (mode == 'multi') {
-            socket.connect();
-            setWorker(new Worker('socketWorker.js'))
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (mode == 'multi') {
+    //         socket.connect();
+    //         setWorker(new Worker('socketWorker.js'))
+    //     }
+    // }, [])
 
     const textureMap = useLoader(TextureLoader, FieldTexture);
     textureMap.repeat.set(1, 1);
+
+    // useFrame(() => {
+    //     if (Object.keys(ExternalData.conesPositions).length == ExternalData.totalCones) {
+    //         let data = {
+    //             player_id: localStorage.getItem('horia_id'),
+    //             event: 'updateCones',
+    //             ...ExternalData.conesPositions
+    //         }
+    //         if (socketWorker != undefined) {
+    //             socketWorker.postMessage(data)
+    //         }
+    //     }
+    // })
 
     // const pereteTexture = useLoader(TextureLoader, pereteTexture);
 
@@ -55,8 +68,8 @@ function Field() {
                 {/* <Cone position={[-7.5, 2, 0]} />
                 <Cone position={[-7.5, 2, 3]} />
                 <Cone position={[-7.5, 2, -3]} /> */}
-                <Cone position={[-7.5, 2, -10]} id={1} socket={socket} socketWorker={socketWorker} />
-                <Cone position={[-7.5, 2, 1.6]} id={2} socket={socket} socketWorker={socketWorker} />
+                <Cone position={[-7.5, 2, -10]} id={1} socket={socket} />
+                <Cone position={[-7.5, 2, 1.6]} id={2} socket={socket} />
                 {/* <Cone position={[-7.8, 5.1, 0]} /> */}
             </group>
 
@@ -65,10 +78,10 @@ function Field() {
                 <Cone position={[2 + 7.5, 2, 0]} />
              </group> */}
             <group>
-                <Cone position={[30 - 15 / 2, 2, 30 - 15 / 2]} id={3} socket={socket} socketWorker={socketWorker} />
-                <Cone position={[30 - 15 / 2, 2, -(30 - 15 / 2)]} id={4} socket={socket} socketWorker={socketWorker} />
-                <Cone position={[-(30 - 15 / 2), 2, 30 - 15 / 2]} id={5} socket={socket} socketWorker={socketWorker} />
-                <Cone position={[-(30 - 15 / 2), 2, -(30 - 15 / 2)]} id={6} socket={socket} socketWorker={socketWorker} />
+                <Cone position={[30 - 15 / 2, 2, 30 - 15 / 2]} id={3} socket={socket} />
+                <Cone position={[30 - 15 / 2, 2, -(30 - 15 / 2)]} id={4} socket={socket} />
+                <Cone position={[-(30 - 15 / 2), 2, 30 - 15 / 2]} id={5} socket={socket} />
+                <Cone position={[-(30 - 15 / 2), 2, -(30 - 15 / 2)]} id={6} socket={socket} />
             </group>
 
             <Ground position={[0, 0, 0]} />
