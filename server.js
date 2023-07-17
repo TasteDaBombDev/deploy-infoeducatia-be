@@ -49,6 +49,7 @@ io.on("connection", async (socket) => {
 				socket.emit("room full");
 				return;
 			}
+			console.log(users);
 			socket.join(roomID);
 			const usersInThisRoom = users.filter((user) => user.id !== socket.id);
 			const usersInThisRoomIds = usersInThisRoom.map((u) => u.id);
@@ -59,7 +60,7 @@ io.on("connection", async (socket) => {
 	});
 
 	socket.on("sending signal", (payload) => {
-		if (payload.callerID.trim() !== "share_screen") {
+		if (payload.callerID !== "share_screen") {
 			io.to(payload.userToSignal).emit("user joined", {
 				signal: payload.signal,
 				callerID: payload.callerID,
@@ -110,7 +111,6 @@ io.on("connection", async (socket) => {
 
 	socket.on("send data share screen", async (image) => {
 		roomCurrentEvent[room] = 'present';
-		// console.log(image);
 		io.in(room).emit("send data share screen server", {id: socket.id, data: image });
 	});
 
@@ -125,7 +125,7 @@ io.on("connection", async (socket) => {
 	});
 
 	socket.on("open editor", (roomID) => {
-		roomCurrentEvent[room] = 'editor';
+	roomCurrentEvent[room] = 'editor';
 		io.in(roomID).emit("open editor server", socket.id);
 	});
 
