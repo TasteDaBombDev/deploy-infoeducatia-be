@@ -114,22 +114,43 @@ wss.on('connection', (ws) => {
   })
 
   ws.on('updateCones', (message) => {
-
     let data = JSON.parse(message)
     // SET CONES DATA ON INIT
     if (Object.keys(cones).length == 0 && (camera.host == data.player_id)) {
       delete data.player_id
+      delete data.event
       cones = { ...data }
     } else if (values[camera.host] != undefined && values[camera.join] != undefined) {
+      let player = data.player_id
       delete data.player_id
+      delete data.event
 
       let hostPostion = values[camera.host].chassis_position
       let joinPosition = values[camera.join].chassis_position
 
-      console.log(Object.keys(data))
+      Object.keys(data).forEach(key => {
+        let con = data[key]
+        let pozitie_con = con.position
+        let dist_host = calculateDistance(pozitie_con, hostPostion)
+        let dist_join = calculateDistance(pozitie_con, joinPosition)
+        if (dist_host <= dist_join && camera.host == player)
+          cones = {
+            ...cones,
+            [key]: data[key]
+          }
+        else if (dist_join <= dist_host && camera.join == player)
+          cones = {
+            ...cones,
+            [key]: data[key]
+          }
+      })
 
-      throw new Error("error")
+      // console.log(cones)
 
+      if (Object.keys(cones).length == Object.keys(data).length)
+        wss.emit('conesReload', JSON.stringify({...cones, player_id: player}))
+
+      // throw new Error("error")
     }
 
   })
