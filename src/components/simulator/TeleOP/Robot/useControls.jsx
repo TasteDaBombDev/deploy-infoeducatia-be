@@ -244,8 +244,11 @@ export const useControls = (vehicleAPI, chassisAPI, playerIndex, socket, socketW
             vehicleAPI.applyEngineForce(-viteza * multiRotate, 3);
         }
 
-        if (controls.r && socketWorker != undefined) {
-            socketWorker.postMessage({ event: 'fieldReset' })
+        if (controls.r) {
+            try {
+                socketWorker.postMessage({ event: 'fieldReset' })
+            }
+            catch (e) { }
             chassisAPI.position.set(...ExternalData.robotStates[playerIndex].startPose);
             chassisAPI.velocity.set(0, 0, 0);
             chassisAPI.angularVelocity.set(0, 0, 0);
