@@ -6,9 +6,8 @@ import ExternalData from '../Robot/ExternalData';
 import { useState } from 'react';
 import { useFrame } from 'react-three-fiber';
 import Score from '../../Misc/Score';
-import { io } from 'socket.io-client';
 
-export default function Cone({ position, id, props }) {
+export default function Cone({ position, id, socket, socketWorker, props }) {
 
   const { nodes, materials } = useGLTF('/cone.glb');
 
@@ -22,8 +21,7 @@ export default function Cone({ position, id, props }) {
   const [homeJunction, setHomeJunction] = useState(0);
   const [homeHeight, setHomeHeight] = useState(0);
   const [fallHeight, setFallHeight] = useState(0)
-  const mode = sessionStorage.getItem('mode')
-  const socket = io('ws://localhost:3005', { autoConnect: false });
+
 
   const [coneBodyCylinder, coneAPICylinder] = useCylinder(
     () => ({
@@ -37,12 +35,18 @@ export default function Cone({ position, id, props }) {
   );
 
   useEffect(() => {
-    if (mode == 'multi')
-      socket.connect();
-
     socket.on('conesReload', (stream) => {
       let data = JSON.parse(stream)
-      console.log(data)
+      // console.log('[SOCKET]:', data)
+      let player = data['player_id']
+      let me_data = data[id]
+      // coneAPICylinder.position.set(me_data.position)
+      if (player != localStorage.getItem('horia_id')) {
+        coneAPICylinder.position.set(me_data.position.x, me_data.position.y, me_data.position.z)
+        coneAPICylinder.quaternion.set(me_data.quaternion._x, me_data.quaternion._y, me_data.quaternion._z, me_data.quaternion._w)
+        coneAPICylinder.angularVelocity.set(0)
+        coneAPICylinder.velocity.set(0)
+      }
     })
 
   }, [])
@@ -172,11 +176,13 @@ export default function Cone({ position, id, props }) {
   //CONTROLLER PENTRU A ADAUGA FIECARE CON IN EXTERNAL DATA SI SYNC IN MULTI
   useFrame(() => {
     return; // DISABLED
+    let quaternion = coneBodyCylinder.current.quaternion
+    delete quaternion._onChangeCallback
     ExternalData.conesPositions = {
       ...ExternalData.conesPositions,
       [id]: {
         position: coneBodyCylinder.current.position,
-        quaternion: coneBodyCylinder.current.quaternion
+        quaternion: quaternion
       }
     }
 
@@ -184,9 +190,12 @@ export default function Cone({ position, id, props }) {
     if (id == 1 && Object.keys(ExternalData.conesPositions).length == ExternalData.totalCones) {
       let data = {
         player_id: localStorage.getItem('horia_id'),
+        event: 'updateCones',
         ...ExternalData.conesPositions
       }
-      socket.emit('updateCones', JSON.stringify(data))
+      // socket.emit('updateCones', JSON.stringify(data))
+      if (socketWorker != undefined)
+        socketWorker.postMessage(data)
       // ############TO DO ACUM: MUTA SOCKETUL IN FIELD
       // ############SA POTI TRIMITE UPDATEURI DIN SERVER LA TOATE CONES
       // ACUM DOAR ASTA ARE SOCKET (CONUL CU ID 1) 

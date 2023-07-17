@@ -1,5 +1,5 @@
 import { usePlane } from "@react-three/cannon";
-import React, { Suspense, useRef } from "react";
+import React, { Suspense, useEffect, useRef } from "react";
 import { useLoader } from "react-three-fiber";
 import { TextureLoader } from "three";
 import { PereteBox } from "./PereteBox";
@@ -10,12 +10,18 @@ import { Junction } from './Junction';
 import FieldTexture from './teren.png';
 import Ground from "./Ground";
 import ExternalData from "../Robot/ExternalData";
+import { io } from "socket.io-client";
+import { useState } from "react";
 
 function Field() {
 
     // const low = 4; //32
     // const med = 9; //57
     // const high = 14; //82
+
+    const mode = sessionStorage.getItem('mode')
+    const [socketWorker, setWorker] = useState()
+    const socket = io('ws://localhost:3005', { autoConnect: false });
 
     const low = ExternalData.low;
     const med = ExternalData.med;
@@ -28,6 +34,13 @@ function Field() {
         }),
         useRef(null)
     );
+
+    useEffect(() => {
+        if (mode == 'multi') {
+            socket.connect();
+            setWorker(new Worker('socketWorker.js'))
+        }
+    }, [])
 
     const textureMap = useLoader(TextureLoader, FieldTexture);
     textureMap.repeat.set(1, 1);
@@ -42,8 +55,8 @@ function Field() {
                 {/* <Cone position={[-7.5, 2, 0]} />
                 <Cone position={[-7.5, 2, 3]} />
                 <Cone position={[-7.5, 2, -3]} /> */}
-                <Cone position={[-7.5, 2, -10]} id={1} />
-                <Cone position={[-7.5, 2, 1.6]} id={2} />
+                <Cone position={[-7.5, 2, -10]} id={1} socket={socket} socketWorker={socketWorker} />
+                <Cone position={[-7.5, 2, 1.6]} id={2} socket={socket} socketWorker={socketWorker} />
                 {/* <Cone position={[-7.8, 5.1, 0]} /> */}
             </group>
 
@@ -52,10 +65,10 @@ function Field() {
                 <Cone position={[2 + 7.5, 2, 0]} />
              </group> */}
             <group>
-                <Cone position={[30 - 15 / 2, 2, 30 - 15 / 2]} id={3} />
-                <Cone position={[30 - 15 / 2, 2, -(30 - 15 / 2)]} id={4} />
-                <Cone position={[-(30 - 15 / 2), 2, 30 - 15 / 2]} id={5} />
-                <Cone position={[-(30 - 15 / 2), 2, -(30 - 15 / 2)]} id={6} />
+                <Cone position={[30 - 15 / 2, 2, 30 - 15 / 2]} id={3} socket={socket} socketWorker={socketWorker} />
+                <Cone position={[30 - 15 / 2, 2, -(30 - 15 / 2)]} id={4} socket={socket} socketWorker={socketWorker} />
+                <Cone position={[-(30 - 15 / 2), 2, 30 - 15 / 2]} id={5} socket={socket} socketWorker={socketWorker} />
+                <Cone position={[-(30 - 15 / 2), 2, -(30 - 15 / 2)]} id={6} socket={socket} socketWorker={socketWorker} />
             </group>
 
             <Ground position={[0, 0, 0]} />
