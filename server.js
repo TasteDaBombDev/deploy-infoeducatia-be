@@ -114,43 +114,18 @@ wss.on('connection', (ws) => {
   })
 
   ws.on('updateCones', (message) => {
+    return
     let data = JSON.parse(message)
+    let player = data.player_id
     // SET CONES DATA ON INIT
     if (Object.keys(cones).length == 0 && (camera.host == data.player_id)) {
-      delete data.player_id
-      delete data.event
-      cones = { ...data }
+      let save = data
+      delete save.player_id
+      delete save.event
+      cones = { ...save }
     } else if (values[camera.host] != undefined && values[camera.join] != undefined) {
-      let player = data.player_id
-      delete data.player_id
       delete data.event
-
-      let hostPostion = values[camera.host].chassis_position
-      let joinPosition = values[camera.join].chassis_position
-
-      Object.keys(data).forEach(key => {
-        let con = data[key]
-        let pozitie_con = con.position
-        let dist_host = calculateDistance(pozitie_con, hostPostion)
-        let dist_join = calculateDistance(pozitie_con, joinPosition)
-        if (dist_host <= dist_join && camera.host == player)
-          cones = {
-            ...cones,
-            [key]: data[key]
-          }
-        else if (dist_join <= dist_host && camera.join == player)
-          cones = {
-            ...cones,
-            [key]: data[key]
-          }
-      })
-
-      // console.log(cones)
-
-      if (Object.keys(cones).length == Object.keys(data).length)
-        wss.emit('conesReload', JSON.stringify({...cones, player_id: player}))
-
-      // throw new Error("error")
+      wss.emit('conesReload', JSON.stringify({...cones, player_id: player}))
     }
 
   })
