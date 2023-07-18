@@ -114,7 +114,7 @@ wss.on('connection', (ws) => {
   })
 
   ws.on('updateCones', (message) => {
-    return
+    // return
     let data = JSON.parse(message)
     let player = data.player_id
     // SET CONES DATA ON INIT
@@ -125,7 +125,7 @@ wss.on('connection', (ws) => {
       cones = { ...save }
     } else if (values[camera.host] != undefined && values[camera.join] != undefined) {
       delete data.event
-      wss.emit('conesReload', JSON.stringify({...cones, player_id: player}))
+      wss.emit('conesReload', JSON.stringify({...data, player_id: player}))
     }
 
   })
