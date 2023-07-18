@@ -170,6 +170,7 @@ export default function Lokione({ player, socket }, props) {
         if (controls.arrowup)
           if (bratPosition <= 12) {
             setBratPosition(bratPosition + bratIncrease);
+
           }
 
         if (controls.arrowdown)
