@@ -165,7 +165,7 @@ export default function Lokione({ player, socket }, props) {
     }
 
     // partea asta controleaza bratul din sageati
-    if (sessionStorage.getItem('mode') == 'multi' || sessionStorage.getItem('mode') === null)
+    if (sessionStorage.getItem('mode') == 'multi' || sessionStorage.getItem('mode') === null || sessionStorage.getItem('mode') == 'single')
       if (sessionStorage.getItem('mode') === null || (sessionStorage.getItem('host') == 'true' && player == 1) || (sessionStorage.getItem('host') == 'false' && player == 2) || sessionStorage.getItem('mode') == 'single' ) {
         if (controls.arrowup)
           if (bratPosition <= 12) {
