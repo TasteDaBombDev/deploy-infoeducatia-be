@@ -10,6 +10,7 @@ import { WheelDebug } from "./WheelDebug";
 import Brat from "./Brat";
 
 import ExternalData from "./ExternalData";
+import { createSearchParams } from "react-router-dom";
 
 export default function Lokione({ player, socket }, props) {
   const { nodes, materials } = useGLTF("/robotNou.glb");
@@ -88,14 +89,32 @@ export default function Lokione({ player, socket }, props) {
   //ad player to active gamepads
   // useEffect(() => { ExternalData.gamepadAssignment[player] = undefined }, [])
 
-  ExternalData.robotStates[player] = {
-    ...ExternalData.robotStates[player],
-    'startPose': position,
-    'robotBody': chassisBody,
-    'robotApi': chassisAPI,
-    'bratBody': bratBody,
-    'bratApi': bratAPI
-  }
+  useEffect(() => {
+    // let l_robotPosition = new Vector3(0, 0, 0);
+    // robotPosition.setFromMatrixPosition(chassisBody.current.matrixWorld);
+    ExternalData.robotStates[player] = {
+      ...ExternalData.robotStates[player],
+      'startPose': position,
+      'robotBody': chassisBody,
+      'robotApi': chassisAPI,
+      'bratBody': bratBody,
+      'bratApi': bratAPI,
+      'robotPosition': chassisBody.current.position
+    }
+  }, [chassisBody])
+  useFrame(() => {
+    let l_robotPosition = new Vector3(0, 0, 0);
+    l_robotPosition.setFromMatrixPosition(chassisBody.current.matrixWorld);
+    ExternalData.robotStates[player] = {
+      ...ExternalData.robotStates[player],
+      'startPose': position,
+      'robotBody': chassisBody,
+      'robotApi': chassisAPI,
+      'bratBody': bratBody,
+      'bratApi': bratAPI,
+      'robotPosition': l_robotPosition
+    }
+  })
 
   useEffect(() => {
     const keyDown = (e) => {

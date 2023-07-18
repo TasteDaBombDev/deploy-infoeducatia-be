@@ -19,8 +19,8 @@ function Field() {
     // const med = 9; //57
     // const high = 14; //82
 
-    // const mode = sessionStorage.getItem('mode')
-    // const [socketWorker, setWorker] = useState()
+    const mode = sessionStorage.getItem('mode')
+    const [socketWorker, setWorker] = useState()
     const socket = io('ws://localhost:3005', { autoConnect: false });
 
     const low = ExternalData.low;
@@ -35,28 +35,28 @@ function Field() {
         useRef(null)
     );
 
-    // useEffect(() => {
-    //     if (mode == 'multi') {
-    //         socket.connect();
-    //         setWorker(new Worker('socketWorker.js'))
-    //     }
-    // }, [])
+    useEffect(() => {
+        if (mode == 'multi') {
+            socket.connect();
+            setWorker(new Worker('socketWorker.js'))
+        }
+    }, [])
 
     const textureMap = useLoader(TextureLoader, FieldTexture);
     textureMap.repeat.set(1, 1);
 
-    // useFrame(() => {
-    //     if (Object.keys(ExternalData.conesPositions).length == ExternalData.totalCones) {
-    //         let data = {
-    //             player_id: localStorage.getItem('horia_id'),
-    //             event: 'updateCones',
-    //             ...ExternalData.conesPositions
-    //         }
-    //         if (socketWorker != undefined) {
-    //             socketWorker.postMessage(data)
-    //         }
-    //     }
-    // })
+    useFrame(() => {
+        if (Object.keys(ExternalData.conesPositions).length == ExternalData.totalCones) {
+            let data = {
+                player_id: localStorage.getItem('horia_id'),
+                event: 'updateCones',
+                ...ExternalData.conesPositions
+            }
+            if (socketWorker != undefined) {
+                socketWorker.postMessage(data)
+            }
+        }
+    })
 
     // const pereteTexture = useLoader(TextureLoader, pereteTexture);
 

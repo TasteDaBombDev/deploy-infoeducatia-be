@@ -34,24 +34,37 @@ export default function Cone({ position, id, socket, props }) {
     useRef(null)
   );
 
-  // useEffect(() => {
-  //   socket.on('conesReload', (stream) => {
-  //     // return;
-  //     if (localStorage.getItem('horia_id') != stream.substring(652, 665)) {
-  //       let data = (JSON.parse(stream))[id]
-  //       let position = new Vector3(data.position.x, data.position.y, data.position.z)
-  //       let host = sessionStorage.getItem('host')
-  //       let me_pose = new Vector3(0, 0, 0)
-  //       let other_pose = new Vector3(0, 0, 0)
-  //       if(host == 'true')
-  //       {
-  //         me_pose = ExternalData.robotStates[1].robotBody.current.position
-  //         console.log(me_pose)
-  //       }
-  //     }
-  //   })
+  useEffect(() => {
+    socket.on('conesReload', (stream) => {
+      // return;
+      if (localStorage.getItem('horia_id') != stream.substring(652, 665)) {
+        let data = (JSON.parse(stream))[id]
+        let position = new Vector3(data.position.x, data.position.y, data.position.z)
+        let me_pose = new Vector3(0, 0, 0)
+        let other_pose = new Vector3(0, 0, 0)
+        if (sessionStorage.getItem('host') == 'true') {
+          me_pose = ExternalData.robotStates[1].robotPosition
+          other_pose = ExternalData.robotStates[2].robotPosition
+        } else {
+          me_pose = ExternalData.robotStates[2].robotPosition
+          other_pose = ExternalData.robotStates[1].robotPosition
+        }
+        let me_dist = position.distanceTo(me_pose)
+        let other_dist = position.distanceTo(other_pose)
+        let ok = other_dist < me_dist ? true : false
+        if (ok) {
+          coneAPICylinder.position.copy(position)
+          coneAPICylinder.quaternion.set(
+            data.quaternion._x,
+            data.quaternion._y,
+            data.quaternion._z,
+            data.quaternion._w,
+          )
+        }
+      }
+    })
 
-  // }, [])
+  }, [])
 
   //CEVA CONTROLLER SA STEA PE JUNCTION
   useFrame(() => {
@@ -177,19 +190,21 @@ export default function Cone({ position, id, socket, props }) {
 
   //CONTROLLER PENTRU A ADAUGA FIECARE CON IN EXTERNAL DATA
   //pentru a trimite datele de la conuri sa faca sync
-  // useFrame(() => {
-  //   // return; // DISABLED
-  //   let quaternion = coneBodyCylinder.current.quaternion
-  //   delete quaternion._onChangeCallback
-  //   ExternalData.conesPositions = {
-  //     ...ExternalData.conesPositions,
-  //     [id]: {
-  //       position: coneBodyCylinder.current.position,
-  //       quaternion: quaternion
-  //     }
-  //   }
-
-  // })
+  useFrame(() => {
+    // return; // DISABLED
+    let position = new Vector3(0, 0, 0)
+    coneBodyCylinder.current.getWorldPosition(position)
+    let quaternion = new Quaternion(0, 0, 0, 1)
+    coneBodyCylinder.current.getWorldQuaternion(quaternion)
+    delete quaternion._onChangeCallback
+    ExternalData.conesPositions = {
+      ...ExternalData.conesPositions,
+      [id]: {
+        position: position,
+        quaternion: quaternion,
+      }
+    }
+  })
 
   return (
     <>
